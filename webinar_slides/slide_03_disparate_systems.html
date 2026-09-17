@@ -14,9 +14,9 @@
   .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#BA7B23;margin-bottom:12px}
   h1{font-size:38px;font-weight:700;line-height:1.2;margin-bottom:6px;color:#1B3139}
   .tag{font-size:15px;color:#5A6F77;margin-bottom:20px}
-  .dia{flex:1;display:flex;align-items:center;justify-content:center}
+  .dia{display:flex;align-items:center;justify-content:center;margin:10px 0}
 
-  .bi{background:#FFFBF0;border-left:3px solid #BA7B23;padding:14px 24px;border-radius:0 8px 8px 0;margin-top:auto}
+  .bi{background:#FFFBF0;border-left:3px solid #BA7B23;padding:14px 24px;border-radius:0 8px 8px 0;margin-top:12px}
   .bi p{font-size:14.5px;color:#3C4043;line-height:1.55}
   .bi strong{color:#B07D00}
 
@@ -109,13 +109,13 @@
         <text x="78" y="119" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Quality Programs</text>
       </g>
 
-      <!-- Red X disconnection marks -->
-      <g opacity=".65">
-        <text x="172" y="105" text-anchor="middle" fill="#FF3621" font-size="18" font-weight="700" font-family="DM Sans,sans-serif">✕</text>
-        <text x="357" y="105" text-anchor="middle" fill="#FF3621" font-size="18" font-weight="700" font-family="DM Sans,sans-serif">✕</text>
-        <text x="542" y="105" text-anchor="middle" fill="#FF3621" font-size="18" font-weight="700" font-family="DM Sans,sans-serif">✕</text>
-        <text x="727" y="105" text-anchor="middle" fill="#FF3621" font-size="18" font-weight="700" font-family="DM Sans,sans-serif">✕</text>
-        <text x="912" y="105" text-anchor="middle" fill="#FF3621" font-size="18" font-weight="700" font-family="DM Sans,sans-serif">✕</text>
+      <!-- Red X disconnection marks — native SVG lines for crisp rendering -->
+      <g stroke="#FF3621" stroke-width="2.5" stroke-linecap="round" opacity=".75">
+        <line x1="164" y1="97" x2="180" y2="113"/><line x1="180" y1="97" x2="164" y2="113"/>
+        <line x1="349" y1="97" x2="365" y2="113"/><line x1="365" y1="97" x2="349" y2="113"/>
+        <line x1="534" y1="97" x2="550" y2="113"/><line x1="550" y1="97" x2="534" y2="113"/>
+        <line x1="719" y1="97" x2="735" y2="113"/><line x1="735" y1="97" x2="719" y2="113"/>
+        <line x1="904" y1="97" x2="920" y2="113"/><line x1="920" y1="97" x2="904" y2="113"/>
       </g>
 
       <!-- CFO question bubble -->
