@@ -31,13 +31,13 @@ fhcf-demo/
     healthcare_finance_intelligence.genie_space.yml
   src/
     seed_all_data.py          # 26-cell notebook (Python default, SQL cells via %sql)
-    healthcare_finance_intelligence.json  # Genie space definition (14 tables, 7 questions, instructions)
   fixtures/
     sessions/
       INDEX.md
       2026-09-17_initial-bundle-setup.md
       2026-09-17_ddl-metric-view-improvements.md
       2026-09-17_genie-space-and-catalog-migration.md
+      2026-09-17_genie-space-testing-and-instruction-tuning.md
 ```
 
 ## Variables
@@ -64,12 +64,12 @@ fhcf-demo/
 ### Genie Space
 
 - **healthcare_finance_intelligence** -- "Healthcare Finance Intelligence"
-  - file_path: ../src/healthcare_finance_intelligence.json
+  - Inline serialized_space in YAML (no separate JSON file)
+  - Table identifiers use ${resources.schemas.healthcare_finance.*} refs — resolve per-target at deploy time
   - warehouse_id: ${var.warehouse_id} (demo-warehouse)
   - 14 data sources (8 tables + 6 metric views), 7 sample questions, 1 consolidated instruction
   - Dev space ID: 01f1b284db9618cc902e5cf68a43153c
-  - Table identifiers hardcoded per target (dev: hls_fde_dev.dev_matthew_giglia_healthcare_finance; prod: update to hls_fde.healthcare_finance)
-  - Deployment ordering: seed job must run BEFORE Genie space creation (API validates table existence)
+  - Deployment ordering: seed job must run BEFORE Genie space deploy (API validates table existence)
 
 ## Data Model
 
@@ -107,12 +107,18 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 - AHP (ACO-001): Shared Savings $2.1M YTD vs $1.8M target; TCOC PMPM up +3% QoQ; Pharmacy PMPM +8% QoQ from GLP-1
 - Validation queries in notebook cell 23
 
-## Demo Beats
+## Demo Beats (all tested 2026-09-17, 7/7 passing)
 
-1. **CFO morning briefing** -- MLR by LOB, avoidable spend
-2. **Persona rotation** -- Actuary, quality officer, care manager perspectives
-3. **AHP meeting prep** -- Dr. Sarah Chen (ACO-001), shared savings, TCOC, pharmacy
-4. **Reveal** -- Platform capabilities
+| Beat | Prompt | Status | Metric Views Used |
+| --- | --- | --- | --- |
+| 1a | Morning briefing — flag off-track items | PASS | mv_budget_variance, mv_quality, mv_utilization |
+| 1b | HEDIS measures below 4-star cutpoints | PASS | mv_quality (distance_to_4_star, estimated_star_rating) |
+| 2a | Top 10 highest-risk members | PASS | dim_member |
+| 2b | High-risk members in high avoidable ED states | PASS | dim_member, mv_utilization |
+| 3a | Calendar (MCP connector) | SKIP | External — not testable via API |
+| 3b | AHP value-based care overview | PASS | mv_vbc_performance |
+| 3c | TCOC drill-down — is it pharmacy? | PASS | mv_vbc_performance |
+| 3d | Dr. Chen meeting brief | PASS | mv_vbc_performance, mv_quality |
 
 ## Genie Agent (DEPLOYED)
 
@@ -123,6 +129,7 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 - **Sample Questions:** 7 (aligned with demo beats)
 - **Key rules:** Always query metric views for KPIs (6 views); mv_budget_variance for budget variance (not manual join); mv_vbc_performance includes ACO name via join; mv_quality has distance_to_4_star; mv_utilization for per-1K rates; mv_member_risk for risk tiers
 - **API constraints:** content (array of strings) not instruction; max 1 text_instruction; all collections sorted alphabetically
+- **Instruction tuning:** Rule 9 must be directive ("SYNTHESIZE a structured meeting brief") not passive ("note that...") — Genie agents decline narrative generation unless explicitly directed
 
 ## Conventions
 
@@ -137,10 +144,9 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 | Resource | ID |
 | --- | --- |
 | Seed Job | 749445244992722 |
-| Successful Seed Run | 590205922781856 |
+| Latest Seed Run | 686881950106253 |
 | Genie Space | 01f1b284db9618cc902e5cf68a43153c |
 | Genie Space YAML | 2824221228946159 |
-| Genie Space JSON | 2824221228946158 |
 | Notebook (seed_all_data) | 2824221228946135 |
 | databricks.yml | 2824221228946048 |
 | Schema YAML | 2824221228946136 |

@@ -36,7 +36,6 @@ fhcf-demo/
     healthcare_finance_intelligence.genie_space.yml # Genie Agent resource
   src/
     seed_all_data.py                    # 26-cell notebook: widgets > DDL > seed data > metric views > validation
-    healthcare_finance_intelligence.json # Genie space definition (data sources, instructions, questions)
   fixtures/
     sessions/                           # Session summaries
 ```
@@ -58,14 +57,20 @@ fhcf-demo/
 
 Both targets deploy to `fevm-hls-fde.cloud.databricks.com`.
 
-**Deployment ordering:** Seed job must run before Genie space can be created (API validates table existence). First deploy creates schema + job; run the seed job; second deploy creates the Genie space.
+**Deployment ordering:** Seed job must run before Genie space deploy (API validates table existence). First deploy creates schema + job; run the seed job; then redeploy to create/update the Genie space. Table identifiers in the Genie space use `${resources.schemas.*}` refs that resolve per-target at deploy time.
 
-## Demo Beats
+## Demo Beats (7/7 passing)
 
-1. **CFO morning briefing** -- MLR by LOB, avoidable spend hotspots
-2. **Persona rotation** -- Actuary, quality officer, care manager
-3. **AHP meeting prep** -- Dr. Sarah Chen (ACO-001), shared savings, TCOC, pharmacy trends
-4. **Reveal** -- Platform capabilities
+| Beat | Prompt | Metric Views |
+| --- | --- | --- |
+| 1a | Morning briefing — flag off-track items | mv_budget_variance, mv_quality, mv_utilization |
+| 1b | HEDIS measures below 4-star cutpoints | mv_quality |
+| 2a | Top 10 highest-risk members | dim_member |
+| 2b | High-risk members in high avoidable ED states | dim_member, mv_utilization |
+| 3a | Calendar (MCP connector) | External |
+| 3b | AHP value-based care overview | mv_vbc_performance |
+| 3c | TCOC drill-down — pharmacy driver | mv_vbc_performance |
+| 3d | Dr. Chen meeting brief | mv_vbc_performance, mv_quality |
 
 ## Planted Narrative
 
