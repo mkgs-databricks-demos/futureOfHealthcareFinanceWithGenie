@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><title>Slide 6 &#8212; The Unified Data Vision</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
+  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
+  .wrap{position:relative;z-index:2;padding:48px 80px;height:100%;display:flex;flex-direction:column}
+  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#077A9D;margin-bottom:12px}
+  h1{font-size:34px;font-weight:700;line-height:1.18;margin-bottom:8px}
+  .tag{font-size:15px;color:#8A9099;margin-bottom:24px}
+
+  .diagram{flex:1;display:flex;align-items:center;justify-content:center}
+
+  .bottom-row{display:flex;gap:16px;margin-top:auto}
+  .bcard{flex:1;padding:14px 18px;border-radius:10px;border:1px solid #E8EAED}
+  .bcard.accurate{background:#FFF5F4;border-color:#FFD4CC}
+  .bcard.correct{background:#F0FBF6;border-color:#C8E6D8}
+  .bcard .bt{font-size:14px;font-weight:700;margin-bottom:4px}
+  .bcard.accurate .bt{color:#FF3621}
+  .bcard.correct .bt{color:#008A5E}
+  .bcard .bd{font-size:13px;color:#5A6068;line-height:1.45}
+
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="bar"></div><div class="grid"></div>
+<div class="wrap">
+  <div class="eyebrow">One Foundation, Many Questions</div>
+  <h1>The Real Opportunity: Unified, Governed Intelligence</h1>
+  <p class="tag">The alternative is a collection of disconnected AI use cases &#8212; the same fragmentation, only with an AI interface on top.</p>
+
+  <div class="diagram">
+    <svg viewBox="0 0 1100 360" xmlns="http://www.w3.org/2000/svg" width="1100" height="360">
+      <!-- Foundation layer -->
+      <rect x="100" y="240" width="900" height="100" rx="16" fill="#F0F8FB" stroke="#077A9D" stroke-width="1.5"/>
+      <text x="550" y="272" text-anchor="middle" fill="#077A9D" font-size="14" font-weight="700" font-family="DM Sans,sans-serif">GOVERNED DATA FOUNDATION</text>
+      <text x="550" y="294" text-anchor="middle" fill="#5A6068" font-size="12" font-family="DM Sans,sans-serif">Unity Catalog &#8226; Metric Views &#8226; Certified Definitions &#8226; Genie Ontology</text>
+      <text x="550" y="312" text-anchor="middle" fill="#8A9099" font-size="11" font-family="DM Sans,sans-serif">Clinical + Claims + Financial + Contract + Quality + Membership</text>
+
+      <!-- Genie layer -->
+      <rect x="200" y="150" width="700" height="60" rx="12" fill="#FFF" stroke="#008A5E" stroke-width="1.5"/>
+      <text x="550" y="178" text-anchor="middle" fill="#008A5E" font-size="13" font-weight="700" font-family="DM Sans,sans-serif">GENIE &#8212; AI Coworker Layer</text>
+      <text x="550" y="196" text-anchor="middle" fill="#8A9099" font-size="11" font-family="DM Sans,sans-serif">Natural language &#8226; Governed answers &#8226; Shows its work &#8226; MCP tools</text>
+
+      <!-- Arrows from foundation to Genie -->
+      <line x1="550" y1="238" x2="550" y2="214" stroke="#077A9D" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- Use case bubbles on top -->
+      <g transform="translate(110,20)">
+        <rect x="0" y="0" width="130" height="50" rx="25" fill="#FFF5F4" stroke="#FF3621" stroke-width="1"/>
+        <text x="65" y="22" text-anchor="middle" fill="#FF3621" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Employer Group</text>
+        <text x="65" y="36" text-anchor="middle" fill="#FF3621" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Reporting</text>
+      </g>
+      <g transform="translate(260,20)">
+        <rect x="0" y="0" width="130" height="50" rx="25" fill="#FFFBF0" stroke="#D49200" stroke-width="1"/>
+        <text x="65" y="22" text-anchor="middle" fill="#D49200" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Trend</text>
+        <text x="65" y="36" text-anchor="middle" fill="#D49200" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Analytics</text>
+      </g>
+      <g transform="translate(410,20)">
+        <rect x="0" y="0" width="130" height="50" rx="25" fill="#F0FBF6" stroke="#008A5E" stroke-width="1"/>
+        <text x="65" y="22" text-anchor="middle" fill="#008A5E" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Risk</text>
+        <text x="65" y="36" text-anchor="middle" fill="#008A5E" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Adjustment</text>
+      </g>
+      <g transform="translate(560,20)">
+        <rect x="0" y="0" width="130" height="50" rx="25" fill="#F0F8FB" stroke="#077A9D" stroke-width="1"/>
+        <text x="65" y="22" text-anchor="middle" fill="#077A9D" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Value Based</text>
+        <text x="65" y="36" text-anchor="middle" fill="#077A9D" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Payment</text>
+      </g>
+      <g transform="translate(710,20)">
+        <rect x="0" y="0" width="130" height="50" rx="25" fill="#FDF4F6" stroke="#AB4057" stroke-width="1"/>
+        <text x="65" y="22" text-anchor="middle" fill="#AB4057" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Payment</text>
+        <text x="65" y="36" text-anchor="middle" fill="#AB4057" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Integrity</text>
+      </g>
+      <g transform="translate(860,20)">
+        <rect x="0" y="0" width="130" height="50" rx="25" fill="#F0F8FC" stroke="#4DA8C9" stroke-width="1"/>
+        <text x="65" y="22" text-anchor="middle" fill="#4DA8C9" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">HEDIS /</text>
+        <text x="65" y="36" text-anchor="middle" fill="#4DA8C9" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Quality</text>
+      </g>
+
+      <!-- Arrows from bubbles to Genie layer -->
+      <g stroke="#D0D3D8" stroke-width="1" stroke-dasharray="3,3">
+        <line x1="175" y1="74" x2="350" y2="148"/>
+        <line x1="325" y1="74" x2="420" y2="148"/>
+        <line x1="475" y1="74" x2="500" y2="148"/>
+        <line x1="625" y1="74" x2="580" y2="148"/>
+        <line x1="775" y1="74" x2="660" y2="148"/>
+        <line x1="925" y1="74" x2="740" y2="148"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="bottom-row">
+    <div class="bcard accurate">
+      <div class="bt">&#10060; Accurate</div>
+      <div class="bd">The right figure &#8212; but missing the business context. Which payer? Which contract? Which service line?</div>
+    </div>
+    <div class="bcard correct">
+      <div class="bt">&#10004; Correct</div>
+      <div class="bd">The right figure <em>in full business context</em> &#8212; grounded in your ontology, governed, traceable to source.</div>
+    </div>
+  </div>
+</div>
+<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>6</span></div>
+</body>
+</html>
