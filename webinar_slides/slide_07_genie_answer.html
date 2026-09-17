@@ -2,34 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><title>Slide 7 &#8212; Where Genie Becomes the Answer</title>
+<link rel="stylesheet" href="slide-system.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B3139;width:1280px;height:720px;overflow:hidden;position:relative}
   .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
-  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
+  .grid{position:absolute;inset:0;opacity:.02;background-image:radial-gradient(circle,#1B3139 .8px,transparent .8px);background-size:28px 28px}
   .wrap{position:relative;z-index:2;padding:48px 80px;height:100%;display:flex;gap:56px}
 
   .left{flex:1;display:flex;flex-direction:column;justify-content:center}
-  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#008A5E;margin-bottom:14px}
-  h1{font-size:38px;font-weight:700;line-height:1.15;margin-bottom:12px}
-  h1 .hi{color:#008A5E}
-  .distinction{font-size:16px;color:#5A6068;line-height:1.55;margin-bottom:28px}
-  .distinction strong{color:#1B1F24}
+  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#00875C;margin-bottom:14px}
+  h1{font-size:42px;font-weight:700;line-height:1.15;margin-bottom:12px}
+  h1 .hi{color:#00875C}
+  .distinction{font-size:16px;color:#5A6F77;line-height:1.55;margin-bottom:28px}
+  .distinction strong{color:#1B3139}
 
   .story-card{background:#F0FBF6;border:1px solid #C8E6D8;border-radius:14px;padding:24px;margin-bottom:24px;position:relative}
-  .story-card::before{content:'\201C';position:absolute;top:8px;left:16px;font-size:48px;color:#008A5E;opacity:.2;line-height:1;font-family:Georgia,serif}
+  .story-card::before{content:'\201C';position:absolute;top:8px;left:16px;font-size:48px;color:#00875C;opacity:.2;line-height:1;font-family:Georgia,serif}
   .story-text{font-size:15px;color:#3C4043;line-height:1.65;padding-left:8px;font-style:italic}
-  .story-attr{font-size:12px;color:#8A9099;margin-top:10px;padding-left:8px;font-style:normal}
+  .story-attr{font-size:12px;color:#5A6F77;margin-top:10px;padding-left:8px;font-style:normal}
 
-  .transition{background:#1B1F24;color:#FFF;border-radius:10px;padding:18px 24px;text-align:center}
+  .transition{background:#1B3139;color:#FFF;border-radius:10px;padding:18px 24px;text-align:center}
   .transition p{font-size:18px;font-weight:500}
-  .transition .arrow{color:#008A5E;font-size:22px;margin:0 8px}
+  .transition .arrow{color:#00875C;font-size:22px;margin:0 8px}
 
   /* Right side — before/after SVG */
   .right{width:400px;display:flex;align-items:center;justify-content:center}
 
-  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#90A5B1}
   .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
 </style>
 </head>
@@ -37,93 +38,74 @@
 <div class="bar"></div><div class="grid"></div>
 <div class="wrap">
   <div class="left">
-    <div class="eyebrow">The Demo Setup</div>
+    <div class="eyebrow"><img src="https://cdn.bfldr.com/9AYANS2F/at/4tk83ksb45s9wk8fcfh47/genie-icon-full-color-container.svg" style="width:16px;height:16px;vertical-align:-3px;margin-right:7px" alt="Genie">The Demo Setup</div>
     <h1>Genie Is Not a Dashboard.<br/>It's a <span class="hi">Data-Smart AI Coworker.</span></h1>
     <p class="distinction">A dashboard shows you what the data says. <strong>Genie helps you act on it</strong> &#8212; grounded in your ontology, governed end to end, with a person deciding.</p>
 
     <div class="story-card">
       <p class="story-text">"I knew a COO who spent two hours every morning in PowerBI dashboards with his coffee. I don't want him to spend two hours. I want him to wake up, look at his phone, and know what actually needs attention &#8212; and by the way, here's what you should do about it and who you should contact. That two hours is now ten minutes."</p>
-      <p class="story-attr">&#8212; The Barry Thornton story</p>
+
     </div>
 
-    <div class="transition">
-      <p>Let me show you what that looks like. <span class="arrow">&#8594;</span></p>
-    </div>
   </div>
 
   <div class="right">
-    <svg viewBox="0 0 360 560" xmlns="http://www.w3.org/2000/svg" width="360" height="560">
+    <svg viewBox="0 0 360 580" xmlns="http://www.w3.org/2000/svg" width="360" height="580">
       <!-- BEFORE card -->
-      <rect x="20" y="20" width="320" height="220" rx="14" fill="#F8F9FA" stroke="#D0D3D8" stroke-width="1.2"/>
-      <text x="180" y="50" text-anchor="middle" fill="#8A9099" font-size="11" font-weight="600" letter-spacing="2" font-family="DM Sans,sans-serif">BEFORE</text>
-
-      <!-- Dashboard icons -->
-      <rect x="50" y="70" width="80" height="50" rx="6" fill="#FFF" stroke="#E8EAED"/>
-      <rect x="56" y="78" width="30" height="6" rx="2" fill="#D0D3D8"/>
-      <rect x="56" y="90" width="68" height="4" rx="2" fill="#E8EAED"/>
-      <rect x="56" y="100" width="50" height="4" rx="2" fill="#E8EAED"/>
-      <rect x="56" y="110" width="60" height="4" rx="2" fill="#E8EAED"/>
-
-      <rect x="140" y="70" width="80" height="50" rx="6" fill="#FFF" stroke="#E8EAED"/>
-      <rect x="146" y="78" width="30" height="6" rx="2" fill="#D0D3D8"/>
-      <rect x="146" y="90" width="68" height="4" rx="2" fill="#E8EAED"/>
-      <rect x="146" y="100" width="50" height="4" rx="2" fill="#E8EAED"/>
-      <rect x="146" y="110" width="60" height="4" rx="2" fill="#E8EAED"/>
-
-      <rect x="230" y="70" width="80" height="50" rx="6" fill="#FFF" stroke="#E8EAED"/>
-      <rect x="236" y="78" width="30" height="6" rx="2" fill="#D0D3D8"/>
-      <rect x="236" y="90" width="68" height="4" rx="2" fill="#E8EAED"/>
-      <rect x="236" y="100" width="50" height="4" rx="2" fill="#E8EAED"/>
-      <rect x="236" y="110" width="60" height="4" rx="2" fill="#E8EAED"/>
-
-      <!-- More dashboard rows -->
-      <rect x="50" y="130" width="80" height="50" rx="6" fill="#FFF" stroke="#E8EAED"/>
-      <rect x="56" y="138" width="30" height="6" rx="2" fill="#D0D3D8"/>
-      <rect x="56" y="150" width="68" height="4" rx="2" fill="#E8EAED"/>
-      <rect x="56" y="160" width="50" height="4" rx="2" fill="#E8EAED"/>
-
-      <rect x="140" y="130" width="80" height="50" rx="6" fill="#FFF" stroke="#E8EAED"/>
-      <rect x="146" y="138" width="30" height="6" rx="2" fill="#D0D3D8"/>
-      <rect x="146" y="150" width="68" height="4" rx="2" fill="#E8EAED"/>
-      <rect x="146" y="160" width="50" height="4" rx="2" fill="#E8EAED"/>
-
-      <rect x="230" y="130" width="80" height="50" rx="6" fill="#FFF" stroke="#E8EAED"/>
-      <rect x="236" y="138" width="30" height="6" rx="2" fill="#D0D3D8"/>
-      <rect x="236" y="150" width="68" height="4" rx="2" fill="#E8EAED"/>
-      <rect x="236" y="160" width="50" height="4" rx="2" fill="#E8EAED"/>
-
-      <text x="180" y="210" text-anchor="middle" fill="#B0B5BB" font-size="13" font-weight="500" font-family="DM Sans,sans-serif">6 dashboards &#8226; 2 hours &#8226; every morning</text>
+      <rect x="20" y="20" width="320" height="220" rx="14" fill="#F8F9FA" stroke="#C4CCD6" stroke-width="1.2"/>
+      <text x="180" y="50" text-anchor="middle" fill="#5A6F77" font-size="11" font-weight="600" letter-spacing="2" font-family="DM Sans,sans-serif">BEFORE</text>
+      <!-- Dashboard grid -->
+      <rect x="50" y="70" width="80" height="50" rx="6" fill="#FFF" stroke="#DCE0E2"/>
+      <rect x="56" y="78" width="30" height="6" rx="2" fill="#C4CCD6"/><rect x="56" y="90" width="68" height="4" rx="2" fill="#DCE0E2"/><rect x="56" y="100" width="50" height="4" rx="2" fill="#DCE0E2"/><rect x="56" y="110" width="60" height="4" rx="2" fill="#DCE0E2"/>
+      <rect x="140" y="70" width="80" height="50" rx="6" fill="#FFF" stroke="#DCE0E2"/>
+      <rect x="146" y="78" width="30" height="6" rx="2" fill="#C4CCD6"/><rect x="146" y="90" width="68" height="4" rx="2" fill="#DCE0E2"/><rect x="146" y="100" width="50" height="4" rx="2" fill="#DCE0E2"/><rect x="146" y="110" width="60" height="4" rx="2" fill="#DCE0E2"/>
+      <rect x="230" y="70" width="80" height="50" rx="6" fill="#FFF" stroke="#DCE0E2"/>
+      <rect x="236" y="78" width="30" height="6" rx="2" fill="#C4CCD6"/><rect x="236" y="90" width="68" height="4" rx="2" fill="#DCE0E2"/><rect x="236" y="100" width="50" height="4" rx="2" fill="#DCE0E2"/><rect x="236" y="110" width="60" height="4" rx="2" fill="#DCE0E2"/>
+      <rect x="50" y="130" width="80" height="50" rx="6" fill="#FFF" stroke="#DCE0E2"/>
+      <rect x="56" y="138" width="30" height="6" rx="2" fill="#C4CCD6"/><rect x="56" y="150" width="68" height="4" rx="2" fill="#DCE0E2"/><rect x="56" y="160" width="50" height="4" rx="2" fill="#DCE0E2"/>
+      <rect x="140" y="130" width="80" height="50" rx="6" fill="#FFF" stroke="#DCE0E2"/>
+      <rect x="146" y="138" width="30" height="6" rx="2" fill="#C4CCD6"/><rect x="146" y="150" width="68" height="4" rx="2" fill="#DCE0E2"/><rect x="146" y="160" width="50" height="4" rx="2" fill="#DCE0E2"/>
+      <rect x="230" y="130" width="80" height="50" rx="6" fill="#FFF" stroke="#DCE0E2"/>
+      <rect x="236" y="138" width="30" height="6" rx="2" fill="#C4CCD6"/><rect x="236" y="150" width="68" height="4" rx="2" fill="#DCE0E2"/><rect x="236" y="160" width="50" height="4" rx="2" fill="#DCE0E2"/>
+      <text x="180" y="210" text-anchor="middle" fill="#90A5B1" font-size="13" font-weight="500" font-family="DM Sans,sans-serif">6 dashboards &#8226; 2 hours &#8226; every morning</text>
 
       <!-- Arrow down -->
-      <defs><marker id="a7" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#008A5E"/></marker></defs>
-      <line x1="180" y1="250" x2="180" y2="300" stroke="#008A5E" stroke-width="2.5" marker-end="url(#a7)"/>
+      <defs><marker id="a7" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#00875C"/></marker></defs>
+      <line x1="180" y1="250" x2="180" y2="300" stroke="#00875C" stroke-width="2.5" marker-end="url(#a7)"/>
 
       <!-- AFTER card -->
-      <rect x="20" y="310" width="320" height="220" rx="14" fill="#F0FBF6" stroke="#008A5E" stroke-width="1.5"/>
-      <text x="180" y="340" text-anchor="middle" fill="#008A5E" font-size="11" font-weight="600" letter-spacing="2" font-family="DM Sans,sans-serif">AFTER</text>
+      <rect x="20" y="310" width="320" height="260" rx="14" fill="#F0FBF6" stroke="#00875C" stroke-width="1.5"/>
+      <image href="https://cdn.bfldr.com/9AYANS2F/at/cncz7w4n3pmn2rsrqphzh5ws/genie-lockup-no-db-full-color.svg" x="98" y="315" width="164" height="26"/>
 
-      <!-- Phone mockup -->
-      <rect x="130" y="355" width="100" height="155" rx="16" fill="#FFF" stroke="#008A5E" stroke-width="1.2"/>
-      <rect x="155" y="360" width="50" height="4" rx="2" fill="#D0D3D8"/>
-      <!-- Chat bubbles -->
-      <rect x="140" y="375" width="75" height="22" rx="8" fill="#F0FBF6" stroke="#C8E6D8"/>
-      <text x="177" y="390" text-anchor="middle" fill="#008A5E" font-size="8" font-family="DM Sans,sans-serif">MLR alert: +1.2%</text>
+      <!-- iPhone: outer bezel -->
+      <rect x="118" y="344" width="124" height="196" rx="28" fill="#1B3139"/>
+      <!-- Side buttons -->
+      <rect x="114" y="372" width="4" height="18" rx="2" fill="#2E3F47"/>
+      <rect x="114" y="396" width="4" height="28" rx="2" fill="#2E3F47"/>
+      <rect x="114" y="430" width="4" height="28" rx="2" fill="#2E3F47"/>
+      <rect x="242" y="390" width="4" height="36" rx="2" fill="#2E3F47"/>
+      <!-- Screen glass -->
+      <rect x="123" y="357" width="114" height="170" rx="22" fill="#FFFFFF"/>
+      <!-- Dynamic Island -->
+      <rect x="151" y="364" width="58" height="12" rx="6" fill="#1B3139"/>
+      <!-- Notification cards -->
+      <rect x="132" y="386" width="96" height="24" rx="9" fill="#F0FBF6" stroke="#C8E6D8" stroke-width="0.8"/>
+      <text x="180" y="402" text-anchor="middle" fill="#00875C" font-size="9" font-family="DM Sans,sans-serif">MLR alert: +1.2%</text>
+      <rect x="136" y="416" width="88" height="22" rx="9" fill="#FFFBF0" stroke="#E8D9A8" stroke-width="0.8"/>
+      <text x="180" y="431" text-anchor="middle" fill="#BA7B23" font-size="9" font-family="DM Sans,sans-serif">3 contracts flagged</text>
+      <rect x="132" y="444" width="96" height="24" rx="9" fill="#F0FBF6" stroke="#C8E6D8" stroke-width="0.8"/>
+      <text x="180" y="460" text-anchor="middle" fill="#00875C" font-size="9" font-family="DM Sans,sans-serif">Action: call Dr. Chen</text>
+      <rect x="143" y="475" width="74" height="22" rx="11" fill="#1B3139"/>
+      <text x="180" y="490" text-anchor="middle" fill="#FFF" font-size="8.5" font-weight="600" font-family="DM Sans,sans-serif">Ask follow-up</text>
+      <!-- Home indicator -->
+      <rect x="152" y="518" width="56" height="5" rx="2.5" fill="#C4CCD6" opacity=".6"/>
 
-      <rect x="145" y="403" width="70" height="18" rx="8" fill="#FFFBF0" stroke="#E8D9A8"/>
-      <text x="180" y="415" text-anchor="middle" fill="#D49200" font-size="7.5" font-family="DM Sans,sans-serif">3 contracts flagged</text>
-
-      <rect x="140" y="427" width="75" height="22" rx="8" fill="#F0FBF6" stroke="#C8E6D8"/>
-      <text x="177" y="442" text-anchor="middle" fill="#008A5E" font-size="8" font-family="DM Sans,sans-serif">Action: call Dr. Chen</text>
-
-      <rect x="148" y="458" width="64" height="16" rx="8" fill="#1B1F24"/>
-      <text x="180" y="469" text-anchor="middle" fill="#FFF" font-size="7.5" font-weight="600" font-family="DM Sans,sans-serif">Ask follow-up</text>
-
-      <!-- Labels -->
-      <text x="180" y="505" text-anchor="middle" fill="#008A5E" font-size="14" font-weight="700" font-family="DM Sans,sans-serif">10 minutes. On your phone.</text>
-      <text x="180" y="522" text-anchor="middle" fill="#5A6068" font-size="11" font-family="DM Sans,sans-serif">Governed &#8226; Traceable &#8226; Actionable</text>
+      <!-- Labels below phone -->
+      <text x="180" y="553" text-anchor="middle" fill="#00875C" font-size="13" font-weight="700" font-family="DM Sans,sans-serif">10 minutes. On your phone.</text>
+      <text x="180" y="567" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Governed &#8226; Traceable &#8226; Actionable</text>
     </svg>
   </div>
 </div>
-<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>7</span></div>
+<div class="foot"><span class="logo"><img src="https://cdn.bfldr.com/9AYANS2F/at/9c6z3t9c35wp88vc2t796qq9/primary-lockup-full-color-rgb.svg" height="18" style="vertical-align:-3px" alt="Databricks"></span><span>The Future of Healthcare Finance with Genie</span><span>7</span></div>
 </body>
 </html>

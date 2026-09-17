@@ -1,0 +1,6 @@
+resources:
+  schemas:
+    healthcare_finance:
+      catalog_name: ${var.catalog}
+      name: ${var.schema}
+      comment: "Synthetic healthcare finance demo data for Sep 2026 webinar. All data is fictional."

@@ -2,25 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><title>Slide 10 &#8212; Appendix: References</title>
+<link rel="stylesheet" href="slide-system.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B3139;width:1280px;height:720px;overflow:hidden;position:relative}
   .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
-  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
+  .grid{position:absolute;inset:0;opacity:.02;background-image:radial-gradient(circle,#1B3139 .8px,transparent .8px);background-size:28px 28px}
   .wrap{position:relative;z-index:2;padding:44px 80px;height:100%;display:flex;flex-direction:column}
-  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#8A9099;margin-bottom:10px}
-  h1{font-size:30px;font-weight:700;line-height:1.2;margin-bottom:20px}
+  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#5A6F77;margin-bottom:10px}
+  h1{font-size:30px;font-weight:700;line-height:1.2;margin-bottom:12px}
 
-  .refs{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:14px 32px;align-content:start}
-  .ref{padding:10px 0;border-bottom:1px solid #F0F1F3}
-  .ref-num{display:inline-block;width:24px;height:24px;border-radius:6px;background:#F8F9FA;text-align:center;line-height:24px;font-size:11px;font-weight:700;color:#5A6068;margin-right:8px;flex-shrink:0}
-  .ref-slide{font-size:11px;color:#8A9099;font-weight:500}
-  .ref-title{font-size:13px;color:#1B1F24;font-weight:600;margin-top:2px}
+  .refs{display:grid;grid-template-columns:1fr 1fr;gap:8px 32px;align-content:start}
+  .ref{padding:7px 0;border-bottom:1px solid #F0F1F3}
+  .ref-num{display:inline-block;width:24px;height:24px;border-radius:6px;background:#F9F7F4;text-align:center;line-height:24px;font-size:11px;font-weight:700;color:#5A6F77;margin-right:8px;flex-shrink:0}
+  .ref-slide{font-size:11px;color:#5A6F77;font-weight:500}
+  .ref-title{font-size:13px;color:#1B3139;font-weight:600;margin-top:2px}
   .ref-url{font-size:11.5px;color:#077A9D;word-break:break-all;margin-top:2px}
-  .ref-note{font-size:11px;color:#8A9099;margin-top:2px;font-style:italic}
+  .ref-url a{color:#077A9D;text-decoration:none}
+  .ref-url a:hover{text-decoration:underline}
+  .ref-note{font-size:11px;color:#5A6F77;margin-top:2px;font-style:italic}
 
-  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#90A5B1}
   .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
 </style>
 </head>
@@ -33,66 +36,64 @@
   <div class="refs">
     <div class="ref">
       <span class="ref-num">1</span><span class="ref-slide">Slide 2</span>
-      <div class="ref-title">PWC "Health Behind the Numbers" 2026</div>
-      <div class="ref-url">pwc.com/us/en/industries/health-industries/behind-the-numbers.html</div>
+      <div class="ref-title">PWC &#8220;Health Behind the Numbers&#8221; 2026</div>
+      <div class="ref-url"><a href="https://www.pwc.com/us/en/industries/health-industries/behind-the-numbers.html" target="_blank">pwc.com/us/en/industries/health-industries/behind-the-numbers.html</a></div>
       <div class="ref-note">9% medical cost increase, AI coding as top-3 cost driver, GLP-1 utilization, behavioral health spike</div>
     </div>
     <div class="ref">
       <span class="ref-num">2</span><span class="ref-slide">Slide 5</span>
       <div class="ref-title">CMS CY2026 Risk Adjustment Implementation Memo</div>
-      <div class="ref-url">cms.gov/files/document/cy-2026-risk-adjustment-implementation-memo-g.pdf</div>
+      <div class="ref-url"><a href="https://www.cms.gov/files/document/cy-2026-risk-adjustment-implementation-memo-g.pdf" target="_blank">cms.gov/files/document/cy-2026-risk-adjustment-implementation-memo-g.pdf</a></div>
       <div class="ref-note">Python code release, SAS retirement timeline, CMS-HCC V28 model</div>
     </div>
     <div class="ref">
       <span class="ref-num">3</span><span class="ref-slide">Slide 5</span>
       <div class="ref-title">CMS CY2025 DIY Instructions (HHS-HCC)</div>
-      <div class="ref-url">cms.gov/files/document/by2025-diy-instructions-07232025.pdf</div>
+      <div class="ref-url"><a href="https://www.cms.gov/files/document/by2025-diy-instructions-07232025.pdf" target="_blank">cms.gov/files/document/by2025-diy-instructions-07232025.pdf</a></div>
       <div class="ref-note">HHS-HCC V08 for ACA Marketplace, Python phased in for CY2026 benefit year</div>
     </div>
     <div class="ref">
       <span class="ref-num">4</span><span class="ref-slide">Slide 4b</span>
       <div class="ref-title">NAIC Model Bulletin on AI (Adopted Dec 2023)</div>
-      <div class="ref-url">content.naic.org/sites/default/files/inline-files/Model%20Bulletin_Adopted.pdf</div>
+      <div class="ref-url"><a href="https://content.naic.org/sites/default/files/inline-files/Model%20Bulletin_Adopted.pdf" target="_blank">content.naic.org/sites/default/files/inline-files/Model%20Bulletin_Adopted.pdf</a></div>
       <div class="ref-note">AI governance requirements for insurers, human-in-the-loop standards</div>
     </div>
     <div class="ref">
       <span class="ref-num">5</span><span class="ref-slide">Slide 6</span>
-      <div class="ref-title">Databricks Blog: "Quality Care Is the Mission"</div>
-      <div class="ref-url">databricks.com/blog/quality-care-mission-finance-protects-margin</div>
+      <div class="ref-title">Databricks Blog: &#8220;Quality Care Is the Mission&#8221;</div>
+      <div class="ref-url"><a href="https://www.databricks.com/blog/quality-care-mission-finance-protects-margin" target="_blank">databricks.com/blog/quality-care-mission-finance-protects-margin</a></div>
       <div class="ref-note">Aaron Zavora &#8212; Accurate vs. Correct, three compounding questions, Genie ontology</div>
     </div>
     <div class="ref">
       <span class="ref-num">6</span><span class="ref-slide">Slide 6</span>
-      <div class="ref-title">Abacus Blog: "Your BI Tells You MLR Moved"</div>
-      <div class="ref-url">Joint Abacus + Databricks publication (forthcoming)</div>
-      <div class="ref-note">Jonathan Thompson &#8212; MLR root cause analysis, payer-specific context, one foundation many questions</div>
+      <div class="ref-title">Abacus Blog: &#8220;Your BI Tells You MLR Moved&#8221;</div>
+      <div class="ref-note">Joint Abacus + Databricks publication (forthcoming) &#8212; Jonathan Thompson, MLR root cause analysis, payer-specific context</div>
     </div>
     <div class="ref">
       <span class="ref-num">7</span><span class="ref-slide">Slide 9</span>
       <div class="ref-title">HSS: Reinventing Healthcare Finance (DAIS 2026)</div>
-      <div class="ref-url">databricks.com/dataaisummit/session/sponsored-sigma-reinventing-healthcare-finance-how-hss-built-xray</div>
+      <div class="ref-url"><a href="https://www.databricks.com/dataaisummit/session/sponsored-sigma-reinventing-healthcare-finance-how-hss-built-xray" target="_blank">databricks.com/dataaisummit/session/&#8230;hss-built-xray</a></div>
       <div class="ref-note">Executive financial cockpit, revenue cycle optimization, Sigma partnership</div>
     </div>
     <div class="ref">
       <span class="ref-num">8</span><span class="ref-slide">Slide 9</span>
-      <div class="ref-title">Humana: Financial Intelligence (Invest Session)</div>
-      <div class="ref-url">Invest session slides + recording (internal)</div>
+      <div class="ref-title">Humana: Financial Intelligence (Data + AI Summit)</div>
+      <div class="ref-url"><a href="https://www.databricks.com/dataaisummit/session/sponsored-ey-future-finance-now" target="_blank">databricks.com/dataaisummit/session/sponsored-ey-future-finance-now</a></div>
       <div class="ref-note">OPEX variance analysis, financial reporting on Databricks</div>
     </div>
     <div class="ref">
       <span class="ref-num">9</span><span class="ref-slide">Slide 9</span>
       <div class="ref-title">Premier: Self-Service Analytics with Genie</div>
-      <div class="ref-url">databricks.com (published customer story)</div>
+      <div class="ref-url"><a href="https://www.databricks.com/dataaisummit/session/genie-effect-real-world-conversational-analytics-across-healthcare-life" target="_blank">databricks.com/dataaisummit/session/&#8230;healthcare-life</a></div>
       <div class="ref-note">10&#215; faster SQL creation, natural-language queries for healthcare analytics</div>
     </div>
     <div class="ref">
       <span class="ref-num">10</span><span class="ref-slide">Slide 5</span>
       <div class="ref-title">Performance: 1M members &#215; 1 HCC = 2 min</div>
-      <div class="ref-url">Internal benchmark &#8212; single-node cluster, 16 cores, 256 GB RAM</div>
-      <div class="ref-note">Needs independent validation before citing as official benchmark. Use "we've seen" framing.</div>
+      <div class="ref-note">Internal benchmark &#8212; single-node cluster, 16 cores, 256 GB RAM. Use &#8220;we&#8217;ve seen&#8221; framing pending independent validation.</div>
     </div>
   </div>
 </div>
-<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>Appendix</span></div>
+<div class="foot"><span class="logo"><img src="https://cdn.bfldr.com/9AYANS2F/at/9c6z3t9c35wp88vc2t796qq9/primary-lockup-full-color-rgb.svg" height="18" style="vertical-align:-3px" alt="Databricks"></span><span>The Future of Healthcare Finance with Genie</span><span>Appendix</span></div>
 </body>
 </html>

@@ -2,42 +2,41 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><title>Slide 9 &#8212; Customer Proof Points</title>
+<link rel="stylesheet" href="slide-system.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B3139;width:1280px;height:720px;overflow:hidden;position:relative}
   .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
-  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
+  .grid{position:absolute;inset:0;opacity:.02;background-image:radial-gradient(circle,#1B3139 .8px,transparent .8px);background-size:28px 28px}
   .wrap{position:relative;z-index:2;padding:48px 80px;height:100%;display:flex;flex-direction:column}
   .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#077A9D;margin-bottom:12px}
-  h1{font-size:34px;font-weight:700;line-height:1.2;margin-bottom:8px}
-  .tag{font-size:15px;color:#8A9099;margin-bottom:28px;font-style:italic}
+  h1{font-size:38px;font-weight:700;line-height:1.2;margin-bottom:8px}
+  .tag{font-size:15px;color:#5A6F77;margin-bottom:16px;font-style:italic}
 
-  .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;flex:1}
+  .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
   .card{border-radius:14px;padding:24px;display:flex;flex-direction:column;position:relative;overflow:hidden}
   .card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px}
   .card.c1{background:#F0F8FB;border:1px solid #B8D8E8}.card.c1::before{background:#077A9D}
-  .card.c2{background:#F0FBF6;border:1px solid #C8E6D8}.card.c2::before{background:#008A5E}
-  .card.c3{background:#FFFBF0;border:1px solid #E8D9A8}.card.c3::before{background:#D49200}
+  .card.c2{background:#F0FBF6;border:1px solid #C8E6D8}.card.c2::before{background:#00875C}
+  .card.c3{background:#FFFBF0;border:1px solid #E8D9A8}.card.c3::before{background:#BA7B23}
 
   .card-logo{font-size:22px;font-weight:700;margin-bottom:6px}
   .card.c1 .card-logo{color:#077A9D}
-  .card.c2 .card-logo{color:#008A5E}
-  .card.c3 .card-logo{color:#D49200}
+  .card.c2 .card-logo{color:#00875C}
+  .card.c3 .card-logo{color:#BA7B23}
   .card-type{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
   .card.c1 .card-type{color:#077A9D}
-  .card.c2 .card-type{color:#008A5E}
-  .card.c3 .card-type{color:#D49200}
+  .card.c2 .card-type{color:#00875C}
+  .card.c3 .card-type{color:#BA7B23}
 
-  .card-desc{font-size:14px;color:#3C4043;line-height:1.55;flex:1}
-  .card-source{font-size:11px;color:#8A9099;margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.06)}
-  .card-source a{color:#077A9D;text-decoration:none}
+  .card-desc{font-size:14px;color:#3C4043;line-height:1.55}
+  .card-source{font-size:11px;color:#5A6F77;margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.06)}
+  .card-source a{color:#077A9D;text-decoration:none;font-weight:500}
+  .card.c2 .card-source a{color:#00875C}
+  .card.c3 .card-source a{color:#BA7B23}
 
-  .talk-track{background:#F8F9FA;border:1px solid #E8EAED;border-radius:12px;padding:18px 24px;margin-top:auto}
-  .talk-track .label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#8A9099;margin-bottom:8px}
-  .talk-track p{font-size:14.5px;color:#3C4043;line-height:1.6;font-style:italic}
-
-  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#90A5B1}
   .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
 </style>
 </head>
@@ -53,27 +52,23 @@
       <div class="card-logo">HSS</div>
       <div class="card-type">Provider &#8226; Exec Cockpit</div>
       <div class="card-desc">Hospital for Special Surgery built an executive financial cockpit on Databricks. Their Chief Revenue Cycle Officer uses AI to surface revenue collection opportunities and generate business reports that used to take analysts days.</div>
-      <div class="card-source">DAIS 2026 Session &#8226; Sponsored by Sigma<br/>Slides + ACES + Deal Retro available</div>
+      <div class="card-source"><a href="https://www.databricks.com/dataaisummit/session/sponsored-sigma-reinventing-healthcare-finance-how-hss-built-xray" target="_blank">DAIS 2026 &#8212; Reinventing Healthcare Finance: How HSS Built XRAY on Databricks</a></div>
     </div>
     <div class="card c2">
       <div class="card-logo">Humana</div>
       <div class="card-type">Payer &#8226; Financial Intelligence</div>
       <div class="card-desc">A major national health plan uses Databricks for OPEX variance analysis and financial intelligence &#8212; understanding where costs are outrunning budget and identifying root causes across lines of business.</div>
-      <div class="card-source">Invest Session &#8226; Slides + Recording available</div>
+      <div class="card-source"><a href="https://www.databricks.com/dataaisummit/session/sponsored-ey-future-finance-now" target="_blank">Data + AI Summit &#8212; The Future of Finance Is Now</a></div>
     </div>
     <div class="card c3">
       <div class="card-logo">Premier</div>
       <div class="card-type">Analytics &#8226; Self-Service</div>
       <div class="card-desc">Premier uses Genie for self-service healthcare analytics &#8212; 10&#215; faster SQL creation, natural-language queries for improvement opportunities. This is explicitly Genie for healthcare finance.</div>
-      <div class="card-source">Published customer story on databricks.com</div>
+      <div class="card-source"><a href="https://www.databricks.com/dataaisummit/session/genie-effect-real-world-conversational-analytics-across-healthcare-life" target="_blank">DAIS Session &#8212; The Genie Effect: Conversational Analytics in Healthcare</a></div>
     </div>
   </div>
 
-  <div class="talk-track">
-    <div class="label">Talk Track &#8212; Don't Read the Slide</div>
-    <p>"We're seeing healthcare organizations at every stage of this journey. Some are building the governed data foundation. Others have moved to self-service analytics with Genie, where their finance teams are getting answers 10&#215; faster. And the most advanced are using Genie as a true AI coworker. The common thread is that they all started with the same foundation: governed data, certified metrics, and a single source of truth."</p>
-  </div>
 </div>
-<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>9</span></div>
+<div class="foot"><span class="logo"><img src="https://cdn.bfldr.com/9AYANS2F/at/9c6z3t9c35wp88vc2t796qq9/primary-lockup-full-color-rgb.svg" height="18" style="vertical-align:-3px" alt="Databricks"></span><span>The Future of Healthcare Finance with Genie</span><span>9</span></div>
 </body>
 </html>

@@ -2,29 +2,45 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><title>Slide 6 &#8212; The Unified Data Vision</title>
+<link rel="stylesheet" href="slide-system.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B3139;width:1280px;height:720px;overflow:hidden;position:relative}
   .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
-  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
-  .wrap{position:relative;z-index:2;padding:48px 80px;height:100%;display:flex;flex-direction:column}
-  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#077A9D;margin-bottom:12px}
-  h1{font-size:34px;font-weight:700;line-height:1.18;margin-bottom:8px}
-  .tag{font-size:15px;color:#8A9099;margin-bottom:24px}
-
-  .diagram{flex:1;display:flex;align-items:center;justify-content:center}
-
-  .bottom-row{display:flex;gap:16px;margin-top:auto}
-  .bcard{flex:1;padding:14px 18px;border-radius:10px;border:1px solid #E8EAED}
+  .grid{position:absolute;inset:0;opacity:.02;background-image:radial-gradient(circle,#1B3139 .8px,transparent .8px);background-size:28px 28px}
+  .wrap{position:relative;z-index:2;padding:38px 80px 80px;height:100%;display:flex;flex-direction:column}
+  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#077A9D;margin-bottom:10px}
+  h1{font-size:38px;font-weight:700;line-height:1.18;margin-bottom:6px}
+  .tag{font-size:14px;color:#5A6F77;margin-bottom:12px}
+  .arch{display:flex;flex-direction:column;flex:1}
+  .uc-row{display:flex;gap:10px;margin-bottom:6px}
+  .uc-pill{flex:1;padding:9px 8px;border-radius:24px;border:1px solid;font-size:11px;font-weight:600;line-height:1.3;display:flex;align-items:center;justify-content:center;text-align:center}
+  .layer{border-radius:14px;padding:13px 20px;display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .layer-genie{background:#F0FBF6;border:1.5px solid #00875C}
+  .layer-foundation{background:#F0F8FB;border:1.5px solid #077A9D}
+  .layer-data{background:#F9F7F4;border:1.5px solid #C4CCD6}
+  .prod-icon{width:36px;height:36px;flex-shrink:0;border-radius:8px}
+  .vdiv{width:1px;height:36px;flex-shrink:0}
+  .vdiv.g{background:#C8E6D8}.vdiv.t{background:#B8D8E8}.vdiv.n{background:#DCE0E2}
+  .layer-name{font-size:14px;font-weight:700;white-space:nowrap}
+  .layer-name.g{color:#00875C}.layer-name.t{color:#077A9D}.layer-name.n{color:#5A6F77}
+  .layer-detail{flex:1}
+  .layer-tag{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px}
+  .layer-tag.g{color:#00875C}.layer-tag.t{color:#077A9D}.layer-tag.n{color:#5A6F77}
+  .layer-desc{font-size:12px;color:#5A6F77}
+  .fp-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .fp-chip{background:#FFF;border:1px solid #B8D8E8;border-radius:6px;padding:3px 10px;font-size:11px;color:#077A9D;font-weight:500}
+  .fp-chip.d{border-color:#DCE0E2;color:#5A6F77}
+  .bottom-row{display:flex;gap:16px;margin-top:12px}
+  .bcard{flex:1;padding:12px 18px;border-radius:10px;border:1px solid #DCE0E2}
   .bcard.accurate{background:#FFF5F4;border-color:#FFD4CC}
   .bcard.correct{background:#F0FBF6;border-color:#C8E6D8}
   .bcard .bt{font-size:14px;font-weight:700;margin-bottom:4px}
   .bcard.accurate .bt{color:#FF3621}
-  .bcard.correct .bt{color:#008A5E}
-  .bcard .bd{font-size:13px;color:#5A6068;line-height:1.45}
-
-  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .bcard.correct .bt{color:#00875C}
+  .bcard .bd{font-size:13px;color:#5A6F77;line-height:1.45}
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#90A5B1}
   .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
 </style>
 </head>
@@ -35,64 +51,81 @@
   <h1>The Real Opportunity: Unified, Governed Intelligence</h1>
   <p class="tag">The alternative is a collection of disconnected AI use cases &#8212; the same fragmentation, only with an AI interface on top.</p>
 
-  <div class="diagram">
-    <svg viewBox="0 0 1100 360" xmlns="http://www.w3.org/2000/svg" width="1100" height="360">
-      <!-- Foundation layer -->
-      <rect x="100" y="240" width="900" height="100" rx="16" fill="#F0F8FB" stroke="#077A9D" stroke-width="1.5"/>
-      <text x="550" y="272" text-anchor="middle" fill="#077A9D" font-size="14" font-weight="700" font-family="DM Sans,sans-serif">GOVERNED DATA FOUNDATION</text>
-      <text x="550" y="294" text-anchor="middle" fill="#5A6068" font-size="12" font-family="DM Sans,sans-serif">Unity Catalog &#8226; Metric Views &#8226; Certified Definitions &#8226; Genie Ontology</text>
-      <text x="550" y="312" text-anchor="middle" fill="#8A9099" font-size="11" font-family="DM Sans,sans-serif">Clinical + Claims + Financial + Contract + Quality + Membership</text>
+  <div class="arch">
 
-      <!-- Genie layer -->
-      <rect x="200" y="150" width="700" height="60" rx="12" fill="#FFF" stroke="#008A5E" stroke-width="1.5"/>
-      <text x="550" y="178" text-anchor="middle" fill="#008A5E" font-size="13" font-weight="700" font-family="DM Sans,sans-serif">GENIE &#8212; AI Coworker Layer</text>
-      <text x="550" y="196" text-anchor="middle" fill="#8A9099" font-size="11" font-family="DM Sans,sans-serif">Natural language &#8226; Governed answers &#8226; Shows its work &#8226; MCP tools</text>
+    <!-- Use case pills -->
+    <div class="uc-row">
+      <div class="uc-pill" style="color:#FF3621;background:#FFF5F4;border-color:#FFAA99">Employer Group Reporting</div>
+      <div class="uc-pill" style="color:#BA7B23;background:#FFFBF0;border-color:#E8D9A8">Trend Analytics</div>
+      <div class="uc-pill" style="color:#00875C;background:#F0FBF6;border-color:#C8E6D8">Risk Adjustment</div>
+      <div class="uc-pill" style="color:#077A9D;background:#F0F8FB;border-color:#B8D8E8">Value Based Payment</div>
+      <div class="uc-pill" style="color:#AB4057;background:#FDF4F6;border-color:#DFADB8">Payment Integrity</div>
+      <div class="uc-pill" style="color:#4DA8C9;background:#F0F8FC;border-color:#B8D8EC">HEDIS / Quality</div>
+    </div>
 
-      <!-- Arrows from foundation to Genie -->
-      <line x1="550" y1="238" x2="550" y2="214" stroke="#077A9D" stroke-width="1.5" stroke-dasharray="4,3"/>
-
-      <!-- Use case bubbles on top -->
-      <g transform="translate(110,20)">
-        <rect x="0" y="0" width="130" height="50" rx="25" fill="#FFF5F4" stroke="#FF3621" stroke-width="1"/>
-        <text x="65" y="22" text-anchor="middle" fill="#FF3621" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Employer Group</text>
-        <text x="65" y="36" text-anchor="middle" fill="#FF3621" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Reporting</text>
-      </g>
-      <g transform="translate(260,20)">
-        <rect x="0" y="0" width="130" height="50" rx="25" fill="#FFFBF0" stroke="#D49200" stroke-width="1"/>
-        <text x="65" y="22" text-anchor="middle" fill="#D49200" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Trend</text>
-        <text x="65" y="36" text-anchor="middle" fill="#D49200" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Analytics</text>
-      </g>
-      <g transform="translate(410,20)">
-        <rect x="0" y="0" width="130" height="50" rx="25" fill="#F0FBF6" stroke="#008A5E" stroke-width="1"/>
-        <text x="65" y="22" text-anchor="middle" fill="#008A5E" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Risk</text>
-        <text x="65" y="36" text-anchor="middle" fill="#008A5E" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Adjustment</text>
-      </g>
-      <g transform="translate(560,20)">
-        <rect x="0" y="0" width="130" height="50" rx="25" fill="#F0F8FB" stroke="#077A9D" stroke-width="1"/>
-        <text x="65" y="22" text-anchor="middle" fill="#077A9D" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Value Based</text>
-        <text x="65" y="36" text-anchor="middle" fill="#077A9D" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Payment</text>
-      </g>
-      <g transform="translate(710,20)">
-        <rect x="0" y="0" width="130" height="50" rx="25" fill="#FDF4F6" stroke="#AB4057" stroke-width="1"/>
-        <text x="65" y="22" text-anchor="middle" fill="#AB4057" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Payment</text>
-        <text x="65" y="36" text-anchor="middle" fill="#AB4057" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Integrity</text>
-      </g>
-      <g transform="translate(860,20)">
-        <rect x="0" y="0" width="130" height="50" rx="25" fill="#F0F8FC" stroke="#4DA8C9" stroke-width="1"/>
-        <text x="65" y="22" text-anchor="middle" fill="#4DA8C9" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">HEDIS /</text>
-        <text x="65" y="36" text-anchor="middle" fill="#4DA8C9" font-size="11" font-weight="600" font-family="DM Sans,sans-serif">Quality</text>
-      </g>
-
-      <!-- Arrows from bubbles to Genie layer -->
-      <g stroke="#D0D3D8" stroke-width="1" stroke-dasharray="3,3">
-        <line x1="175" y1="74" x2="350" y2="148"/>
-        <line x1="325" y1="74" x2="420" y2="148"/>
-        <line x1="475" y1="74" x2="500" y2="148"/>
-        <line x1="625" y1="74" x2="580" y2="148"/>
-        <line x1="775" y1="74" x2="660" y2="148"/>
-        <line x1="925" y1="74" x2="740" y2="148"/>
+    <!-- Dashed connector fan -->
+    <svg viewBox="0 0 1120 24" width="1120" height="24" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:4px">
+      <g stroke="#90A5B1" stroke-width="1.2" stroke-dasharray="4,3" opacity=".65">
+        <line x1="89" y1="0" x2="200" y2="24"/>
+        <line x1="277" y1="0" x2="370" y2="24"/>
+        <line x1="466" y1="0" x2="490" y2="24"/>
+        <line x1="654" y1="0" x2="630" y2="24"/>
+        <line x1="843" y1="0" x2="750" y2="24"/>
+        <line x1="1031" y1="0" x2="920" y2="24"/>
       </g>
     </svg>
+
+    <!-- Genie layer -->
+    <div class="layer layer-genie">
+      <img class="prod-icon" src="https://cdn.bfldr.com/9AYANS2F/at/4tk83ksb45s9wk8fcfh47/genie-icon-full-color-container.svg" alt="Genie">
+      <span class="layer-name g">Genie</span>
+      <div class="vdiv g"></div>
+      <div class="layer-detail">
+        <div class="layer-tag g">AI Coworker Layer</div>
+        <div class="layer-desc">Natural language &#8226; Governed answers &#8226; Shows its work &#8226; MCP tools &#8226; Calendar &#8226; Genie Ontology</div>
+      </div>
+    </div>
+
+    <!-- Dashed vertical connector -->
+    <svg viewBox="0 0 1120 18" width="1120" height="18" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:4px">
+      <line x1="560" y1="0" x2="560" y2="18" stroke="#077A9D" stroke-width="1.5" stroke-dasharray="4,3" opacity=".7"/>
+    </svg>
+
+    <!-- Unity Catalog governance layer -->
+    <div class="layer layer-foundation">
+      <img class="prod-icon" src="https://cdn.bfldr.com/9AYANS2F/at/492s7k5fkjhbck6wnvm6rh/unity-catalog-icon-full-color-container.svg" alt="Unity Catalog">
+      <span class="layer-name t">Unity Catalog</span>
+      <div class="vdiv t"></div>
+      <div class="layer-detail">
+        <div class="layer-tag t">Governed Data Foundation</div>
+        <div class="fp-chips">
+          <span class="fp-chip">Metric Views</span>
+          <span class="fp-chip">Certified Definitions</span>
+          <span class="fp-chip">Genie Ontology</span>
+          <span class="fp-chip">Access Control</span>
+          <span class="fp-chip">Data Lineage</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lakeflow data layer -->
+    <div class="layer layer-data">
+      <img class="prod-icon" src="https://cdn.bfldr.com/9AYANS2F/at/m96p7ctpcx2jbqgcnp5npc67/lakeflow-icon-full-color-container.svg" alt="Lakeflow">
+      <span class="layer-name n">Lakeflow</span>
+      <div class="vdiv n"></div>
+      <div class="layer-detail">
+        <div class="layer-tag n">Healthcare Data Lakehouse</div>
+        <div class="fp-chips">
+          <span class="fp-chip d">Clinical</span>
+          <span class="fp-chip d">Claims</span>
+          <span class="fp-chip d">Financial</span>
+          <span class="fp-chip d">Contracts</span>
+          <span class="fp-chip d">Quality</span>
+          <span class="fp-chip d">Membership</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="bottom-row">
@@ -106,6 +139,6 @@
     </div>
   </div>
 </div>
-<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>6</span></div>
+<div class="foot"><span class="logo"><img src="https://cdn.bfldr.com/9AYANS2F/at/9c6z3t9c35wp88vc2t796qq9/primary-lockup-full-color-rgb.svg" height="18" style="vertical-align:-3px" alt="Databricks"></span><span>The Future of Healthcare Finance with Genie</span><span>6</span></div>
 </body>
 </html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><title>Slide 6b &#8212; Enterprise Context</title>
+<link rel="stylesheet" href="slide-system.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B3139;width:1280px;height:720px;overflow:hidden;position:relative}
+  .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
+  .grid{position:absolute;inset:0;opacity:.02;background-image:radial-gradient(circle,#1B3139 .8px,transparent .8px);background-size:28px 28px}
+  .wrap{position:relative;z-index:2;padding:38px 80px 80px;height:100%;display:flex;flex-direction:column}
+  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#FF3621;margin-bottom:10px}
+  h1{font-size:34px;font-weight:700;line-height:1.18;margin-bottom:6px}
+  h1 .hi{color:#FF3621}
+  .tag{font-size:14px;color:#5A6F77;margin-bottom:12px}
+  .ec{display:flex;flex-direction:column;flex:1}
+  .ec-top{display:flex;gap:12px;margin-bottom:8px}
+  .ec-panel{flex:1;border-radius:12px;padding:10px 16px;display:flex;align-items:center;gap:10px}
+  .ec-panel.g{background:#F0FBF6;border:1.5px solid #00875C}
+  .ec-panel.a{background:#F9F7F4;border:1.5px solid #C4CCD6}
+  .ec-panel.t{background:#F0F8FB;border:1.5px solid #077A9D}
+  .ec-panel img{width:34px;height:34px;flex-shrink:0;border-radius:8px}
+  .ep-name{font-size:13px;font-weight:700;color:#1B3139}
+  .ep-desc{font-size:11px;color:#5A6F77;margin-top:2px}
+  .ec-mid{display:flex;align-items:center;justify-content:space-between;padding:0 150px;margin-bottom:6px;height:30px}
+  .ec-flow{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600}
+  .ec-flow.up{color:#1B3139}.ec-flow.dn{color:#FF3621}
+  .ec-go{background:#FFF5F4;border:2px solid #FF3621;border-radius:14px;padding:12px 28px;text-align:center;margin-bottom:8px}
+  .ec-go-h{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:5px}
+  .ec-go-h img{width:28px;height:28px;border-radius:6px}
+  .ec-go-title{font-size:21px;font-weight:700;color:#1B3139}
+  .ec-or{font-size:12px;color:#5A6F77}
+  .ec-or strong{color:#FF3621}
+  .ec-arr{display:flex;justify-content:space-around;height:32px;margin-bottom:6px}
+  .ec-bot{display:flex;gap:14px;flex:1}
+  .ec-bp{flex:1;background:#F9F7F4;border:1.5px solid #DCE0E2;border-radius:14px;padding:13px 16px}
+  .bp-lbl{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5A6F77;margin-bottom:8px}
+  .bp-prod{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .bp-prod img{width:26px;height:26px;border-radius:5px}
+  .bp-prod span{font-size:13px;font-weight:700;color:#077A9D}
+  .bp-chips{display:flex;flex-wrap:wrap;gap:5px}
+  .bp-chip{background:#FFF;border:1px solid #B8D8E8;border-radius:6px;padding:3px 10px;font-size:11px;color:#077A9D;font-weight:500}
+  .ec-uc{background:#F0F8FB;border-color:#077A9D}
+  .uc-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .uc-icon{width:26px;height:26px;border-radius:5px;flex-shrink:0}
+  .uc-title{font-size:13.5px;font-weight:700;color:#1B3139}
+  .uc-sub{font-size:11px;color:#5A6F77;margin-top:1px}
+  .uc-rows{display:flex;flex-direction:column;gap:6px}
+  .uc-row{display:flex;align-items:stretch;background:#FFF;border-radius:6px;overflow:hidden}
+  .uc-bar{width:4px;flex-shrink:0}
+  .uc-rc{display:flex;align-items:center;gap:12px;padding:7px 10px;flex:1}
+  .uc-lbl{font-size:12px;font-weight:700;color:#1B3139;white-space:nowrap;min-width:56px}
+  .uc-dsc{font-size:11.5px;color:#5A6F77}
+  .ent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .ent-tile{height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:#FFF;text-align:center;padding:0 4px}
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#90A5B1}
+  .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="bar"></div><div class="grid"></div>
+<div class="wrap">
+  <div class="eyebrow">Enterprise Context</div>
+  <h1>Why Genie Answers Feel Different: It Knows Your <span class="hi">Business</span></h1>
+  <p class="tag">Not generic AI &#8212; intelligence grounded in your ontology, your definitions, your data, and your enterprise systems.</p>
+
+  <div class="ec">
+
+    <!-- Top: consumers -->
+    <div class="ec-top">
+      <div class="ec-panel g">
+        <img src="https://cdn.bfldr.com/9AYANS2F/at/4tk83ksb45s9wk8fcfh47/genie-icon-full-color-container.svg" alt="Genie">
+        <div><div class="ep-name">Genie</div><div class="ep-desc">AI coworker &#8212; natural language, governed answers</div></div>
+      </div>
+      <div class="ec-panel a">
+        <img src="https://cdn.bfldr.com/9AYANS2F/at/sjm3wzvbwqk5798jqsxwz98/apps-icon-full-color-container.svg" alt="Databricks Apps">
+        <div><div class="ep-name">Databricks Apps</div><div class="ep-desc">Any interface, any agent, any BI tool via MCP</div></div>
+      </div>
+      <div class="ec-panel t">
+        <svg width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;border-radius:8px"><rect width="34" height="34" rx="8" fill="#077A9D"/><text x="17" y="22" text-anchor="middle" fill="#FFF" font-size="13" font-weight="700" font-family="DM Sans,sans-serif">HC</text></svg>
+        <div><div class="ep-name">Healthcare Finance Teams</div><div class="ep-desc">CFO &#8226; Actuarial &#8226; Finance &#8226; Compliance &#8226; Contracting</div></div>
+      </div>
+    </div>
+
+    <!-- Bidirectional flow labels -->
+    <div class="ec-mid">
+      <div class="ec-flow up">
+        <svg width="20" height="24" viewBox="0 0 20 24"><polyline points="1,15 10,6 19,15" fill="none" stroke="#1B3139" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="1,23 10,14 19,23" fill="none" stroke="#1B3139" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity=".3"/></svg>
+        Grounded answers
+      </div>
+      <div class="ec-flow dn">
+        User feedback
+        <svg width="20" height="24" viewBox="0 0 20 24"><polyline points="1,9 10,18 19,9" fill="none" stroke="#FF3621" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="1,1 10,10 19,1" fill="none" stroke="#FF3621" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity=".3"/></svg>
+      </div>
+    </div>
+
+    <!-- Genie Ontology center box -->
+    <div class="ec-go">
+      <div class="ec-go-h">
+        <img src="https://cdn.bfldr.com/9AYANS2F/at/4tk83ksb45s9wk8fcfh47/genie-icon-full-color-container.svg" alt="Genie">
+        <span class="ec-go-title">Genie Ontology</span>
+      </div>
+      <p class="ec-or"><strong>OntoRank:</strong> permission-aware algorithm for inferring relevant knowledge snippets &#8212; knows what &#8220;MLR,&#8221; &#8220;VBC attribution,&#8221; and &#8220;block renewal&#8221; mean in your health plan context</p>
+    </div>
+
+    <!-- Red arrows up from bottom panels -->
+    <div class="ec-arr">
+      <svg width="18" height="32" viewBox="0 0 18 32"><line x1="9" y1="32" x2="9" y2="5" stroke="#FF3621" stroke-width="2.5"/><polygon points="0,9 9,0 18,9" fill="#FF3621"/></svg>
+      <svg width="18" height="32" viewBox="0 0 18 32"><line x1="9" y1="32" x2="9" y2="5" stroke="#FF3621" stroke-width="2.5"/><polygon points="0,9 9,0 18,9" fill="#FF3621"/></svg>
+    </div>
+
+    <!-- Bottom: data sources -->
+    <div class="ec-bot">
+      <div class="ec-bp ec-uc">
+        <div class="uc-head">
+          <img class="uc-icon" src="https://cdn.bfldr.com/9AYANS2F/at/492s7k5fkjhbck6wnvm6rh/unity-catalog-icon-full-color-container.svg" alt="Unity Catalog">
+          <div>
+            <div class="uc-title">Unity Catalog Semantics</div>
+            <div class="uc-sub">User defined semantics</div>
+          </div>
+        </div>
+        <div class="uc-rows">
+          <div class="uc-row"><div class="uc-bar" style="background:#00875C"></div><div class="uc-rc"><span class="uc-lbl">Domains</span><span class="uc-dsc">Healthcare finance business domains</span></div></div>
+          <div class="uc-row"><div class="uc-bar" style="background:#BA7B23"></div><div class="uc-rc"><span class="uc-lbl">Glossary</span><span class="uc-dsc">HCC definitions, contract terms, certifications</span></div></div>
+          <div class="uc-row"><div class="uc-bar" style="background:#FF3621"></div><div class="uc-rc"><span class="uc-lbl">Metrics</span><span class="uc-dsc">Reusable KPIs and Metric Views</span></div></div>
+        </div>
+      </div>
+      <div class="ec-bp">
+        <div class="bp-lbl">Learned knowledge</div>
+        <div class="ent-grid">
+          <div class="ent-tile" style="background:#005BBB">Epic</div>
+          <div class="ent-tile" style="background:#00A1E0">Salesforce</div>
+          <div class="ent-tile" style="background:#6264A7">Teams</div>
+          <div class="ent-tile" style="background:#0078D4">SharePoint</div>
+          <div class="ent-tile" style="background:#1A73E8">Google</div>
+          <div class="ent-tile" style="background:#F2C811;color:#1B3139">Power BI</div>
+          <div class="ent-tile" style="background:#4A154B">Slack</div>
+          <div class="ent-tile" style="background:#0052CC">Jira</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="foot"><span class="logo"><img src="https://cdn.bfldr.com/9AYANS2F/at/9c6z3t9c35wp88vc2t796qq9/primary-lockup-full-color-rgb.svg" height="18" style="vertical-align:-3px" alt="Databricks"></span><span>The Future of Healthcare Finance with Genie</span><span>6b</span></div>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Webinar Presenter — The Future of Healthcare Finance with Genie</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;overflow:hidden;background:#0B2026;font-family:'DM Sans',sans-serif}
+
+  /* Slide viewport — centered, 16:9, scaled to fit */
+  .stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .frame{width:1280px;height:720px;transform-origin:center center;border:none;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+
+  /* Controls bar */
+  .controls{position:fixed;bottom:0;left:0;right:0;height:48px;background:rgba(11,32,38,.92);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;gap:20px;z-index:10;opacity:0;transition:opacity .25s}
+  .controls:hover,.controls.visible{opacity:1}
+  .controls.pinned{opacity:1}
+
+  .btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#C4CCD6;border-radius:8px;padding:6px 16px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
+  .btn:hover{background:rgba(255,255,255,.15);color:#FFF}
+  .btn:active{transform:scale(.97)}
+  .btn.primary{background:#FF3621;border-color:#FF3621;color:#FFF}
+  .btn.primary:hover{background:#FF5F46}
+
+  .slide-num{color:#90A5B1;font-size:14px;font-weight:500;min-width:80px;text-align:center}
+  .slide-num strong{color:#FFF}
+
+  .title-display{color:#618794;font-size:12px;letter-spacing:.5px;position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:10;opacity:0;transition:opacity .25s}
+  .controls:hover ~ .title-display,.controls.visible ~ .title-display,.controls.pinned ~ .title-display{opacity:1}
+
+  /* Overview grid */
+  .overview{position:fixed;inset:0;background:rgba(11,32,38,.96);backdrop-filter:blur(16px);z-index:20;display:none;overflow-y:auto;padding:48px}
+  .overview.open{display:block}
+  .overview h2{color:#FFF;font-size:24px;margin-bottom:24px;text-align:center}
+  .overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1200px;margin:0 auto}
+  .thumb{cursor:pointer;border-radius:8px;overflow:hidden;border:2px solid transparent;transition:all .2s;position:relative}
+  .thumb:hover{border-color:#FF3621;transform:scale(1.03)}
+  .thumb.active{border-color:#FF3621}
+  .thumb iframe{width:1280px;height:720px;transform:scale(.2);transform-origin:top left;pointer-events:none;border:none}
+  .thumb-wrap{width:256px;height:144px;overflow:hidden;background:#1B3139}
+  .thumb-label{padding:8px 10px;background:#1B3139;color:#90A5B1;font-size:11px;font-weight:500}
+  .thumb-label strong{color:#FFF;margin-right:6px}
+
+  /* Fullscreen hint */
+  .hint{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:#618794;font-size:16px;text-align:center;pointer-events:none;opacity:0;transition:opacity .4s;z-index:5}
+  .hint.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <iframe class="frame" id="slideFrame" src="slide_01_opening.html"></iframe>
+</div>
+
+<div class="controls visible" id="controls">
+  <button class="btn" onclick="goTo(0)" title="First slide">&#9198;</button>
+  <button class="btn" onclick="prev()" title="Previous (← or ↑)">&larr;</button>
+  <span class="slide-num"><strong id="cur">1</strong> / <span id="tot">12</span></span>
+  <button class="btn" onclick="next()" title="Next (→ or ↓ or Space)">&rarr;</button>
+  <button class="btn" onclick="goTo(slides.length-1)" title="Last slide">&#9197;</button>
+  <button class="btn" onclick="toggleOverview()" title="Overview (G)">Grid</button>
+  <button class="btn primary" onclick="goFullscreen()" title="Fullscreen (F)">Present</button>
+</div>
+
+<div class="title-display" id="titleDisplay"></div>
+
+<div class="overview" id="overview">
+  <h2>Slide Overview</h2>
+  <div class="overview-grid" id="overviewGrid"></div>
+</div>
+
+<div class="hint" id="hint">Press <strong>F</strong> for fullscreen &middot; <strong>&larr; &rarr;</strong> to navigate &middot; <strong>G</strong> for grid</div>
+
+<script>
+const slides = [
+  { file: 'slide_01_opening.html',           title: 'Notes from the Field: Healthcare Finance in Focus' },
+  { file: 'slide_02_industry_trends.html',    title: 'These Aren\'t Cyclical — They\'re Structural' },
+  { file: 'slide_03_disparate_systems.html',  title: 'Sister Teams. Same Function. No Shared Context.' },
+  { file: 'slide_04_underwriting.html',       title: 'Underwriting: 15 Years Overdue' },
+  { file: 'slide_04b_naic_ai.html',           title: 'NAIC AI Guidelines' },
+  { file: 'slide_04c_rx_rebates.html',        title: 'Rx Rebates: Same Data, Different Questions' },
+  { file: 'slide_05_risk_adjustment.html',    title: 'Risk Adjustment: CMS Changed the Game' },
+  { file: 'slide_06_unified_vision.html',     title: 'The Unified Data Vision' },
+  { file: 'slide_06b_enterprise_context.html', title: 'Enterprise Context: Genie Ontology' },
+  { file: 'slide_07_genie_answer.html',       title: 'Genie: Data-Smart AI Coworker' },
+  { file: 'slide_08_demo_flow.html',          title: 'Genie One: Four Beats, One Story' },
+  { file: 'slide_09_proof_points.html',       title: 'Customer Proof Points' },
+  { file: 'slide_10_appendix.html',           title: 'Appendix: References & Footnotes' }
+];
+
+let idx = 0;
+const frame = document.getElementById('slideFrame');
+const cur   = document.getElementById('cur');
+const tot   = document.getElementById('tot');
+const title = document.getElementById('titleDisplay');
+const ctrl  = document.getElementById('controls');
+const hint  = document.getElementById('hint');
+
+tot.textContent = slides.length;
+updateTitle();
+
+// Show hint on load, fade after 3s
+hint.classList.add('show');
+setTimeout(() => hint.classList.remove('show'), 3500);
+
+function goTo(i) {
+  idx = Math.max(0, Math.min(slides.length - 1, i));
+  frame.src = slides[idx].file;
+  cur.textContent = idx + 1;
+  updateTitle();
+  closeOverview();
+}
+function next() { goTo(idx + 1); }
+function prev() { goTo(idx - 1); }
+function updateTitle() {
+  title.textContent = slides[idx].title;
+}
+
+function goFullscreen() {
+  document.documentElement.requestFullscreen().then(() => {
+    ctrl.classList.remove('visible');
+    ctrl.classList.remove('pinned');
+  }).catch(() => {});
+}
+
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) {
+    ctrl.classList.add('visible');
+    ctrl.classList.add('pinned');
+  }
+  scaleFrame();
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('overview').classList.contains('open')) {
+    if (e.key === 'Escape' || e.key === 'g') closeOverview();
+    return;
+  }
+  switch(e.key) {
+    case 'ArrowRight': case 'ArrowDown': case ' ': case 'PageDown':
+      e.preventDefault(); next(); break;
+    case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+      e.preventDefault(); prev(); break;
+    case 'Home': e.preventDefault(); goTo(0); break;
+    case 'End':  e.preventDefault(); goTo(slides.length - 1); break;
+    case 'f': case 'F': e.preventDefault(); goFullscreen(); break;
+    case 'g': case 'G': e.preventDefault(); toggleOverview(); break;
+    case 'Escape':
+      if (document.fullscreenElement) document.exitFullscreen();
+      break;
+  }
+});
+
+// Scale iframe to fit viewport
+function scaleFrame() {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight - (document.fullscreenElement ? 0 : 48);
+  const scale = Math.min(vw / 1280, vh / 720);
+  frame.style.transform = `scale(${scale})`;
+}
+window.addEventListener('resize', scaleFrame);
+scaleFrame();
+
+// Overview grid
+function toggleOverview() {
+  const ov = document.getElementById('overview');
+  if (ov.classList.contains('open')) { closeOverview(); return; }
+  ov.classList.add('open');
+  const grid = document.getElementById('overviewGrid');
+  if (!grid.hasChildNodes()) buildOverview(grid);
+  // Highlight current
+  grid.querySelectorAll('.thumb').forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+  });
+}
+function closeOverview() {
+  document.getElementById('overview').classList.remove('open');
+}
+function buildOverview(grid) {
+  slides.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'thumb' + (i === idx ? ' active' : '');
+    div.innerHTML = `<div class="thumb-wrap"><iframe src="${s.file}" loading="lazy"></iframe></div><div class="thumb-label"><strong>${i+1}</strong>${s.title}</div>`;
+    div.addEventListener('click', () => goTo(i));
+    grid.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>

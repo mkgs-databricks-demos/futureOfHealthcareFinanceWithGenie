@@ -2,24 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><title>Slide 3 — Disparate Systems</title>
+<link rel="stylesheet" href="slide-system.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'DM Sans',sans-serif;background:#FFFFFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  body{font-family:'DM Sans',sans-serif;background:#FFFFFF;color:#1B3139;width:1280px;height:720px;overflow:hidden;position:relative}
   .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
-  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
+  .grid{position:absolute;inset:0;opacity:.02;background-image:radial-gradient(circle,#1B3139 .8px,transparent .8px);background-size:28px 28px}
 
   .wrap{position:relative;z-index:2;padding:48px 80px;height:100%;display:flex;flex-direction:column}
-  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#D49200;margin-bottom:12px}
-  h1{font-size:33px;font-weight:700;line-height:1.2;margin-bottom:6px;color:#1B1F24}
-  .tag{font-size:15px;color:#8A9099;margin-bottom:20px}
-  .dia{flex:1;display:flex;align-items:center;justify-content:center}
+  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#BA7B23;margin-bottom:12px}
+  h1{font-size:38px;font-weight:700;line-height:1.2;margin-bottom:6px;color:#1B3139}
+  .tag{font-size:15px;color:#5A6F77;margin-bottom:20px}
+  .dia{display:flex;align-items:center;justify-content:center;margin:10px 0}
 
-  .bi{background:#FFFBF0;border-left:3px solid #D49200;padding:14px 24px;border-radius:0 8px 8px 0;margin-top:auto}
+  .bi{background:#FFFBF0;border-left:3px solid #BA7B23;padding:14px 24px;border-radius:0 8px 8px 0;margin-top:12px}
   .bi p{font-size:14.5px;color:#3C4043;line-height:1.55}
   .bi strong{color:#B07D00}
 
-  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#90A5B1}
   .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
 </style>
 </head>
@@ -38,93 +39,93 @@
       <g transform="translate(10,8)">
         <rect x="0" y="0" width="155" height="182" rx="10" fill="#FFF5F4" stroke="#FF3621" stroke-width="1.2" stroke-dasharray="5,4"/>
         <text x="78" y="26" text-anchor="middle" fill="#FF3621" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">UNDERWRITING</text>
-        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="57" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Small Group</text>
-        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="88" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Large Group</text>
-        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="119" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Level-Funded</text>
-        <rect x="12" y="133" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="150" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Stop Loss</text>
+        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="57" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Small Group</text>
+        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="88" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Large Group</text>
+        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="119" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Level-Funded</text>
+        <rect x="12" y="133" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="150" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Stop Loss</text>
       </g>
 
       <!-- Actuarial -->
       <g transform="translate(185,8)">
-        <rect x="0" y="0" width="155" height="182" rx="10" fill="#FFFBF0" stroke="#D49200" stroke-width="1.2" stroke-dasharray="5,4"/>
-        <text x="78" y="26" text-anchor="middle" fill="#D49200" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">ACTUARIAL</text>
-        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="57" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Risk Scoring</text>
-        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="88" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">IBNR / Reserves</text>
-        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="119" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Trend Analysis</text>
+        <rect x="0" y="0" width="155" height="182" rx="10" fill="#FFFBF0" stroke="#BA7B23" stroke-width="1.2" stroke-dasharray="5,4"/>
+        <text x="78" y="26" text-anchor="middle" fill="#BA7B23" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">ACTUARIAL</text>
+        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="57" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Risk Scoring</text>
+        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="88" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">IBNR / Reserves</text>
+        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="119" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Trend Analysis</text>
       </g>
 
       <!-- Finance -->
       <g transform="translate(370,8)">
         <rect x="0" y="0" width="155" height="182" rx="10" fill="#F0FBF6" stroke="#008A5E" stroke-width="1.2" stroke-dasharray="5,4"/>
         <text x="78" y="26" text-anchor="middle" fill="#008A5E" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">FINANCE</text>
-        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="57" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">MLR Reporting</text>
-        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="88" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">P&amp;L / Budget</text>
-        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="119" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Rebate Accruals</text>
+        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="57" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">MLR Reporting</text>
+        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="88" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">P&amp;L / Budget</text>
+        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="119" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Rebate Accruals</text>
       </g>
 
       <!-- Contracting -->
       <g transform="translate(555,8)">
         <rect x="0" y="0" width="155" height="182" rx="10" fill="#F0F8FB" stroke="#077A9D" stroke-width="1.2" stroke-dasharray="5,4"/>
         <text x="78" y="26" text-anchor="middle" fill="#077A9D" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">CONTRACTING</text>
-        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="57" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Provider Rates</text>
-        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="88" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">VBC Terms</text>
-        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="119" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Rx Rebates</text>
+        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="57" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Provider Rates</text>
+        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="88" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">VBC Terms</text>
+        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="119" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Rx Rebates</text>
       </g>
 
       <!-- Operations -->
       <g transform="translate(740,8)">
         <rect x="0" y="0" width="155" height="182" rx="10" fill="#FDF4F6" stroke="#AB4057" stroke-width="1.2" stroke-dasharray="5,4"/>
         <text x="78" y="26" text-anchor="middle" fill="#AB4057" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">OPERATIONS</text>
-        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="57" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Claims Adj.</text>
-        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="88" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Payment Integrity</text>
-        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="119" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Care Mgmt</text>
+        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="57" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Claims Adj.</text>
+        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="88" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Payment Integrity</text>
+        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="119" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Care Mgmt</text>
       </g>
 
       <!-- Clinical -->
       <g transform="translate(925,8)">
         <rect x="0" y="0" width="155" height="182" rx="10" fill="#F0F8FC" stroke="#4DA8C9" stroke-width="1.2" stroke-dasharray="5,4"/>
         <text x="78" y="26" text-anchor="middle" fill="#4DA8C9" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">CLINICAL</text>
-        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="57" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">HEDIS / STARS</text>
-        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="88" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Risk Adjustment</text>
-        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#E8EAED"/>
-        <text x="78" y="119" text-anchor="middle" fill="#5A6068" font-size="10.5" font-family="DM Sans,sans-serif">Quality Programs</text>
+        <rect x="12" y="40" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="57" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">HEDIS / STARS</text>
+        <rect x="12" y="71" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="88" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Risk Adjustment</text>
+        <rect x="12" y="102" width="131" height="25" rx="4" fill="#FFF" stroke="#DCE0E2"/>
+        <text x="78" y="119" text-anchor="middle" fill="#5A6F77" font-size="10.5" font-family="DM Sans,sans-serif">Quality Programs</text>
       </g>
 
-      <!-- Red X disconnection marks -->
-      <g opacity=".65">
-        <text x="172" y="105" text-anchor="middle" fill="#FF3621" font-size="18" font-weight="700" font-family="DM Sans,sans-serif">✕</text>
-        <text x="357" y="105" text-anchor="middle" fill="#FF3621" font-size="18" font-weight="700" font-family="DM Sans,sans-serif">✕</text>
-        <text x="542" y="105" text-anchor="middle" fill="#FF3621" font-size="18" font-weight="700" font-family="DM Sans,sans-serif">✕</text>
-        <text x="727" y="105" text-anchor="middle" fill="#FF3621" font-size="18" font-weight="700" font-family="DM Sans,sans-serif">✕</text>
-        <text x="912" y="105" text-anchor="middle" fill="#FF3621" font-size="18" font-weight="700" font-family="DM Sans,sans-serif">✕</text>
+      <!-- Red X disconnection marks — native SVG lines, centered at box midpoint y=99 -->
+      <g stroke="#FF3621" stroke-width="2.5" stroke-linecap="round" opacity=".75">
+        <line x1="164" y1="91" x2="180" y2="107"/><line x1="180" y1="91" x2="164" y2="107"/>
+        <line x1="349" y1="91" x2="365" y2="107"/><line x1="365" y1="91" x2="349" y2="107"/>
+        <line x1="534" y1="91" x2="550" y2="107"/><line x1="550" y1="91" x2="534" y2="107"/>
+        <line x1="719" y1="91" x2="735" y2="107"/><line x1="735" y1="91" x2="719" y2="107"/>
+        <line x1="904" y1="91" x2="920" y2="107"/><line x1="920" y1="91" x2="904" y2="107"/>
       </g>
 
       <!-- CFO question bubble -->
-      <rect x="280" y="218" width="520" height="80" rx="12" fill="#F8F9FA" stroke="#E0E2E6" stroke-width="1"/>
-      <text x="540" y="244" text-anchor="middle" fill="#8A9099" font-size="11" font-weight="500" font-family="DM Sans,sans-serif">THE CFO ASKS:</text>
-      <text x="540" y="270" text-anchor="middle" fill="#1B1F24" font-size="16" font-weight="700" font-style="italic" font-family="DM Sans,sans-serif">"What's our real exposure on this block?"</text>
+      <rect x="280" y="218" width="520" height="80" rx="12" fill="#F9F7F4" stroke="#E0E2E6" stroke-width="1"/>
+      <text x="540" y="244" text-anchor="middle" fill="#5A6F77" font-size="11" font-weight="500" font-family="DM Sans,sans-serif">THE CFO ASKS:</text>
+      <text x="540" y="270" text-anchor="middle" fill="#1B3139" font-size="16" font-weight="700" font-style="italic" font-family="DM Sans,sans-serif">"What's our real exposure on this block?"</text>
       <text x="540" y="290" text-anchor="middle" fill="#FF3621" font-size="11.5" font-weight="500" font-family="DM Sans,sans-serif">Nobody has the answer.</text>
 
       <!-- Dashed arrow from bubble to silos -->
-      <line x1="540" y1="213" x2="540" y2="196" stroke="#D0D3D8" stroke-width="1" stroke-dasharray="4,4"/>
+      <line x1="540" y1="213" x2="540" y2="196" stroke="#C4CCD6" stroke-width="1" stroke-dasharray="4,4"/>
     </svg>
   </div>
 
@@ -132,6 +133,6 @@
     <p><strong>The same metric is often defined differently depending on who is calculating it.</strong> One version lands in the CFO's monthly reporting package, another shows up in an ad hoc analytics request, and eventually someone has to reconcile them manually. That reconciliation is where the weeks go.</p>
   </div>
 </div>
-<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>3</span></div>
+<div class="foot"><span class="logo"><img src="https://cdn.bfldr.com/9AYANS2F/at/9c6z3t9c35wp88vc2t796qq9/primary-lockup-full-color-rgb.svg" height="18" style="vertical-align:-3px" alt="Databricks"></span><span>The Future of Healthcare Finance with Genie</span><span>3</span></div>
 </body>
 </html>
