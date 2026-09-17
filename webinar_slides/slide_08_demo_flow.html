@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><title>Slide 8 &#8212; Genie One Demo Flow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
+  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
+  .wrap{position:relative;z-index:2;padding:44px 80px;height:100%;display:flex;flex-direction:column}
+  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#008A5E;margin-bottom:10px}
+  h1{font-size:32px;font-weight:700;line-height:1.2;margin-bottom:6px}
+  .tag{font-size:14px;color:#8A9099;margin-bottom:24px}
+  .beats{display:grid;grid-template-columns:1fr 1fr;gap:18px;flex:1}
+  .beat{border-radius:14px;padding:22px 24px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+  .beat::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px}
+  .beat.b1{background:#F0FBF6;border:1px solid #C8E6D8}.beat.b1::before{background:#008A5E}
+  .beat.b2{background:#FFFBF0;border:1px solid #E8D9A8}.beat.b2::before{background:#D49200}
+  .beat.b3{background:#F0F8FB;border:1px solid #B8D8E8}.beat.b3::before{background:#077A9D}
+  .beat.b4{background:#FFF5F4;border:1px solid #FFD4CC}.beat.b4::before{background:#FF3621}
+  .beat-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+  .beat.b1 .beat-num{color:#008A5E}.beat.b2 .beat-num{color:#D49200}
+  .beat.b3 .beat-num{color:#077A9D}.beat.b4 .beat-num{color:#FF3621}
+  .beat-title{font-size:17px;font-weight:700;color:#1B1F24;margin-bottom:8px;line-height:1.25}
+  .beat-desc{font-size:13px;color:#3C4043;line-height:1.5;flex:1}
+  .beat-prompt{background:rgba(255,255,255,.7);border-radius:8px;padding:8px 12px;margin-top:10px;font-size:12px;color:#5A6068;font-style:italic;border:1px solid rgba(0,0,0,.06)}
+  .beat-prompt strong{color:#1B1F24;font-style:normal}
+  .reveal-bar{background:#1B1F24;color:#FFF;border-radius:10px;padding:14px 24px;text-align:center;margin-top:16px}
+  .reveal-bar p{font-size:15px;font-weight:500}
+  .reveal-bar .em{color:#008A5E}
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="bar"></div><div class="grid"></div>
+<div class="wrap">
+  <div class="eyebrow">Live Demo</div>
+  <h1>Genie One: Four Beats, One Story</h1>
+  <p class="tag">From scheduled intelligence to cross-domain meeting prep &#8212; no dashboards, no analysts, no waiting.</p>
+  <div class="beats">
+    <div class="beat b1">
+      <div class="beat-num">Beat 1</div>
+      <div class="beat-title">The Scheduled Task</div>
+      <div class="beat-desc">Open Genie One. Show a daily morning briefing that already ran &#8212; key financial metrics, forming trends, margin alerts. No dashboard required.</div>
+      <div class="beat-prompt"><strong>Talk track:</strong> "The three questions: Where is cost outrunning reimbursement? Where is revenue slipping? Where is cash trapped?"</div>
+    </div>
+    <div class="beat b2">
+      <div class="beat-num">Beat 2</div>
+      <div class="beat-title">Rx Rebate Persona Rotation</div>
+      <div class="beat-desc">Cycle through 3 personas live &#8212; Contract Manager, Finance, Compliance &#8212; each asking different questions of the same governed data.</div>
+      <div class="beat-prompt"><strong>Kill shot:</strong> Compliance asks "Show me the audit trail from manufacturer payment to member passthrough" &#8212; answered in seconds.</div>
+    </div>
+    <div class="beat b3">
+      <div class="beat-num">Beat 3</div>
+      <div class="beat-title">CFO Calendar + Meeting Prep</div>
+      <div class="beat-desc">Switch to CFO persona. Ask Genie to check Saturday's calendar, identify the CMO meeting at an ACO, then pull VBC performance data.</div>
+      <div class="beat-prompt"><strong>Prompt:</strong> "Check my calendar for Saturday. Who am I meeting with? Find relevant VBC performance data for this ACO."</div>
+    </div>
+    <div class="beat b4">
+      <div class="beat-num">Beat 4</div>
+      <div class="beat-title">The Reveal</div>
+      <div class="beat-desc">Pause. Let it land. Then: "By the way &#8212; this presentation was built in Genie One. I literally do my whole job in this tool."</div>
+      <div class="beat-prompt"><strong>Transition:</strong> "Now Jonathan from Abacus will show you MLR performance analysis and root cause identification."</div>
+    </div>
+  </div>
+  <div class="reveal-bar">
+    <p>Calendar &#8226; Lakehouse &#8226; Contacts &#8226; Business Context &#8212; <span class="em">all governed, all in one place</span></p>
+  </div>
+</div>
+<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>8</span></div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><title>Slide 4c &#8212; Rx Rebates: Same Data, Different Questions</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
+  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
+  .wrap{position:relative;z-index:2;padding:42px 80px;height:100%;display:flex;flex-direction:column}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+  .top-left{flex:1}
+  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#D49200;margin-bottom:10px}
+  h1{font-size:28px;font-weight:700;line-height:1.2;margin-bottom:6px}
+  .tag{font-size:13.5px;color:#8A9099;margin-bottom:0}
+  .stat-pill{background:#FFFBF0;border:1px solid #E8D9A8;border-radius:10px;padding:14px 22px;text-align:center;margin-left:24px;flex-shrink:0}
+  .stat-pill .num{font-size:32px;font-weight:700;color:#D49200;line-height:1}
+  .stat-pill .lbl{font-size:11px;color:#8A9099;margin-top:4px}
+
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;flex:1}
+  thead th{background:#1B1F24;color:#FFF;padding:8px 12px;text-align:left;font-weight:600;font-size:11px;letter-spacing:.5px}
+  thead th:first-child{border-radius:8px 0 0 0;width:16%}
+  thead th:nth-child(2){width:28%}
+  thead th:last-child{border-radius:0 8px 0 0}
+  tbody td{padding:8px 12px;border-bottom:1px solid #E8EAED;vertical-align:top;line-height:1.4}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:nth-child(odd){background:#F8F9FA}
+  tbody tr:nth-child(even){background:#FFF}
+  .persona{font-weight:700;white-space:nowrap}
+  .p1{color:#FF3621}.p2{color:#D49200}.p3{color:#008A5E}.p4{color:#077A9D}.p5{color:#AB4057}.p6{color:#4DA8C9}
+  .role{color:#5A6068;font-size:11.5px}
+  .q{color:#3C4043;font-style:italic}
+
+  .callout{background:#FFFBF0;border-left:3px solid #D49200;padding:10px 18px;border-radius:0 8px 8px 0;margin-top:12px}
+  .callout p{font-size:13px;color:#3C4043;line-height:1.5}
+  .callout strong{color:#D49200}
+
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="bar"></div><div class="grid"></div>
+<div class="wrap">
+  <div class="top">
+    <div class="top-left">
+      <div class="eyebrow">Regulatory Forcing Function 3 of 3</div>
+      <h1>Rx Rebates: Same Data, Different Questions, One Agent</h1>
+      <p class="tag">In the same week, all four major PBMs reached out asking about the same problem. Bipartisan regulatory pressure is forcing transparency.</p>
+    </div>
+    <div class="stat-pill">
+      <div class="num">6</div>
+      <div class="lbl">Teams in one<br/>rebate lifecycle</div>
+    </div>
+  </div>
+
+  <table>
+    <thead><tr><th>PERSONA</th><th>ROLE IN LIFECYCLE</th><th>WHAT THEY'D ASK A GENIE AGENT</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="persona p1">Sales / AE</td>
+        <td class="role">Sells rebate program to employer groups and brokers</td>
+        <td class="q">"What rebate guarantees did we promise to our top employer groups this plan year? Which groups are at risk of not meeting their passthrough threshold?"</td>
+      </tr>
+      <tr>
+        <td class="persona p2">Underwriter</td>
+        <td class="role">Prices rebate component into premium or ASO fee</td>
+        <td class="q">"What's the projected rebate offset PMPM for this group based on their formulary mix? What was actual vs. projected variance for similar groups last year?"</td>
+      </tr>
+      <tr>
+        <td class="persona p3">Contract Mgr</td>
+        <td class="role">Negotiates rebate agreements with pharma manufacturers</td>
+        <td class="q">"Which manufacturer contracts are up for renewal in Q1? Where are we leaving money on the table &#8212; which tiers have utilization above threshold but haven't triggered the higher rate?"</td>
+      </tr>
+      <tr>
+        <td class="persona p4">Operations</td>
+        <td class="role">Sets up formulary, adjudication rules, rebate tracking</td>
+        <td class="q">"Are all new formulary changes reflected in adjudication? How many members were impacted by the mid-year change and what's the rebate delta?"</td>
+      </tr>
+      <tr>
+        <td class="persona p5">Finance</td>
+        <td class="role">Monitors rebate revenue, accruals, IBNR, reconciliation</td>
+        <td class="q">"What's our YTD rebate revenue vs. accrual by LOB? Where is the variance between what we invoiced manufacturers and what we've collected?"</td>
+      </tr>
+      <tr>
+        <td class="persona p6">Compliance</td>
+        <td class="role">Ensures passthrough meets regulatory requirements</td>
+        <td class="q">"Show me the full audit trail from manufacturer payment to member passthrough for this rebate class. Are we meeting the new transparency rules?"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <p><strong>Same Genie Agent. Same governed Metric Views. Same data.</strong> Six personas, six completely different questions &#8212; all answered in seconds, all traceable to source. Today this takes weeks of manual reconciliation.</p>
+  </div>
+</div>
+<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>4c</span></div>
+</body>
+</html>

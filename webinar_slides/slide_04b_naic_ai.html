@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><title>Slide 4b &#8212; NAIC AI Guidelines</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
+  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
+  .wrap{position:relative;z-index:2;padding:42px 80px;height:100%;display:flex;flex-direction:column}
+  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#FF3621;margin-bottom:10px}
+  h1{font-size:28px;font-weight:700;line-height:1.2;margin-bottom:6px}
+  .tag{font-size:13.5px;color:#8A9099;margin-bottom:18px}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;margin-bottom:14px}
+  thead th{background:#1B1F24;color:#FFF;padding:9px 14px;text-align:left;font-weight:600;font-size:11.5px;letter-spacing:.5px}
+  thead th:first-child{border-radius:8px 0 0 0;width:34%}
+  thead th:last-child{border-radius:0 8px 0 0}
+  tbody td{padding:9px 14px;border-bottom:1px solid #E8EAED;vertical-align:top;line-height:1.4}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:nth-child(odd){background:#F8F9FA}
+  tbody tr:nth-child(even){background:#FFF}
+  .req{color:#1B1F24;font-weight:600}
+  .sol{color:#3C4043}
+  .chip{display:inline-block;background:#F0FBF6;color:#008A5E;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:4px;margin-right:3px}
+  .callout{background:#FFF5F4;border-left:3px solid #FF3621;padding:11px 18px;border-radius:0 8px 8px 0}
+  .callout p{font-size:13px;color:#3C4043;line-height:1.5}
+  .callout strong{color:#FF3621}
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="bar"></div><div class="grid"></div>
+<div class="wrap">
+  <div class="eyebrow">Regulatory Forcing Function 2 of 3</div>
+  <h1>If You're Using AI in Insurance, NAIC Says You're Accountable</h1>
+  <p class="tag">NAIC Model Bulletin on AI (adopted Dec 2023) &#8212; states actively adopting. Insurers remain responsible for every consumer-impacting decision.</p>
+  <table>
+    <thead><tr><th>NAIC REQUIREMENT</th><th>HOW DATABRICKS ADDRESSES IT</th></tr></thead>
+    <tbody>
+      <tr><td class="req">Written AI Systems Program</td><td class="sol"><span class="chip">Unity Catalog</span> Every asset &#8212; data, models, metric views, Genie Agents &#8212; cataloged, permissioned, auditable. Natively handles ~80% of NAIC requirements.</td></tr>
+      <tr><td class="req">Transparency &amp; Explainability</td><td class="sol"><span class="chip">MLflow</span> <span class="chip">AI Gateway</span> Full experiment tracking, model versioning, LLM call logging. Genie shows its work &#8212; every answer traces to source SQL.</td></tr>
+      <tr><td class="req">Fairness &amp; Nondiscrimination</td><td class="sol"><span class="chip">Lakehouse Monitoring</span> Pre- and post-deployment drift detection across population segments. Custom fairness engines on governed data.</td></tr>
+      <tr><td class="req">Audit &amp; Examination Readiness</td><td class="sol"><span class="chip">UC Lineage</span> <span class="chip">DABs</span> End-to-end provenance. Certified assets deploy only through CI/CD. Delta Lake time travel for historical reproduction.</td></tr>
+      <tr><td class="req">Third-Party Vendor Governance</td><td class="sol"><span class="chip">AI Gateway</span> Governs all external model calls &#8212; token budgets, guardrails, routing. Audit what went in and what came out.</td></tr>
+      <tr><td class="req">Human-in-the-Loop</td><td class="sol"><strong style="color:#FF3621">Genie readies the move; a person makes the call.</strong> Surfaces insight, shows evidence &#8212; the underwriter, actuary, or CFO decides.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <p><strong>Key insight:</strong> The NAIC bulletin explicitly says "human in the loop" is not, by itself, a safe harbor. The human review must be <em>meaningful, appropriately informed, and capable of detecting or correcting an erroneous output.</em> That's exactly how Genie is designed.</p>
+  </div>
+</div>
+<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>4b</span></div>
+</body>
+</html>
