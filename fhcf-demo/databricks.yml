@@ -23,7 +23,7 @@ targets:
     workspace:
       host: https://fevm-hls-fde.cloud.databricks.com
     variables:
-      catalog: hls_fde_de
+      catalog: hls_fde_dev
       
   # The 'prod' target, used for production deployment.
   prod:

@@ -5,7 +5,7 @@
 **Name:** Future of Healthcare Finance with Genie (fhcf-demo)  
 **Purpose:** Databricks HLS Quarterly Webinar demo (September 17, 2026) showing Genie Agent over healthcare finance data  
 **Repo:** https://github.com/mkgs-databricks-demos/futureOfHealthcareFinanceWithGenie.git  
-**Branch:** mg-init  
+**Branch:** mg-genie-ddl-metrics-genie-space  
 **Bundle root:** /Users/matthew.giglia@databricks.com/futureOfHealthcareFinanceWithGenie/fhcf-demo/  
 **Design docs:** webinar_demo_docs/docs/design/ (L100-L300 at repo root)
 
@@ -28,20 +28,25 @@ fhcf-demo/
   resources/
     healthcare_finance.schema.yml
     seed_data.job.yml
+    healthcare_finance_intelligence.genie_space.yml
   src/
-    seed_all_data.py          # 23-cell notebook (Python default, SQL cells via %sql)
+    seed_all_data.py          # 26-cell notebook (Python default, SQL cells via %sql)
+    healthcare_finance_intelligence.json  # Genie space definition (14 tables, 7 questions, instructions)
   fixtures/
     sessions/
       INDEX.md
       2026-09-17_initial-bundle-setup.md
+      2026-09-17_ddl-metric-view-improvements.md
+      2026-09-17_genie-space-and-catalog-migration.md
 ```
 
 ## Variables
 
 | Variable | Default | Usage |
 | --- | --- | --- |
-| catalog | hls_fde | UC catalog for all tables/views |
+| catalog | hls_fde | UC catalog for all tables/views. Dev override: hls_fde_dev |
 | schema | healthcare_finance | UC schema (dev mode prefixes with dev_<user>_) |
+| warehouse_id | lookup: demo-warehouse | SQL warehouse for Genie space |
 
 ## Resources
 
@@ -55,6 +60,16 @@ fhcf-demo/
   - Single task: runs src/seed_all_data.py
   - Passes catalog and schema as base_parameters from schema resource refs
   - Dev job ID: 749445244992722
+
+### Genie Space
+
+- **healthcare_finance_intelligence** -- "Healthcare Finance Intelligence"
+  - file_path: ../src/healthcare_finance_intelligence.json
+  - warehouse_id: ${var.warehouse_id} (demo-warehouse)
+  - 14 data sources (8 tables + 6 metric views), 7 sample questions, 1 consolidated instruction
+  - Dev space ID: 01f1b284db9618cc902e5cf68a43153c
+  - Table identifiers hardcoded per target (dev: hls_fde_dev.dev_matthew_giglia_healthcare_finance; prod: update to hls_fde.healthcare_finance)
+  - Deployment ordering: seed job must run BEFORE Genie space creation (API validates table existence)
 
 ## Data Model
 
@@ -71,13 +86,16 @@ fhcf-demo/
 | gold_utilization_monthly | 480 | Monthly utilization by LOB/state (4x10x12). |
 | fact_vbc_performance | 120 | Quarterly VBC performance by ACO/measure (5x6x4). |
 
-### Metric Views (3)
+### Metric Views (6)
 
-| View | Source Table | Key Measures |
+| View | Source | Key Measures |
 | --- | --- | --- |
-| mv_financial | gold_financial_monthly | mlr, paid_pmpm, premium_pmpm, avoidable_spend_ratio |
-| mv_quality | gold_quality_measures | current_rate, gap_count, eligible_count, gap_closure_rate |
-| mv_vbc_performance | fact_vbc_performance | actual_value, target_value, variance, trend_vs_prior_quarter |
+| mv_financial | gold_financial_monthly | mlr, paid_pmpm, premium_pmpm, avoidable_share_of_spend. Semantic metadata: display_name, synonyms, format on all columns. |
+| mv_quality | gold_quality_measures | current_rate, gap_count, gap_closure_rate, star_4_cutpoint, distance_to_4_star. Derived: estimated_star_rating. |
+| mv_vbc_performance | fact_vbc_performance JOIN dim_aco_contract | Typed measures: shared_savings_ytd (SUM), tcoc_pmpm (AVG), quality_score (AVG), readmission_rate (AVG), ed_rate_per_1k (AVG), pharmacy_pmpm (AVG). Dimensions: aco_name, contract_type, region. |
+| mv_utilization | gold_utilization_monthly | ip_per_1k, ed_per_1k, readmission_rate, avoidable_ed_rate, avoidable_ip_rate, op_visits, rx_fills |
+| mv_budget_variance | gold_financial_monthly JOIN dim_budget | actual_mlr, target_mlr, mlr_variance, premium_variance, paid_claims_variance, budget_attainment |
+| mv_member_risk | dim_member | member_count, avg_risk_score, high_risk_count, high_risk_pct, avg_open_gaps, gap_rate. Derived: risk_tier. |
 
 Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table_name for full qualification.
 
@@ -96,13 +114,15 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 3. **AHP meeting prep** -- Dr. Sarah Chen (ACO-001), shared savings, TCOC, pharmacy
 4. **Reveal** -- Platform capabilities
 
-## Genie Agent (TODO)
+## Genie Agent (DEPLOYED)
 
 - **Name:** Healthcare Finance Intelligence
-- **Mode:** Agent Mode
-- **Tables:** All 11 (3 metric views + 8 tables) in hls_fde.healthcare_finance
-- **Instructions:** Full text from L300-C design doc (glossary + behavioral rules + MEASURE() syntax)
-- **Key rules:** Always query metric views for KPIs; normalize per PMPM; morning briefing = MLR + avoidable spend; AHP/Dr. Sarah Chen = fact_vbc_performance WHERE aco_id = 'ACO-001'
+- **Dev Space ID:** 01f1b284db9618cc902e5cf68a43153c
+- **Data Sources:** 14 (6 metric views + 8 tables)
+- **Instructions:** Consolidated from L300-C: glossary, 12 behavioral rules, MEASURE() syntax examples for all 6 views, condition domains
+- **Sample Questions:** 7 (aligned with demo beats)
+- **Key rules:** Always query metric views for KPIs (6 views); mv_budget_variance for budget variance (not manual join); mv_vbc_performance includes ACO name via join; mv_quality has distance_to_4_star; mv_utilization for per-1K rates; mv_member_risk for risk tiers
+- **API constraints:** content (array of strings) not instruction; max 1 text_instruction; all collections sorted alphabetically
 
 ## Conventions
 
@@ -117,7 +137,10 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 | Resource | ID |
 | --- | --- |
 | Seed Job | 749445244992722 |
-| Failed Run (metric view error) | 669021950781837 |
+| Successful Seed Run | 590205922781856 |
+| Genie Space | 01f1b284db9618cc902e5cf68a43153c |
+| Genie Space YAML | 2824221228946159 |
+| Genie Space JSON | 2824221228946158 |
 | Notebook (seed_all_data) | 2824221228946135 |
 | databricks.yml | 2824221228946048 |
 | Schema YAML | 2824221228946136 |
