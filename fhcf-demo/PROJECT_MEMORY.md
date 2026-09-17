@@ -140,7 +140,9 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 - Notebook stored as .py (Python default language) with %sql magic for SQL cells
 - Session summaries in fixtures/sessions/ with INDEX.md
 
-## Key IDs (dev target)
+## Key IDs
+
+### Dev target
 
 | Resource | ID |
 | --- | --- |
@@ -152,3 +154,10 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 | databricks.yml | 2824221228946048 |
 | Schema YAML | 2824221228946136 |
 | Job YAML | 2824221228946137 |
+
+### Prod target
+
+| Resource | ID |
+| --- | --- |
+| Genie Space | 01f1b2a18cde1845b9937112d70fe765 |
+| Demo beats | 7/7 passing (validated 2026-09-17) |

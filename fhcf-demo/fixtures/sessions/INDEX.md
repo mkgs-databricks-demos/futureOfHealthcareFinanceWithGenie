@@ -2,6 +2,7 @@
 
 | Date | Session | Summary |
 | --- | --- | --- |
+| 2026-09-17 | [Prod Deploy & Validation](2026-09-17_prod-deploy-and-validation.md) | First production deployment to hls_fde.healthcare_finance. Two-phase deploy (seed job → redeploy). Genie space created (ID: 01f1b2a18cde1845b9937112d70fe765). All 7 demo beats passing on prod. Planted narrative confirmed. |
 | 2026-09-17 | [Metric View Metadata & Instruction Trim](2026-09-17_metric-view-metadata-and-instruction-trim.md) | Migrated redundant glossary and condition-domain content from Genie instruction into metric view semantic metadata (comments, synonyms, COMMENT ON VIEW). Enriched mv_quality, mv_vbc_performance, mv_utilization, mv_budget_variance. Trimmed instruction ~25%. Deployed. Retested 7/7 beats passing. Beat 1b now routes to mv_quality (previously used raw table). |
 | 2026-09-17 | [Genie Space Testing & Instruction Tuning](2026-09-17_genie-space-testing-and-instruction-tuning.md) | Validated all 7 demo beat prompts against deployed Genie space. Fixed Beat 3d (Dr. Chen meeting brief) by strengthening rule 9 from passive to directive. Deleted orphaned JSON file. All planted narrative values confirmed. 7/7 beats passing. |
 | 2026-09-17 | [Genie Space & Catalog Migration](2026-09-17_genie-space-and-catalog-migration.md) | Built Genie Agent resource, migrated dev catalog to hls_fde_dev, fixed API format issues, two-phase deploy. 14 data sources, 7 sample questions, consolidated instructions. |
