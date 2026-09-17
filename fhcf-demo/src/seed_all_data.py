@@ -933,10 +933,11 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 # MAGIC   - name: condition_domain
 # MAGIC     expr: condition_domain
 # MAGIC     display_name: Clinical Domain
-# MAGIC     comment: "Clinical domain: Diabetes, Cardiovascular, Cancer Screening, Behavioral Health, Pediatric/Preventive"
+# MAGIC     comment: "Clinical domain for each HEDIS measure. Diabetes: CDC-HBA1C (HbA1c control), CDC-EYE (diabetic eye exam); Cardiovascular: CBP (blood pressure control); Cancer Screening: BCS (breast cancer screening), CCS (colorectal cancer screening); Behavioral Health: FUH-7 (follow-up after hospitalization)."
 # MAGIC     synonyms:
 # MAGIC       - clinical area
 # MAGIC       - disease category
+# MAGIC       - measure family
 # MAGIC   - name: estimated_star_rating
 # MAGIC     expr: |-
 # MAGIC       CASE
@@ -1028,7 +1029,7 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 # MAGIC $$;
 # MAGIC
 # MAGIC COMMENT ON VIEW `mv_quality`
-# MAGIC IS 'Governed quality metric view for HEDIS measure performance. Query with MEASURE() and GROUP BY ALL. Dimensions: measure_id, measure_name, lob, year_month, condition_domain, estimated_star_rating. Key measures: current_rate, gap_closure_rate, star_4_cutpoint, distance_to_4_star.';
+# MAGIC IS 'Governed quality metric view for HEDIS measure performance. Query with MEASURE() and GROUP BY ALL. Dimensions: measure_id, measure_name, lob, year_month, condition_domain, estimated_star_rating. Key measures: current_rate, gap_closure_rate, star_4_cutpoint, distance_to_4_star. Condition-domain mappings: Diabetes = CDC-HBA1C, CDC-EYE; Cardiovascular = CBP; Cancer Screening = BCS, CCS; Behavioral Health = FUH-7.';
 
 # COMMAND ----------
 
@@ -1056,10 +1057,12 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 # MAGIC   - name: aco_name
 # MAGIC     expr: aco.aco_name
 # MAGIC     display_name: ACO Name
-# MAGIC     comment: "Full name of the Accountable Care Organization"
+# MAGIC     comment: "Full name of the Accountable Care Organization. AHP refers to Accountable Health Partners (aco_id = ACO-001)."
 # MAGIC     synonyms:
 # MAGIC       - ACO
 # MAGIC       - organization name
+# MAGIC       - AHP
+# MAGIC       - Accountable Health Partners
 # MAGIC   - name: contract_type
 # MAGIC     expr: aco.contract_type
 # MAGIC     display_name: Contract Type
@@ -1186,7 +1189,7 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 # MAGIC $$;
 # MAGIC
 # MAGIC COMMENT ON VIEW `mv_vbc_performance`
-# MAGIC IS 'Governed VBC performance metric view with dim_aco_contract join. Query with MEASURE() and GROUP BY ALL. Dimensions: aco_id, aco_name, contract_type, region, measure_name, quarter. Named measures: shared_savings_ytd, tcoc_pmpm, quality_score, readmission_rate, ed_rate_per_1k, pharmacy_pmpm. Generic: actual_value, target_value, variance (use only when grouped by measure_name).';
+# MAGIC IS 'Governed VBC performance metric view with dim_aco_contract join. Query with MEASURE() and GROUP BY ALL. Dimensions: aco_id, aco_name, contract_type, region, measure_name, quarter. Named measures: shared_savings_ytd, tcoc_pmpm, quality_score, readmission_rate, ed_rate_per_1k, pharmacy_pmpm. Generic: actual_value, target_value, variance (use only when grouped by measure_name). AHP = Accountable Health Partners = aco_id ACO-001.';
 
 # COMMAND ----------
 
@@ -1255,7 +1258,7 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 # MAGIC   - name: member_months
 # MAGIC     expr: "SUM(member_months)"
 # MAGIC     display_name: Member Months
-# MAGIC     comment: "Total member-months for per-1K rate calculations"
+# MAGIC     comment: "Authoritative member-month denominator for all per-1K rate calculations in this view"
 # MAGIC     format:
 # MAGIC       type: number
 # MAGIC       decimal_places:
@@ -1345,7 +1348,7 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 # MAGIC $$;
 # MAGIC
 # MAGIC COMMENT ON VIEW `mv_utilization`
-# MAGIC IS 'Governed utilization metric view. Query with MEASURE() and GROUP BY ALL. Dimensions: lob, state, year_month. Key measures: ip_per_1k, ed_per_1k, readmission_rate, avoidable_ed_rate, avoidable_ip_rate.';
+# MAGIC IS 'Governed utilization metric view. Query with MEASURE() and GROUP BY ALL. Dimensions: lob, state, year_month. Key measures: ip_per_1k, ed_per_1k, readmission_rate, avoidable_ed_rate, avoidable_ip_rate. Treat this view as the authoritative source for utilization rates; all per-1K measures are pre-computed from the shared member_months denominator and should not be manually recalculated from raw counts.';
 
 # COMMAND ----------
 
@@ -1450,7 +1453,7 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 # MAGIC   - name: target_mlr
 # MAGIC     expr: "AVG(target_mlr)"
 # MAGIC     display_name: Target MLR
-# MAGIC     comment: "Target Medical Loss Ratio from budget"
+# MAGIC     comment: "Authoritative target Medical Loss Ratio from the budget table"
 # MAGIC     format:
 # MAGIC       type: percentage
 # MAGIC       decimal_places:
@@ -1507,7 +1510,7 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 # MAGIC $$;
 # MAGIC
 # MAGIC COMMENT ON VIEW `mv_budget_variance`
-# MAGIC IS 'Governed budget variance metric view joining gold_financial_monthly and dim_budget. Query with MEASURE() and GROUP BY ALL. Dimensions: lob, year_month. Key measures: actual_mlr, target_mlr, mlr_variance, premium_variance, paid_claims_variance, budget_attainment.';
+# MAGIC IS 'Governed budget variance metric view joining gold_financial_monthly and dim_budget. Query with MEASURE() and GROUP BY ALL. Dimensions: lob, year_month. Key measures: actual_mlr, target_mlr, mlr_variance, premium_variance, paid_claims_variance, budget_attainment. This is the authoritative budget-versus-actual lens for financial performance; do not manually join dim_budget when these measures are needed.';
 
 # COMMAND ----------
 

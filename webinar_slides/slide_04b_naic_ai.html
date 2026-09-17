@@ -23,7 +23,8 @@
   tbody tr:nth-child(even){background:#FFF}
   .req{color:#1B3139;font-weight:600}
   .sol{color:#3C4043}
-  .chip{display:inline-block;background:#F0FBF6;color:#00875C;font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:4px;margin-right:3px}
+  .chip{display:inline-flex;align-items:center;gap:4px;background:#F0FBF6;color:#00875C;font-size:12px;font-weight:600;padding:2px 9px;border-radius:4px;margin-right:3px;vertical-align:middle}
+  .chip img{width:13px;height:13px;flex-shrink:0}
   .callout{background:#FFF5F4;border-left:3px solid #FF3621;padding:11px 18px;border-radius:0 8px 8px 0}
   .callout p{font-size:13px;color:#3C4043;line-height:1.5}
   .callout strong{color:#FF3621}
@@ -40,11 +41,11 @@
   <table>
     <thead><tr><th>NAIC REQUIREMENT</th><th>HOW DATABRICKS ADDRESSES IT</th></tr></thead>
     <tbody>
-      <tr><td class="req">Written AI Systems Program</td><td class="sol"><span class="chip">Unity Catalog</span> Every asset &#8212; data, models, metric views, Genie Agents &#8212; cataloged, permissioned, auditable. Natively handles ~80% of NAIC requirements.</td></tr>
-      <tr><td class="req">Transparency &amp; Explainability</td><td class="sol"><span class="chip">MLflow</span> <span class="chip">AI Gateway</span> Full experiment tracking, model versioning, LLM call logging. Genie shows its work &#8212; every answer traces to source SQL.</td></tr>
-      <tr><td class="req">Fairness &amp; Nondiscrimination</td><td class="sol"><span class="chip">Lakehouse Monitoring</span> Pre- and post-deployment drift detection across population segments. Custom fairness engines on governed data.</td></tr>
-      <tr><td class="req">Audit &amp; Examination Readiness</td><td class="sol"><span class="chip">UC Lineage</span> <span class="chip">DABs</span> End-to-end provenance. Certified assets deploy only through CI/CD. Delta Lake time travel for historical reproduction.</td></tr>
-      <tr><td class="req">Third-Party Vendor Governance</td><td class="sol"><span class="chip">AI Gateway</span> Governs all external model calls &#8212; token budgets, guardrails, routing. Audit what went in and what came out.</td></tr>
+      <tr><td class="req">Written AI Systems Program</td><td class="sol"><span class="chip"><img src="https://cdn.bfldr.com/9AYANS2F/at/8shgqnmk45sz8gkqsmxh3wfh/unity-catalog-icon-full-color.svg" alt="">Unity Catalog</span> Every asset &#8212; data, models, metric views, Genie Agents &#8212; cataloged, permissioned, auditable. Natively handles ~80% of NAIC requirements.</td></tr>
+      <tr><td class="req">Transparency &amp; Explainability</td><td class="sol"><span class="chip"><img src="https://cdn.bfldr.com/9AYANS2F/at/sf3nbv77hctnq9sjvnrr2rgr/mlflow-logo-black-rgb.svg" alt="">MLflow</span> <span class="chip"><img src="https://cdn.bfldr.com/9AYANS2F/at/4rw338x94fnknqg2pqzjps7/mosaic-ai-icon-full-color.svg" alt="">AI Gateway</span> Full experiment tracking, model versioning, LLM call logging. Genie shows its work &#8212; every answer traces to source SQL.</td></tr>
+      <tr><td class="req">Fairness &amp; Nondiscrimination</td><td class="sol"><span class="chip"><img src="https://cdn.bfldr.com/9AYANS2F/at/39j5krprjq8gmc3h293mmjxr/lakewatch-icon-full-color.svg" alt="">Lakehouse Monitoring</span> Pre- and post-deployment drift detection across population segments. Custom fairness engines on governed data.</td></tr>
+      <tr><td class="req">Audit &amp; Examination Readiness</td><td class="sol"><span class="chip"><img src="https://cdn.bfldr.com/9AYANS2F/at/8shgqnmk45sz8gkqsmxh3wfh/unity-catalog-icon-full-color.svg" alt="">UC Lineage</span> <span class="chip"><img src="https://cdn.bfldr.com/9AYANS2F/at/s68bcgt92cqpvkkbs8p65vp7/lakeflow-jobs-icon-full-color.svg" alt="">DABs</span> End-to-end provenance. Certified assets deploy only through CI/CD. Delta Lake time travel for historical reproduction.</td></tr>
+      <tr><td class="req">Third-Party Vendor Governance</td><td class="sol"><span class="chip"><img src="https://cdn.bfldr.com/9AYANS2F/at/4rw338x94fnknqg2pqzjps7/mosaic-ai-icon-full-color.svg" alt="">AI Gateway</span> Governs all external model calls &#8212; token budgets, guardrails, routing. Audit what went in and what came out.</td></tr>
       <tr><td class="req">Human-in-the-Loop</td><td class="sol"><strong style="color:#FF3621">Genie readies the move; a person makes the call.</strong> Surfaces insight, shows evidence &#8212; the underwriter, actuary, or CFO decides.</td></tr>
     </tbody>
   </table>
