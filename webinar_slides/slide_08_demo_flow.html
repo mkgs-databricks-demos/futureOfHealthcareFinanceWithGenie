@@ -2,34 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><title>Slide 8 &#8212; Genie One Demo Flow</title>
+<link rel="stylesheet" href="slide-system.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B3139;width:1280px;height:720px;overflow:hidden;position:relative}
   .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
-  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
+  .grid{position:absolute;inset:0;opacity:.02;background-image:radial-gradient(circle,#1B3139 .8px,transparent .8px);background-size:28px 28px}
   .wrap{position:relative;z-index:2;padding:44px 80px;height:100%;display:flex;flex-direction:column}
-  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#008A5E;margin-bottom:10px}
-  h1{font-size:32px;font-weight:700;line-height:1.2;margin-bottom:6px}
-  .tag{font-size:14px;color:#8A9099;margin-bottom:24px}
+  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#00875C;margin-bottom:10px}
+  h1{font-size:36px;font-weight:700;line-height:1.2;margin-bottom:6px}
+  .tag{font-size:14px;color:#5A6F77;margin-bottom:24px}
   .beats{display:grid;grid-template-columns:1fr 1fr;gap:18px;flex:1}
   .beat{border-radius:14px;padding:22px 24px;position:relative;overflow:hidden;display:flex;flex-direction:column}
   .beat::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px}
-  .beat.b1{background:#F0FBF6;border:1px solid #C8E6D8}.beat.b1::before{background:#008A5E}
-  .beat.b2{background:#FFFBF0;border:1px solid #E8D9A8}.beat.b2::before{background:#D49200}
+  .beat.b1{background:#F0FBF6;border:1px solid #C8E6D8}.beat.b1::before{background:#00875C}
+  .beat.b2{background:#FFFBF0;border:1px solid #E8D9A8}.beat.b2::before{background:#BA7B23}
   .beat.b3{background:#F0F8FB;border:1px solid #B8D8E8}.beat.b3::before{background:#077A9D}
   .beat.b4{background:#FFF5F4;border:1px solid #FFD4CC}.beat.b4::before{background:#FF3621}
   .beat-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
-  .beat.b1 .beat-num{color:#008A5E}.beat.b2 .beat-num{color:#D49200}
+  .beat.b1 .beat-num{color:#00875C}.beat.b2 .beat-num{color:#BA7B23}
   .beat.b3 .beat-num{color:#077A9D}.beat.b4 .beat-num{color:#FF3621}
-  .beat-title{font-size:17px;font-weight:700;color:#1B1F24;margin-bottom:8px;line-height:1.25}
+  .beat-title{font-size:17px;font-weight:700;color:#1B3139;margin-bottom:8px;line-height:1.25}
   .beat-desc{font-size:13px;color:#3C4043;line-height:1.5;flex:1}
-  .beat-prompt{background:rgba(255,255,255,.7);border-radius:8px;padding:8px 12px;margin-top:10px;font-size:12px;color:#5A6068;font-style:italic;border:1px solid rgba(0,0,0,.06)}
-  .beat-prompt strong{color:#1B1F24;font-style:normal}
-  .reveal-bar{background:#1B1F24;color:#FFF;border-radius:10px;padding:14px 24px;text-align:center;margin-top:16px}
+  .beat-prompt{background:rgba(255,255,255,.7);border-radius:8px;padding:8px 12px;margin-top:10px;font-size:12px;color:#5A6F77;font-style:italic;border:1px solid rgba(0,0,0,.06)}
+  .beat-prompt strong{color:#1B3139;font-style:normal}
+  .reveal-bar{background:#1B3139;color:#FFF;border-radius:10px;padding:14px 24px;text-align:center;margin-top:16px}
   .reveal-bar p{font-size:15px;font-weight:500}
-  .reveal-bar .em{color:#008A5E}
-  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .reveal-bar .em{color:#00875C}
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#90A5B1}
   .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
 </style>
 </head>
@@ -69,6 +70,6 @@
     <p>Calendar &#8226; Lakehouse &#8226; Contacts &#8226; Business Context &#8212; <span class="em">all governed, all in one place</span></p>
   </div>
 </div>
-<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>8</span></div>
+<div class="foot"><span class="logo"><svg viewBox="0 0 16 16" width="14" height="14" style="vertical-align:-2px;margin-right:6px" xmlns="http://www.w3.org/2000/svg"><polygon points="8,1 15,8 8,15 1,8" fill="#FF3621" opacity=".3"/><polygon points="8,3.5 12.5,8 8,12.5 3.5,8" fill="#FF3621"/></svg>DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>8</span></div>
 </body>
 </html>

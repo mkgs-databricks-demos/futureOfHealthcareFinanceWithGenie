@@ -2,42 +2,43 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><title>Slide 9 &#8212; Customer Proof Points</title>
+<link rel="stylesheet" href="slide-system.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B3139;width:1280px;height:720px;overflow:hidden;position:relative}
   .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
-  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
+  .grid{position:absolute;inset:0;opacity:.02;background-image:radial-gradient(circle,#1B3139 .8px,transparent .8px);background-size:28px 28px}
   .wrap{position:relative;z-index:2;padding:48px 80px;height:100%;display:flex;flex-direction:column}
   .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#077A9D;margin-bottom:12px}
-  h1{font-size:34px;font-weight:700;line-height:1.2;margin-bottom:8px}
-  .tag{font-size:15px;color:#8A9099;margin-bottom:28px;font-style:italic}
+  h1{font-size:38px;font-weight:700;line-height:1.2;margin-bottom:8px}
+  .tag{font-size:15px;color:#5A6F77;margin-bottom:28px;font-style:italic}
 
   .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;flex:1}
   .card{border-radius:14px;padding:24px;display:flex;flex-direction:column;position:relative;overflow:hidden}
   .card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px}
   .card.c1{background:#F0F8FB;border:1px solid #B8D8E8}.card.c1::before{background:#077A9D}
-  .card.c2{background:#F0FBF6;border:1px solid #C8E6D8}.card.c2::before{background:#008A5E}
-  .card.c3{background:#FFFBF0;border:1px solid #E8D9A8}.card.c3::before{background:#D49200}
+  .card.c2{background:#F0FBF6;border:1px solid #C8E6D8}.card.c2::before{background:#00875C}
+  .card.c3{background:#FFFBF0;border:1px solid #E8D9A8}.card.c3::before{background:#BA7B23}
 
   .card-logo{font-size:22px;font-weight:700;margin-bottom:6px}
   .card.c1 .card-logo{color:#077A9D}
-  .card.c2 .card-logo{color:#008A5E}
-  .card.c3 .card-logo{color:#D49200}
+  .card.c2 .card-logo{color:#00875C}
+  .card.c3 .card-logo{color:#BA7B23}
   .card-type{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
   .card.c1 .card-type{color:#077A9D}
-  .card.c2 .card-type{color:#008A5E}
-  .card.c3 .card-type{color:#D49200}
+  .card.c2 .card-type{color:#00875C}
+  .card.c3 .card-type{color:#BA7B23}
 
   .card-desc{font-size:14px;color:#3C4043;line-height:1.55;flex:1}
-  .card-source{font-size:11px;color:#8A9099;margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.06)}
+  .card-source{font-size:11px;color:#5A6F77;margin-top:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.06)}
   .card-source a{color:#077A9D;text-decoration:none}
 
-  .talk-track{background:#F8F9FA;border:1px solid #E8EAED;border-radius:12px;padding:18px 24px;margin-top:auto}
-  .talk-track .label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#8A9099;margin-bottom:8px}
+  .talk-track{background:#F9F7F4;border:1px solid #DCE0E2;border-radius:12px;padding:18px 24px;margin-top:auto}
+  .talk-track .label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#5A6F77;margin-bottom:8px}
   .talk-track p{font-size:14.5px;color:#3C4043;line-height:1.6;font-style:italic}
 
-  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#90A5B1}
   .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
 </style>
 </head>
@@ -74,6 +75,6 @@
     <p>"We're seeing healthcare organizations at every stage of this journey. Some are building the governed data foundation. Others have moved to self-service analytics with Genie, where their finance teams are getting answers 10&#215; faster. And the most advanced are using Genie as a true AI coworker. The common thread is that they all started with the same foundation: governed data, certified metrics, and a single source of truth."</p>
   </div>
 </div>
-<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>9</span></div>
+<div class="foot"><span class="logo"><svg viewBox="0 0 16 16" width="14" height="14" style="vertical-align:-2px;margin-right:6px" xmlns="http://www.w3.org/2000/svg"><polygon points="8,1 15,8 8,15 1,8" fill="#FF3621" opacity=".3"/><polygon points="8,3.5 12.5,8 8,12.5 3.5,8" fill="#FF3621"/></svg>DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>9</span></div>
 </body>
 </html>

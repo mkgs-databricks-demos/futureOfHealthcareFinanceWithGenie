@@ -6,6 +6,15 @@ include:
   - resources/*.yml
   - resources/*/*.yml
 
+variables:
+  catalog:
+    default: hls_fde
+  schema:
+    default: healthcare_finance
+  warehouse_id:
+    lookup:
+      warehouse: "demo-warehouse"
+
 targets:
   # The 'dev' target, for development purposes. This target is the default.
   dev:
@@ -13,7 +22,9 @@ targets:
     default: true
     workspace:
       host: https://fevm-hls-fde.cloud.databricks.com
-
+    variables:
+      catalog: hls_fde_de
+      
   # The 'prod' target, used for production deployment.
   prod:
     mode: production
@@ -25,3 +36,9 @@ targets:
       # This runs as matthew.giglia@databricks.com in production. We could also use a service principal here,
       # see https://docs.databricks.com/dev-tools/bundles/permissions.html.
       user_name: matthew.giglia@databricks.com
+
+
+
+
+
+

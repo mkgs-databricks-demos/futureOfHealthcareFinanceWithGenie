@@ -1,0 +1,13 @@
+resources:
+  jobs:
+    seed_data:
+      name: "[FHCF] Seed Healthcare Finance Data"
+      tasks:
+        - task_key: seed_all_tables
+          notebook_task:
+            notebook_path: ../src/seed_all_data.py
+            base_parameters:
+              catalog: ${resources.schemas.healthcare_finance.catalog_name}
+              schema: ${resources.schemas.healthcare_finance.name}
+      queue:
+        enabled: true

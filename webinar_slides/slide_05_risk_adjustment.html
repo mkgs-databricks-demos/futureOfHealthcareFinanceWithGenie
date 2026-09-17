@@ -2,50 +2,51 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><title>Slide 5 &#8212; Risk Adjustment: CMS Changed the Game</title>
+<link rel="stylesheet" href="slide-system.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B1F24;width:1280px;height:720px;overflow:hidden;position:relative}
+  body{font-family:'DM Sans',sans-serif;background:#FFF;color:#1B3139;width:1280px;height:720px;overflow:hidden;position:relative}
   .bar{position:absolute;top:0;left:0;width:100%;height:6px;background:linear-gradient(90deg,#FF3621,#FF6A4D 30%,#FFAB00 60%,#00A972)}
-  .grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#1B1F24 .8px,transparent .8px);background-size:28px 28px}
+  .grid{position:absolute;inset:0;opacity:.02;background-image:radial-gradient(circle,#1B3139 .8px,transparent .8px);background-size:28px 28px}
   .wrap{position:relative;z-index:2;padding:48px 80px;height:100%;display:flex;gap:48px}
 
   .left{flex:1;display:flex;flex-direction:column;justify-content:center}
-  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#008A5E;margin-bottom:14px}
-  h1{font-size:34px;font-weight:700;line-height:1.18;margin-bottom:10px}
-  h1 .hi{color:#008A5E}
-  .tag{font-size:15px;color:#8A9099;margin-bottom:24px;font-style:italic}
+  .eyebrow{font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#00875C;margin-bottom:14px}
+  h1{font-size:38px;font-weight:700;line-height:1.18;margin-bottom:10px}
+  h1 .hi{color:#00875C}
+  .tag{font-size:15px;color:#5A6F77;margin-bottom:24px;font-style:italic}
 
   .timeline-row{display:flex;gap:12px;margin-bottom:20px}
-  .tbox{flex:1;border-radius:10px;padding:16px;text-align:center;border:1px solid #E8EAED}
-  .tbox.past{background:#F8F9FA}
-  .tbox.now{background:#F0FBF6;border-color:#008A5E}
+  .tbox{flex:1;border-radius:10px;padding:16px;text-align:center;border:1px solid #DCE0E2}
+  .tbox.past{background:#F9F7F4}
+  .tbox.now{background:#F0FBF6;border-color:#00875C}
   .tbox.future{background:#FFF5F4;border-color:#FF3621}
   .tbox .yr{font-size:20px;font-weight:700;margin-bottom:4px}
-  .tbox.past .yr{color:#8A9099}
-  .tbox.now .yr{color:#008A5E}
+  .tbox.past .yr{color:#5A6F77}
+  .tbox.now .yr{color:#00875C}
   .tbox.future .yr{color:#FF3621}
-  .tbox .desc{font-size:12px;color:#5A6068;line-height:1.4}
+  .tbox .desc{font-size:12px;color:#5A6F77;line-height:1.4}
   .tbox .label{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
-  .tbox.now .label{color:#008A5E}
+  .tbox.now .label{color:#00875C}
   .tbox.future .label{color:#FF3621}
 
-  .perf{background:#F0FBF6;border-left:3px solid #008A5E;padding:16px 20px;border-radius:0 10px 10px 0;margin-bottom:20px}
+  .perf{background:#F0FBF6;border-left:3px solid #00875C;padding:16px 20px;border-radius:0 10px 10px 0;margin-bottom:20px}
   .perf p{font-size:14.5px;color:#3C4043;line-height:1.55}
-  .perf strong{color:#008A5E}
+  .perf strong{color:#00875C}
 
   .covers{margin-bottom:16px}
-  .covers-title{font-size:13px;font-weight:600;color:#5A6068;margin-bottom:8px}
+  .covers-title{font-size:13px;font-weight:600;color:#5A6F77;margin-bottom:8px}
   .chip-row{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{display:inline-block;background:#F0FBF6;color:#008A5E;font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid #C8E6D8}
+  .chip{display:inline-block;background:#F0FBF6;color:#00875C;font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid #C8E6D8}
 
-  .quote{background:#FFFBF0;border-left:3px solid #D49200;padding:14px 20px;border-radius:0 8px 8px 0}
+  .quote{background:#FFFBF0;border-left:3px solid #BA7B23;padding:14px 20px;border-radius:0 8px 8px 0}
   .quote p{font-size:14.5px;color:#3C4043;line-height:1.55;font-style:italic}
 
   /* Right side — SVG showing SAS→Python transition */
   .right{width:360px;display:flex;align-items:center;justify-content:center}
 
-  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#B0B5BB}
+  .foot{position:absolute;bottom:24px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:12px;color:#90A5B1}
   .logo{font-weight:700;font-size:14px;color:#FF3621;letter-spacing:1px}
 </style>
 </head>
@@ -93,23 +94,23 @@
     <svg viewBox="0 0 320 480" xmlns="http://www.w3.org/2000/svg" width="320" height="480">
       <!-- SAS → Python transition diagram -->
       <!-- Old world: SAS -->
-      <rect x="40" y="20" width="240" height="140" rx="14" fill="#F8F9FA" stroke="#D0D3D8" stroke-width="1.5"/>
-      <text x="160" y="52" text-anchor="middle" fill="#8A9099" font-size="11" font-weight="600" letter-spacing="2" font-family="DM Sans,sans-serif">THE OLD WORLD</text>
-      <text x="160" y="82" text-anchor="middle" fill="#B0B5BB" font-size="36" font-weight="700" font-family="DM Sans,sans-serif">SAS</text>
-      <text x="160" y="105" text-anchor="middle" fill="#B0B5BB" font-size="12" font-family="DM Sans,sans-serif">Annual batch submission</text>
-      <text x="160" y="120" text-anchor="middle" fill="#B0B5BB" font-size="12" font-family="DM Sans,sans-serif">Single-threaded &#8226; Expensive licenses</text>
-      <text x="160" y="135" text-anchor="middle" fill="#B0B5BB" font-size="12" font-family="DM Sans,sans-serif">Retrospective only</text>
+      <rect x="40" y="20" width="240" height="140" rx="14" fill="#F9F7F4" stroke="#C4CCD6" stroke-width="1.5"/>
+      <text x="160" y="52" text-anchor="middle" fill="#5A6F77" font-size="11" font-weight="600" letter-spacing="2" font-family="DM Sans,sans-serif">THE OLD WORLD</text>
+      <text x="160" y="82" text-anchor="middle" fill="#90A5B1" font-size="36" font-weight="700" font-family="DM Sans,sans-serif">SAS</text>
+      <text x="160" y="105" text-anchor="middle" fill="#90A5B1" font-size="12" font-family="DM Sans,sans-serif">Annual batch submission</text>
+      <text x="160" y="120" text-anchor="middle" fill="#90A5B1" font-size="12" font-family="DM Sans,sans-serif">Single-threaded &#8226; Expensive licenses</text>
+      <text x="160" y="135" text-anchor="middle" fill="#90A5B1" font-size="12" font-family="DM Sans,sans-serif">Retrospective only</text>
 
       <!-- Transition arrow -->
-      <defs><marker id="a5" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#008A5E"/></marker></defs>
-      <line x1="160" y1="170" x2="160" y2="220" stroke="#008A5E" stroke-width="2.5" marker-end="url(#a5)"/>
-      <rect x="120" y="185" width="80" height="22" rx="11" fill="#008A5E"/>
+      <defs><marker id="a5" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#00875C"/></marker></defs>
+      <line x1="160" y1="170" x2="160" y2="220" stroke="#00875C" stroke-width="2.5" marker-end="url(#a5)"/>
+      <rect x="120" y="185" width="80" height="22" rx="11" fill="#00875C"/>
       <text x="160" y="200" text-anchor="middle" fill="#FFF" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">PYTHON</text>
 
       <!-- New world: Databricks -->
-      <rect x="40" y="230" width="240" height="220" rx="14" fill="#F0FBF6" stroke="#008A5E" stroke-width="1.5"/>
-      <text x="160" y="260" text-anchor="middle" fill="#008A5E" font-size="11" font-weight="600" letter-spacing="2" font-family="DM Sans,sans-serif">THE NEW WORLD</text>
-      <text x="160" y="292" text-anchor="middle" fill="#008A5E" font-size="28" font-weight="700" font-family="DM Sans,sans-serif">Databricks</text>
+      <rect x="40" y="230" width="240" height="220" rx="14" fill="#F0FBF6" stroke="#00875C" stroke-width="1.5"/>
+      <text x="160" y="260" text-anchor="middle" fill="#00875C" font-size="11" font-weight="600" letter-spacing="2" font-family="DM Sans,sans-serif">THE NEW WORLD</text>
+      <text x="160" y="292" text-anchor="middle" fill="#00875C" font-size="28" font-weight="700" font-family="DM Sans,sans-serif">Databricks</text>
 
       <!-- Capability chips -->
       <rect x="60" y="312" width="200" height="28" rx="6" fill="#FFF" stroke="#C8E6D8"/>
@@ -126,6 +127,6 @@
     </svg>
   </div>
 </div>
-<div class="foot"><span class="logo">DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>5</span></div>
+<div class="foot"><span class="logo"><svg viewBox="0 0 16 16" width="14" height="14" style="vertical-align:-2px;margin-right:6px" xmlns="http://www.w3.org/2000/svg"><polygon points="8,1 15,8 8,15 1,8" fill="#FF3621" opacity=".3"/><polygon points="8,3.5 12.5,8 8,12.5 3.5,8" fill="#FF3621"/></svg>DATABRICKS</span><span>The Future of Healthcare Finance with Genie</span><span>5</span></div>
 </body>
 </html>

@@ -1,0 +1,140 @@
+/* ═══════════════════════════════════════════════════════════
+   slide-system.css — Shared animation & polish layer
+   Healthcare Finance Webinar · September 2026
+   Link BEFORE each slide's <style> block so slide-specific
+   rules cascade naturally on top of these defaults.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Entrance Animations ─────────────────────────────────── */
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Direct children of .wrap — staggered entrance */
+.wrap > * {
+  opacity: 0;
+  animation: slideUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.wrap > *:nth-child(1) { animation-delay: 0ms; }
+.wrap > *:nth-child(2) { animation-delay: 80ms; }
+.wrap > *:nth-child(3) { animation-delay: 160ms; }
+.wrap > *:nth-child(4) { animation-delay: 240ms; }
+.wrap > *:nth-child(5) { animation-delay: 320ms; }
+.wrap > *:nth-child(6) { animation-delay: 380ms; }
+.wrap > *:nth-child(n+7) { animation-delay: 380ms; }
+
+/* Two-column layouts: stagger within .left */
+.wrap > .left > * {
+  opacity: 0;
+  animation: slideUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.wrap > .left > *:nth-child(1) { animation-delay: 0ms; }
+.wrap > .left > *:nth-child(2) { animation-delay: 80ms; }
+.wrap > .left > *:nth-child(3) { animation-delay: 160ms; }
+.wrap > .left > *:nth-child(4) { animation-delay: 240ms; }
+.wrap > .left > *:nth-child(5) { animation-delay: 320ms; }
+.wrap > .left > *:nth-child(6) { animation-delay: 380ms; }
+.wrap > .left > *:nth-child(7) { animation-delay: 440ms; }
+.wrap > .left > *:nth-child(n+8) { animation-delay: 440ms; }
+
+/* Right column enters after left starts */
+.wrap > .right {
+  animation-delay: 200ms;
+}
+
+/* Two-column with .top header */
+.wrap > .top {
+  opacity: 0;
+  animation: slideUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0ms;
+}
+
+/* ── Grid children (stat cards, beat cards, proof cards) ── */
+
+.sg > *,
+.beats > *,
+.cards > * {
+  opacity: 0;
+  animation: slideUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.sg > *:nth-child(1), .beats > *:nth-child(1), .cards > *:nth-child(1) { animation-delay: 200ms; }
+.sg > *:nth-child(2), .beats > *:nth-child(2), .cards > *:nth-child(2) { animation-delay: 280ms; }
+.sg > *:nth-child(3), .beats > *:nth-child(3), .cards > *:nth-child(3) { animation-delay: 360ms; }
+.sg > *:nth-child(4), .beats > *:nth-child(4) { animation-delay: 440ms; }
+
+/* Reference grid (slide 10) */
+.refs > * {
+  opacity: 0;
+  animation: slideUp 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.refs > *:nth-child(1)  { animation-delay: 100ms; }
+.refs > *:nth-child(2)  { animation-delay: 150ms; }
+.refs > *:nth-child(3)  { animation-delay: 200ms; }
+.refs > *:nth-child(4)  { animation-delay: 250ms; }
+.refs > *:nth-child(5)  { animation-delay: 300ms; }
+.refs > *:nth-child(6)  { animation-delay: 350ms; }
+.refs > *:nth-child(7)  { animation-delay: 400ms; }
+.refs > *:nth-child(8)  { animation-delay: 450ms; }
+.refs > *:nth-child(9)  { animation-delay: 500ms; }
+.refs > *:nth-child(10) { animation-delay: 550ms; }
+
+/* ── Table rows ──────────────────────────────────────────── */
+
+tbody tr {
+  opacity: 0;
+  animation: slideUp 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+tbody tr:nth-child(1) { animation-delay: 200ms; }
+tbody tr:nth-child(2) { animation-delay: 260ms; }
+tbody tr:nth-child(3) { animation-delay: 320ms; }
+tbody tr:nth-child(4) { animation-delay: 380ms; }
+tbody tr:nth-child(5) { animation-delay: 440ms; }
+tbody tr:nth-child(6) { animation-delay: 500ms; }
+
+/* ── Bottom elements (callouts, bars, bottom-row) ──────── */
+
+.bq, .callout, .bi, .quote, .reveal-bar, .talk-track, .bottom-row, .transition {
+  opacity: 0;
+  animation: slideUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 500ms;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+
+.foot {
+  opacity: 0;
+  animation: fadeIn 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 400ms;
+}
+
+/* ── SVG draw-on (opt-in via class) ──────────────────────── */
+
+.draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 300ms;
+}
+
+/* ── Accessibility: Reduced Motion ───────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
