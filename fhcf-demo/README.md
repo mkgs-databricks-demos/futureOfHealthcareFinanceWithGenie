@@ -15,7 +15,7 @@ Demonstrates Genie Agent over synthetic healthcare finance data — MLR trending
 | --- | --- | --- |
 | UC Schema | `hls_fde.healthcare_finance` | All tables and views land here (dev: `hls_fde_dev`, prefixed) |
 | Job | `[FHCF] Seed Healthcare Finance Data` | Runs `seed_all_data` notebook to create and populate all objects |
-| Genie Space | Healthcare Finance Intelligence | 14 data sources, 7 sample questions, L300-C instructions |
+| Genie Space | Healthcare Finance Intelligence | 14 data sources, 7 sample questions, lean instructions backed by metric view semantic metadata |
 
 ### Data Objects (created by the seed job)
 
@@ -24,6 +24,8 @@ Demonstrates Genie Agent over synthetic healthcare finance data — MLR trending
 
 **6 Metric Views:**  
 `mv_financial`, `mv_quality`, `mv_vbc_performance`, `mv_utilization`, `mv_budget_variance`, `mv_member_risk`
+
+All metric views carry full semantic metadata — `display_name`, `synonyms`, `format`, and detailed `comment` on every column, plus COMMENT ON VIEW with authoritative-source guidance. The Genie instruction is intentionally lean: it contains only behavioral routing rules, MEASURE() syntax examples, and synthesis directives. Domain definitions (MLR, PMPM, TCOC, HEDIS measure-to-domain mappings, AHP synonyms) live in the metric view metadata, not the instruction text.
 
 ## Bundle Structure
 
@@ -64,7 +66,7 @@ Both targets deploy to `fevm-hls-fde.cloud.databricks.com`.
 | Beat | Prompt | Metric Views |
 | --- | --- | --- |
 | 1a | Morning briefing — flag off-track items | mv_budget_variance, mv_quality, mv_utilization |
-| 1b | HEDIS measures below 4-star cutpoints | mv_quality |
+| 1b | HEDIS measures below 4-star cutpoints | mv_quality (routes via governed view — not raw table) |
 | 2a | Top 10 highest-risk members | dim_member |
 | 2b | High-risk members in high avoidable ED states | dim_member, mv_utilization |
 | 3a | Calendar (MCP connector) | External |

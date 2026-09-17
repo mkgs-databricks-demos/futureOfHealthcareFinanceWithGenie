@@ -98,7 +98,7 @@ resources:
                 "identifier": "${resources.schemas.healthcare_finance.catalog_name}.${resources.schemas.healthcare_finance.name}.mv_vbc_performance"
               }
             ]
-          },
+          }, 
           "instructions": {
             "text_instructions": [
               {

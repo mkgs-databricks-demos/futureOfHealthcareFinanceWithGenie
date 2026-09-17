@@ -37,6 +37,7 @@ fhcf-demo/
       2026-09-17_initial-bundle-setup.md
       2026-09-17_ddl-metric-view-improvements.md
       2026-09-17_genie-space-and-catalog-migration.md
+      2026-09-17_metric-view-metadata-and-instruction-trim.md
       2026-09-17_genie-space-testing-and-instruction-tuning.md
 ```
 
@@ -112,7 +113,7 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 | Beat | Prompt | Status | Metric Views Used |
 | --- | --- | --- | --- |
 | 1a | Morning briefing — flag off-track items | PASS | mv_budget_variance, mv_quality, mv_utilization |
-| 1b | HEDIS measures below 4-star cutpoints | PASS | mv_quality (distance_to_4_star, estimated_star_rating) |
+| 1b | HEDIS measures below 4-star cutpoints | PASS | mv_quality (was gold_quality_measures in prior test; now routes correctly) |
 | 2a | Top 10 highest-risk members | PASS | dim_member |
 | 2b | High-risk members in high avoidable ED states | PASS | dim_member, mv_utilization |
 | 3a | Calendar (MCP connector) | SKIP | External — not testable via API |
@@ -125,9 +126,9 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 - **Name:** Healthcare Finance Intelligence
 - **Dev Space ID:** 01f1b284db9618cc902e5cf68a43153c
 - **Data Sources:** 14 (6 metric views + 8 tables)
-- **Instructions:** Consolidated from L300-C: glossary, 12 behavioral rules, MEASURE() syntax examples for all 6 views, condition domains
+- **Instructions:** Consolidated from L300-C: domain context (gainsharing only), 12 behavioral rules, MEASURE() syntax examples for all 6 views. Glossary and condition-domain content migrated to metric view metadata.
 - **Sample Questions:** 7 (aligned with demo beats)
-- **Key rules:** Always query metric views for KPIs (6 views); mv_budget_variance for budget variance (not manual join); mv_vbc_performance includes ACO name via join; mv_quality has distance_to_4_star; mv_utilization for per-1K rates; mv_member_risk for risk tiers
+- **Key rules:** Always query metric views for KPIs (6 views); mv_budget_variance for budget variance (not manual join); mv_vbc_performance includes ACO name via join (AHP synonyms on aco_name); mv_quality has distance_to_4_star + condition-domain mappings in comment; mv_utilization for per-1K rates (authoritative-source in COMMENT ON VIEW); mv_member_risk for risk tiers
 - **API constraints:** content (array of strings) not instruction; max 1 text_instruction; all collections sorted alphabetically
 - **Instruction tuning:** Rule 9 must be directive ("SYNTHESIZE a structured meeting brief") not passive ("note that...") — Genie agents decline narrative generation unless explicitly directed
 
