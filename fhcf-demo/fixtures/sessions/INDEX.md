@@ -2,6 +2,7 @@
 
 | Date | Session | Summary |
 | --- | --- | --- |
+| 2026-09-28 | [CFO Executive Dashboard](2026-09-28_cfo-executive-dashboard.md) | Added serialized Lakeview dashboard as bundle resource. 5 pages, 15 datasets, 24 widgets covering MLR, budget variance, HEDIS quality, utilization hotspots, VBC/ACO performance. Bare table names with dataset_catalog/dataset_schema for dev/prod portability. Validated OK. Branch: mg-genie-cfo-dashboard. |
 | 2026-09-28 | [Prod Data Restoration](2026-09-28_prod-data-restoration.md) | Diagnosed 5 empty prod tables caused by interrupted interactive Run All on Sep 22. Re-seeded via bundle deploy + seed job run. Expanded date range (15 months). All 8 tables restored, 6 metric views confirmed, planted narrative verified. |
 | 2026-09-17 | [UC Pages & Domain Setup](2026-09-17_uc-pages-and-domain-setup.md) | Created 18 UC Glossary Pages from L200-C design doc across Financial, Quality, VBC, and Organizational domains. Registered 8 tables, 6 metric views, and Genie space in mkgs_hc_finance. Updated domain description. Subdomain creation blocked pending governed tag creation. |
 | 2026-09-17 | [Prod Deploy & Validation](2026-09-17_prod-deploy-and-validation.md) | First production deployment to hls_fde.healthcare_finance. Two-phase deploy (seed job → redeploy). Genie space created (ID: 01f1b2a18cde1845b9937112d70fe765). All 7 demo beats passing on prod. Planted narrative confirmed. |

@@ -29,8 +29,11 @@ fhcf-demo/
     healthcare_finance.schema.yml
     seed_data.job.yml
     healthcare_finance_intelligence.genie_space.yml
+    cfo_executive_dashboard.dashboard.yml
   src/
     seed_all_data.py          # 26-cell notebook (Python default, SQL cells via %sql)
+    dashboards/
+      cfo_executive_dashboard.lvdash.json
   fixtures/
     sessions/
       INDEX.md
@@ -40,6 +43,7 @@ fhcf-demo/
       2026-09-17_metric-view-metadata-and-instruction-trim.md
       2026-09-17_genie-space-testing-and-instruction-tuning.md
       2026-09-28_prod-data-restoration.md
+      2026-09-28_cfo-executive-dashboard.md
 ```
 
 ## Variables
@@ -73,6 +77,18 @@ fhcf-demo/
   - 14 data sources (8 tables + 6 metric views), 7 sample questions, 1 consolidated instruction
   - Dev space ID: 01f1b284db9618cc902e5cf68a43153c
   - Deployment ordering: seed job must run BEFORE Genie space deploy (API validates table existence)
+
+### Dashboard
+
+- **cfo_executive_dashboard** -- "CFO Executive Dashboard — Healthcare Finance"
+  - Serialized .lvdash.json in src/dashboards/ (49K chars)
+  - 5 pages: Executive Summary, Financial Performance, Quality & Star Ratings, Utilization, VBC & ACO Performance
+  - 15 SQL datasets, 24 widgets (4 counters, 6 bar charts, 5 line charts, 3 tables, 5 text headers, 1 grouped bar)
+  - Queries use bare table names — dataset_catalog/dataset_schema resolve per-target
+  - warehouse_id: ${var.warehouse_id}, embed_credentials: false
+  - Surfaces planted narrative: Medicaid MLR ~108%, BCS/HbA1c below 4-star, FL/TX/CA avoidable hotspots, AHP shared savings
+  - Interactive copy: dashboard ID 01f1bb448f8015d28f7b267049954018
+  - Branch: mg-genie-cfo-dashboard
 
 ## Data Model
 
