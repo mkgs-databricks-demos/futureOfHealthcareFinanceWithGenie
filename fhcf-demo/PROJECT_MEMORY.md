@@ -39,6 +39,7 @@ fhcf-demo/
       2026-09-17_genie-space-and-catalog-migration.md
       2026-09-17_metric-view-metadata-and-instruction-trim.md
       2026-09-17_genie-space-testing-and-instruction-tuning.md
+      2026-09-28_prod-data-restoration.md
 ```
 
 ## Variables
@@ -61,6 +62,7 @@ fhcf-demo/
   - Single task: runs src/seed_all_data.py
   - Passes catalog and schema as base_parameters from schema resource refs
   - Dev job ID: 749445244992722
+  - Prod job ID: 824849230298800
 
 ### Genie Space
 
@@ -79,12 +81,12 @@ fhcf-demo/
 | Table | Rows | Description |
 | --- | --- | --- |
 | dim_aco_contract | 5 | ACO/CIN reference data. ACO-001 = AHP (Dr. Sarah Chen). |
-| dim_budget | 48 | Monthly budget targets by LOB (4 LOBs x 12 months). |
+| dim_budget | 60 | Monthly budget targets by LOB (4 LOBs x 15 months, Jun 2025–Aug 2026). |
 | dim_member | 50,000 | Member demographics and risk profiles. |
 | dim_provider_network | 200 | Provider-level network data by ACO. |
-| gold_financial_monthly | 480 | Monthly financial aggregates by LOB/state/plan_type (4x10x1x12). |
-| gold_quality_measures | 288 | HEDIS quality measures by LOB/month (6 measures x 4 LOBs x 12 months). |
-| gold_utilization_monthly | 480 | Monthly utilization by LOB/state (4x10x12). |
+| gold_financial_monthly | 600 | Monthly financial aggregates by LOB/state/plan_type (4x10x1x15). |
+| gold_quality_measures | 360 | HEDIS quality measures by LOB/month (6 measures x 4 LOBs x 15 months). |
+| gold_utilization_monthly | 600 | Monthly utilization by LOB/state (4x10x15). |
 | fact_vbc_performance | 120 | Quarterly VBC performance by ACO/measure (5x6x4). |
 
 ### Metric Views (6)
@@ -102,9 +104,9 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 
 ## Planted Narrative (must hold after seeding)
 
-- **Medicaid MLR ~106%**, MA ~100.3%, Commercial ~87%, Individual ~83%
-- FL, TX, CA: 2x avoidable ED rate (14% vs 7% elsewhere)
-- BCS at 72% (4-star cutpoint 74%), HbA1c at 58% (cutpoint 60%)
+- **Medicaid MLR ~108%**, MA ~100.8%, Commercial ~86.5%, Individual ~82%
+- FL, TX, CA: 2x avoidable ED rate (35% vs 17% elsewhere)
+- BCS at 72.8% (4-star cutpoint 74%), HbA1c at 58.8% (cutpoint 60%)
 - AHP (ACO-001): Shared Savings $2.1M YTD vs $1.8M target; TCOC PMPM up +3% QoQ; Pharmacy PMPM +8% QoQ from GLP-1
 - Validation queries in notebook cell 23
 
@@ -147,7 +149,8 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 | Resource | ID |
 | --- | --- |
 | Seed Job | 749445244992722 |
-| Latest Seed Run | 686881950106253 |
+| Latest Seed Run | 849614388632475 |
+| Latest Seed Run | 849614388632475 |
 | Genie Space | 01f1b284db9618cc902e5cf68a43153c |
 | Genie Space YAML | 2824221228946159 |
 | Notebook (seed_all_data) | 2824221228946135 |
@@ -160,4 +163,6 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 | Resource | ID |
 | --- | --- |
 | Genie Space | 01f1b2a18cde1845b9937112d70fe765 |
-| Demo beats | 7/7 passing (validated 2026-09-17) |
+| Seed Job | 824849230298800 |
+| Latest Seed Run | 849614388632475 |
+| Demo beats | 7/7 passing (validated 2026-09-17, data re-seeded 2026-09-28) |

@@ -2,6 +2,7 @@
 
 | Date | Session | Summary |
 | --- | --- | --- |
+| 2026-09-28 | [Prod Data Restoration](2026-09-28_prod-data-restoration.md) | Diagnosed 5 empty prod tables caused by interrupted interactive Run All on Sep 22. Re-seeded via bundle deploy + seed job run. Expanded date range (15 months). All 8 tables restored, 6 metric views confirmed, planted narrative verified. |
 | 2026-09-17 | [UC Pages & Domain Setup](2026-09-17_uc-pages-and-domain-setup.md) | Created 18 UC Glossary Pages from L200-C design doc across Financial, Quality, VBC, and Organizational domains. Registered 8 tables, 6 metric views, and Genie space in mkgs_hc_finance. Updated domain description. Subdomain creation blocked pending governed tag creation. |
 | 2026-09-17 | [Prod Deploy & Validation](2026-09-17_prod-deploy-and-validation.md) | First production deployment to hls_fde.healthcare_finance. Two-phase deploy (seed job → redeploy). Genie space created (ID: 01f1b2a18cde1845b9937112d70fe765). All 7 demo beats passing on prod. Planted narrative confirmed. |
 | 2026-09-17 | [Metric View Metadata & Instruction Trim](2026-09-17_metric-view-metadata-and-instruction-trim.md) | Migrated redundant glossary and condition-domain content from Genie instruction into metric view semantic metadata (comments, synonyms, COMMENT ON VIEW). Enriched mv_quality, mv_vbc_performance, mv_utilization, mv_budget_variance. Trimmed instruction ~25%. Deployed. Retested 7/7 beats passing. Beat 1b now routes to mv_quality (previously used raw table). |
