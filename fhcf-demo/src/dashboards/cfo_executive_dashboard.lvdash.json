@@ -4,353 +4,105 @@
       "name": "avoidable_spend_state",
       "displayName": "Avoidable Spend by State",
       "queryLines": [
-        "SELECT\n",
-        "  state\n",
-        "  ,ROUND(SUM(avoidable_paid_amount) / SUM(paid_amount) * 100, 1) AS avoidable_spend_pct\n",
-        "FROM\n",
-        "  gold_financial_monthly\n",
-        "WHERE\n",
-        "  year_month >= '2026-03-01'\n",
-        "GROUP BY\n",
-        "  state\n",
-        "ORDER BY\n",
-        "  avoidable_spend_pct DESC"
+        "SELECT state, ROUND(MEASURE(avoidable_share_of_spend) * 100, 1) AS avoidable_spend_pct FROM mv_financial WHERE year_month >= '2026-03-01' GROUP BY ALL ORDER BY avoidable_spend_pct DESC"
       ]
     },
     {
       "name": "avoidable_ed_state",
       "displayName": "Avoidable ED Rate by State",
       "queryLines": [
-        "SELECT\n",
-        "  state\n",
-        "  ,ROUND(SUM(avoidable_ed_visits) * 1.0 / SUM(ed_visits) * 100, 1) AS avoidable_ed_pct\n",
-        "FROM\n",
-        "  gold_utilization_monthly\n",
-        "WHERE\n",
-        "  year_month >= '2026-03-01'\n",
-        "GROUP BY\n",
-        "  state\n",
-        "ORDER BY\n",
-        "  avoidable_ed_pct DESC"
+        "SELECT state, ROUND(MEASURE(avoidable_ed_rate) * 100, 1) AS avoidable_ed_pct FROM mv_utilization WHERE year_month >= '2026-03-01' GROUP BY ALL ORDER BY avoidable_ed_pct DESC"
       ]
     },
     {
       "name": "mlr_by_lob",
       "displayName": "MLR by LOB (Latest Month)",
       "queryLines": [
-        "SELECT\n",
-        "  lob\n",
-        "  ,ROUND(SUM(paid_amount) / SUM(premium_amount), 4) AS mlr\n",
-        "FROM\n",
-        "  gold_financial_monthly\n",
-        "WHERE\n",
-        "  year_month\n",
-        "    = (\n",
-        "      SELECT\n",
-        "        MAX(year_month)\n",
-        "      FROM\n",
-        "        gold_financial_monthly\n",
-        "    )\n",
-        "GROUP BY\n",
-        "  lob\n",
-        "ORDER BY\n",
-        "  mlr DESC"
+        "SELECT lob, ROUND(MEASURE(mlr), 4) AS mlr FROM mv_financial WHERE year_month = (SELECT MAX(year_month) FROM mv_financial) GROUP BY ALL ORDER BY mlr DESC"
       ]
     },
     {
       "name": "mlr_trend",
       "displayName": "MLR Trend by LOB",
       "queryLines": [
-        "SELECT\n",
-        "  year_month\n",
-        "  ,lob\n",
-        "  ,ROUND(SUM(paid_amount) / SUM(premium_amount), 4) AS mlr\n",
-        "FROM\n",
-        "  gold_financial_monthly\n",
-        "GROUP BY\n",
-        "  lob\n",
-        "  ,year_month\n",
-        "ORDER BY\n",
-        "  year_month\n",
-        "  ,lob"
+        "SELECT year_month, lob, ROUND(MEASURE(mlr), 4) AS mlr FROM mv_financial GROUP BY ALL ORDER BY year_month, lob"
       ]
     },
     {
       "name": "paid_pmpm_trend",
       "displayName": "Paid PMPM Trend by LOB",
       "queryLines": [
-        "SELECT\n",
-        "  year_month\n",
-        "  ,lob\n",
-        "  ,ROUND(SUM(paid_amount) / SUM(member_months), 2) AS paid_pmpm\n",
-        "FROM\n",
-        "  gold_financial_monthly\n",
-        "GROUP BY\n",
-        "  lob\n",
-        "  ,year_month\n",
-        "ORDER BY\n",
-        "  year_month\n",
-        "  ,lob"
+        "SELECT year_month, lob, ROUND(MEASURE(paid_pmpm), 2) AS paid_pmpm FROM mv_financial GROUP BY ALL ORDER BY year_month, lob"
       ]
     },
     {
       "name": "exec_counters",
       "displayName": "Executive Counters (Latest Month)",
       "queryLines": [
-        "SELECT\n",
-        "  ROUND(SUM(paid_amount) / SUM(premium_amount), 4) AS overall_mlr\n",
-        "  ,ROUND(SUM(premium_amount), 0) AS total_premium\n",
-        "  ,SUM(member_months) AS total_member_months\n",
-        "  ,ROUND(SUM(avoidable_paid_amount) / SUM(paid_amount) * 100, 1) AS avoidable_spend_pct\n",
-        "FROM\n",
-        "  gold_financial_monthly\n",
-        "WHERE\n",
-        "  year_month\n",
-        "    = (\n",
-        "      SELECT\n",
-        "        MAX(year_month)\n",
-        "      FROM\n",
-        "        gold_financial_monthly\n",
-        "    )"
+        "SELECT ROUND(MEASURE(mlr), 4) AS overall_mlr, ROUND(MEASURE(premium_amount), 0) AS total_premium, MEASURE(member_months) AS total_member_months, ROUND(MEASURE(avoidable_share_of_spend) * 100, 1) AS avoidable_spend_pct FROM mv_financial WHERE year_month = (SELECT MAX(year_month) FROM mv_financial) GROUP BY ALL"
       ]
     },
     {
       "name": "budget_variance",
       "displayName": "Budget Variance by LOB",
       "queryLines": [
-        "SELECT\n",
-        "  f.lob\n",
-        "  ,ROUND(SUM(f.paid_amount) / SUM(f.premium_amount), 4) AS actual_mlr\n",
-        "  ,b.target_mlr\n",
-        "  ,ROUND(SUM(f.paid_amount) / SUM(f.premium_amount) - b.target_mlr, 4) AS mlr_variance\n",
-        "  ,ROUND(SUM(f.premium_amount), 0) AS actual_premium\n",
-        "  ,b.budget_premium\n",
-        "  ,ROUND(SUM(f.premium_amount) / b.budget_premium * 100, 1) AS budget_attainment_pct\n",
-        "FROM\n",
-        "  gold_financial_monthly f\n",
-        "    JOIN dim_budget b\n",
-        "      ON f.lob = b.lob\n",
-        "      AND f.year_month = b.year_month\n",
-        "WHERE\n",
-        "  f.year_month\n",
-        "    = (\n",
-        "      SELECT\n",
-        "        MAX(year_month)\n",
-        "      FROM\n",
-        "        gold_financial_monthly\n",
-        "    )\n",
-        "GROUP BY\n",
-        "  f.lob\n",
-        "  ,f.year_month\n",
-        "  ,b.target_mlr\n",
-        "  ,b.budget_premium\n",
-        "ORDER BY\n",
-        "  f.lob"
+        "SELECT lob, ROUND(MEASURE(actual_mlr), 4) AS actual_mlr, ROUND(MEASURE(target_mlr), 4) AS target_mlr, ROUND(MEASURE(mlr_variance), 4) AS mlr_variance, ROUND(MEASURE(actual_premium), 0) AS actual_premium, ROUND(MEASURE(budget_premium), 0) AS budget_premium, ROUND(MEASURE(budget_attainment) * 100, 1) AS budget_attainment_pct FROM mv_budget_variance WHERE year_month = (SELECT MAX(year_month) FROM mv_budget_variance) GROUP BY ALL ORDER BY lob"
       ]
     },
     {
       "name": "ed_per_1k",
       "displayName": "ED Visits per 1K by LOB",
       "queryLines": [
-        "SELECT\n",
-        "  lob\n",
-        "  ,ROUND(SUM(ed_visits) * 1.0 / SUM(member_months) * 1000, 1) AS ed_per_1k\n",
-        "FROM\n",
-        "  gold_utilization_monthly\n",
-        "WHERE\n",
-        "  year_month >= '2026-03-01'\n",
-        "GROUP BY\n",
-        "  lob\n",
-        "ORDER BY\n",
-        "  ed_per_1k DESC"
+        "SELECT lob, ROUND(MEASURE(ed_per_1k), 1) AS ed_per_1k FROM mv_utilization WHERE year_month >= '2026-03-01' GROUP BY ALL ORDER BY ed_per_1k DESC"
       ]
     },
     {
       "name": "hedis_ma",
       "displayName": "HEDIS Performance \u2014 MA",
       "queryLines": [
-        "SELECT\n",
-        "  measure_name\n",
-        "  ,ROUND(current_rate * 100, 1) AS current_rate_pct\n",
-        "  ,ROUND(star_4_cutpoint * 100, 1) AS star_4_cutpoint_pct\n",
-        "  ,ROUND((current_rate - star_4_cutpoint) * 100, 1) AS distance_to_4_star_pct\n",
-        "  ,gap_count\n",
-        "  ,eligible_count\n",
-        "  ,condition_domain\n",
-        "FROM\n",
-        "  gold_quality_measures\n",
-        "WHERE\n",
-        "  lob = 'MA'\n",
-        "  AND year_month\n",
-        "    = (\n",
-        "      SELECT\n",
-        "        MAX(year_month)\n",
-        "      FROM\n",
-        "        gold_quality_measures\n",
-        "    )\n",
-        "ORDER BY\n",
-        "  (current_rate - star_4_cutpoint)"
+        "SELECT measure_name, ROUND(MEASURE(current_rate) * 100, 1) AS current_rate_pct, ROUND(MEASURE(star_4_cutpoint) * 100, 1) AS star_4_cutpoint_pct, ROUND(MEASURE(distance_to_4_star) * 100, 1) AS distance_to_4_star_pct, MEASURE(gap_count) AS gap_count, MEASURE(eligible_count) AS eligible_count, condition_domain FROM mv_quality WHERE lob = 'MA' AND year_month = (SELECT MAX(year_month) FROM mv_quality) GROUP BY ALL ORDER BY distance_to_4_star_pct DESC"
       ]
     },
     {
       "name": "bcs_hba1c_trend",
       "displayName": "BCS & HbA1c Trend \u2014 MA",
       "queryLines": [
-        "SELECT\n",
-        "  year_month\n",
-        "  ,measure_name\n",
-        "  ,ROUND(current_rate * 100, 1) AS current_rate_pct\n",
-        "FROM\n",
-        "  gold_quality_measures\n",
-        "WHERE\n",
-        "  lob = 'MA'\n",
-        "  AND measure_id IN (\n",
-        "    'BCS'\n",
-        "    ,'CDC-HBA1C'\n",
-        "  )\n",
-        "ORDER BY\n",
-        "  year_month\n",
-        "  ,measure_name"
+        "SELECT year_month, measure_name, ROUND(MEASURE(current_rate) * 100, 1) AS current_rate_pct FROM mv_quality WHERE lob = 'MA' AND measure_id IN ('BCS', 'CDC-HBA1C') GROUP BY ALL ORDER BY year_month, measure_name"
       ]
     },
     {
       "name": "shared_savings",
       "displayName": "Shared Savings \u2014 Actual vs Target",
       "queryLines": [
-        "SELECT\n",
-        "  short_name\n",
-        "  ,series\n",
-        "  ,value\n",
-        "FROM\n",
-        "  (\n",
-        "    SELECT\n",
-        "      a.short_name\n",
-        "      ,'Actual' AS series\n",
-        "      ,v.actual_value AS value\n",
-        "    FROM\n",
-        "      fact_vbc_performance v\n",
-        "        JOIN dim_aco_contract a\n",
-        "          ON v.aco_id = a.aco_id\n",
-        "    WHERE\n",
-        "      v.quarter = '2026-Q3'\n",
-        "      AND v.measure_name = 'Shared Savings YTD'\n",
-        "    UNION ALL\n",
-        "    SELECT\n",
-        "      a.short_name\n",
-        "      ,'Target' AS series\n",
-        "      ,v.target_value AS value\n",
-        "    FROM\n",
-        "      fact_vbc_performance v\n",
-        "        JOIN dim_aco_contract a\n",
-        "          ON v.aco_id = a.aco_id\n",
-        "    WHERE\n",
-        "      v.quarter = '2026-Q3'\n",
-        "      AND v.measure_name = 'Shared Savings YTD'\n",
-        "  )\n",
-        "ORDER BY\n",
-        "  short_name\n",
-        "  ,series"
+        "SELECT aco_name AS short_name, 'Actual' AS series, MEASURE(actual_value) AS value FROM mv_vbc_performance WHERE quarter = '2026-Q3' AND measure_name = 'Shared Savings YTD' GROUP BY ALL UNION ALL SELECT aco_name, 'Target', MEASURE(target_value) FROM mv_vbc_performance WHERE quarter = '2026-Q3' AND measure_name = 'Shared Savings YTD' GROUP BY ALL ORDER BY short_name, series"
       ]
     },
     {
       "name": "readmission_trend",
       "displayName": "Readmission Rate Trend",
       "queryLines": [
-        "SELECT\n",
-        "  year_month\n",
-        "  ,lob\n",
-        "  ,ROUND(SUM(readmissions) * 1.0 / SUM(ip_admits) * 100, 1) AS readmission_rate\n",
-        "FROM\n",
-        "  gold_utilization_monthly\n",
-        "GROUP BY\n",
-        "  lob\n",
-        "  ,year_month\n",
-        "ORDER BY\n",
-        "  year_month\n",
-        "  ,lob"
+        "SELECT year_month, lob, ROUND(MEASURE(readmission_rate) * 100, 1) AS readmission_rate FROM mv_utilization GROUP BY ALL ORDER BY year_month, lob"
       ]
     },
     {
       "name": "aco_scorecard",
       "displayName": "ACO Scorecard (2026-Q3)",
       "queryLines": [
-        "SELECT\n",
-        "  a.short_name\n",
-        "  ,a.aco_name\n",
-        "  ,MAX(\n",
-        "    CASE\n",
-        "      WHEN v.measure_name = 'Shared Savings YTD' THEN v.actual_value\n",
-        "    END\n",
-        "  ) AS shared_savings_ytd\n",
-        "  ,MAX(\n",
-        "    CASE\n",
-        "      WHEN v.measure_name = 'TCOC PMPM' THEN v.actual_value\n",
-        "    END\n",
-        "  ) AS tcoc_pmpm\n",
-        "  ,MAX(\n",
-        "    CASE\n",
-        "      WHEN v.measure_name = 'Quality Score' THEN v.actual_value\n",
-        "    END\n",
-        "  ) AS quality_score\n",
-        "  ,MAX(\n",
-        "    CASE\n",
-        "      WHEN v.measure_name = 'Readmission Rate' THEN v.actual_value\n",
-        "    END\n",
-        "  ) AS readmission_rate\n",
-        "  ,MAX(\n",
-        "    CASE\n",
-        "      WHEN v.measure_name = 'Pharmacy PMPM' THEN v.actual_value\n",
-        "    END\n",
-        "  ) AS pharmacy_pmpm\n",
-        "FROM\n",
-        "  fact_vbc_performance v\n",
-        "    JOIN dim_aco_contract a\n",
-        "      ON v.aco_id = a.aco_id\n",
-        "WHERE\n",
-        "  v.quarter = '2026-Q3'\n",
-        "GROUP BY\n",
-        "  a.short_name\n",
-        "  ,a.aco_name\n",
-        "ORDER BY\n",
-        "  shared_savings_ytd DESC"
+        "SELECT aco_name, MEASURE(shared_savings_ytd) AS shared_savings_ytd, MEASURE(tcoc_pmpm) AS tcoc_pmpm, MEASURE(quality_score) AS quality_score, MEASURE(readmission_rate) AS readmission_rate, MEASURE(pharmacy_pmpm) AS pharmacy_pmpm FROM mv_vbc_performance WHERE quarter = '2026-Q3' GROUP BY ALL ORDER BY shared_savings_ytd DESC"
       ]
     },
     {
       "name": "ip_per_1k",
       "displayName": "IP Admits per 1K by LOB",
       "queryLines": [
-        "SELECT\n",
-        "  lob\n",
-        "  ,ROUND(SUM(ip_admits) * 1.0 / SUM(member_months) * 1000, 1) AS ip_per_1k\n",
-        "FROM\n",
-        "  gold_utilization_monthly\n",
-        "WHERE\n",
-        "  year_month >= '2026-03-01'\n",
-        "GROUP BY\n",
-        "  lob\n",
-        "ORDER BY\n",
-        "  ip_per_1k DESC"
+        "SELECT lob, ROUND(MEASURE(ip_per_1k), 1) AS ip_per_1k FROM mv_utilization WHERE year_month >= '2026-03-01' GROUP BY ALL ORDER BY ip_per_1k DESC"
       ]
     },
     {
       "name": "ahp_trends",
       "displayName": "AHP Quarterly Trends",
       "queryLines": [
-        "SELECT\n",
-        "  quarter\n",
-        "  ,measure_name\n",
-        "  ,actual_value\n",
-        "FROM\n",
-        "  fact_vbc_performance\n",
-        "WHERE\n",
-        "  aco_id = 'ACO-001'\n",
-        "  AND measure_name IN (\n",
-        "    'TCOC PMPM'\n",
-        "    ,'Pharmacy PMPM'\n",
-        "  )\n",
-        "ORDER BY\n",
-        "  quarter\n",
-        "  ,measure_name"
+        "SELECT quarter, measure_name, MEASURE(actual_value) AS actual_value FROM mv_vbc_performance WHERE aco_id = 'ACO-001' AND measure_name IN ('TCOC PMPM', 'Pharmacy PMPM') GROUP BY ALL ORDER BY quarter, measure_name"
       ]
     }
   ],
