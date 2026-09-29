@@ -37,11 +37,17 @@ futureOfHealthcareFinanceWithGenie/
 │   ├── resources/
 │   │   ├── healthcare_finance.schema.yml                   # UC schema resource
 │   │   ├── seed_data.job.yml                               # Seed job definition
-│   │   └── healthcare_finance_intelligence.genie_space.yml # Genie Agent resource (14 sources, 7 questions)
+│   │   ├── healthcare_finance_intelligence.genie_space.yml # Genie Agent resource (14 sources, 7 questions)
+│   │   ├── cfo_executive_dashboard.dashboard.yml           # CFO dashboard resource
+│   │   ├── health_plan_cmo_performance.dashboard.yml       # CMO dashboard resource
+│   │   └── demo_warehouse.sql_warehouse.yml                # SQL warehouse (2X-Small serverless PRO)
 │   ├── src/
-│   │   └── seed_all_data.py           # 26-cell notebook: widgets → DDL → seed data → metric views → validation
+│   │   ├── seed_all_data.py           # 26-cell notebook: widgets → DDL → seed data → metric views → validation
+│   │   └── dashboards/               # Serialized Lakeview dashboard JSON files
+│   │       ├── cfo_executive_dashboard.lvdash.json
+│   │       └── health_plan_cmo_performance.lvdash.json
 │   └── fixtures/
-│       └── sessions/                  # Chronological build log (7 sessions)
+│       └── sessions/                  # Chronological build log (10 sessions)
 │
 ├── webinar_slides/                    # ── Presentation Slide Deck ──
 │   ├── app.py                         # Flask server (serves presenter.html as entry point)
@@ -77,7 +83,7 @@ futureOfHealthcareFinanceWithGenie/
 | Databricks workspace | Any workspace with Unity Catalog enabled |
 | Databricks CLI | v0.230+ (or use the workspace UI deployment panel) |
 | Unity Catalog catalog | A catalog you can create schemas in (default: `hls_fde`) |
-| SQL warehouse | A serverless SQL warehouse named `demo-warehouse` (or override the `warehouse_id` variable) |
+| SQL warehouse | Bundle-managed (2X-Small serverless PRO, auto-provisioned on first deploy) |
 | Permissions | `CREATE SCHEMA` on the target catalog; `USE CATALOG`; `CREATE TABLE` / `CREATE VIEW` |
 | MCP connector (optional) | Google Calendar connector for Beat 3a (calendar integration) |
 
@@ -103,7 +109,8 @@ Edit `databricks.yml` or pass overrides at deploy time:
 | --- | --- | --- |
 | `catalog` | `hls_fde` | Your UC catalog name |
 | `schema` | `healthcare_finance` | Any schema name (dev mode auto-prefixes) |
-| `warehouse_id` | lookup: `demo-warehouse` | Your SQL warehouse name or ID |
+
+The SQL warehouse is managed as a bundle resource (`demo_warehouse`) and auto-provisioned on deploy.
 
 ### Step 3: First deploy (creates schema + job)
 
@@ -204,8 +211,11 @@ Detailed speaker notes and design rationale are in the `batch_*.md` files alongs
 | Resource | Name | Description |
 | --- | --- | --- |
 | UC Schema | `<catalog>.healthcare_finance` | All tables and views land here |
+| SQL Warehouse | `[FHCF] Healthcare Finance Warehouse` | 2X-Small serverless PRO, auto-stop 10 min |
 | Job | `[FHCF] Seed Healthcare Finance Data` | Runs `seed_all_data` notebook to create and populate all objects |
 | Genie Space | Healthcare Finance Intelligence | 14 data sources, 7 sample questions, lean instructions backed by metric view semantic metadata |
+| Dashboard | CFO Executive Dashboard | 5 pages, 15 datasets — MLR, budget variance, HEDIS quality, utilization, VBC/ACO performance |
+| Dashboard | Health Plan CMO Performance Dashboard | 12 pages, 9 datasets — member risk, care gaps, quality/stars, financials, utilization, VBC, provider network, risk-adjusted |
 
 ### 8 Delta Tables
 

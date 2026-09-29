@@ -5,7 +5,7 @@
 **Name:** Future of Healthcare Finance with Genie (fhcf-demo)  
 **Purpose:** Databricks HLS Quarterly Webinar demo (September 17, 2026) showing Genie Agent over healthcare finance data  
 **Repo:** https://github.com/mkgs-databricks-demos/futureOfHealthcareFinanceWithGenie.git  
-**Branch:** mg-genie-ddl-metrics-genie-space  
+**Branch:** mg-genie-cmo-dashboard  
 **Bundle root:** /Users/matthew.giglia@databricks.com/futureOfHealthcareFinanceWithGenie/fhcf-demo/  
 **Design docs:** webinar_demo_docs/docs/design/ (L100-L300 at repo root)
 
@@ -30,10 +30,13 @@ fhcf-demo/
     seed_data.job.yml
     healthcare_finance_intelligence.genie_space.yml
     cfo_executive_dashboard.dashboard.yml
+    health_plan_cmo_performance.dashboard.yml
+    demo_warehouse.sql_warehouse.yml
   src/
     seed_all_data.py          # 26-cell notebook (Python default, SQL cells via %sql)
     dashboards/
       cfo_executive_dashboard.lvdash.json
+      health_plan_cmo_performance.lvdash.json
   fixtures/
     sessions/
       INDEX.md
@@ -44,6 +47,7 @@ fhcf-demo/
       2026-09-17_genie-space-testing-and-instruction-tuning.md
       2026-09-28_prod-data-restoration.md
       2026-09-28_cfo-executive-dashboard.md
+      2026-09-29_cmo-dashboard-and-warehouse-resource.md
 ```
 
 ## Variables
@@ -52,7 +56,8 @@ fhcf-demo/
 | --- | --- | --- |
 | catalog | hls_fde | UC catalog for all tables/views. Dev override: hls_fde_dev |
 | schema | healthcare_finance | UC schema (dev mode prefixes with dev_<user>_) |
-| warehouse_id | lookup: demo-warehouse | SQL warehouse for Genie space |
+
+> **Note:** `warehouse_id` was removed as a variable in session 2026-09-29. The warehouse is now a managed resource (`demo_warehouse`). All resource YAMLs reference `${resources.sql_warehouses.demo_warehouse.id}`.
 
 ## Resources
 
@@ -73,12 +78,19 @@ fhcf-demo/
 - **healthcare_finance_intelligence** -- "Healthcare Finance Intelligence"
   - Inline serialized_space in YAML (no separate JSON file)
   - Table identifiers use ${resources.schemas.healthcare_finance.*} refs — resolve per-target at deploy time
-  - warehouse_id: ${var.warehouse_id} (demo-warehouse)
+  - warehouse_id: ${resources.sql_warehouses.demo_warehouse.id}
   - 14 data sources (8 tables + 6 metric views), 7 sample questions, 1 consolidated instruction
   - Dev space ID: 01f1b284db9618cc902e5cf68a43153c
   - Deployment ordering: seed job must run BEFORE Genie space deploy (API validates table existence)
 
-### Dashboard
+### SQL Warehouse
+
+- **demo_warehouse** -- "[FHCF] Healthcare Finance Warehouse"
+  - 2X-Small serverless PRO, auto-stop 10 min, 1 cluster
+  - Referenced by dashboards and Genie space via ${resources.sql_warehouses.demo_warehouse.id}
+  - Dev warehouse ID: 1be43d05d0d903f4
+
+### Dashboards
 
 - **cfo_executive_dashboard** -- "CFO Executive Dashboard — Healthcare Finance"
   - Serialized .lvdash.json in src/dashboards/ (49K chars)
@@ -89,6 +101,16 @@ fhcf-demo/
   - Surfaces planted narrative: Medicaid MLR ~108%, BCS/HbA1c below 4-star, FL/TX/CA avoidable hotspots, AHP shared savings
   - Interactive copy: dashboard ID 01f1bb448f8015d28f7b267049954018
   - Branch: mg-genie-cfo-dashboard
+
+- **health_plan_cmo_performance** -- "Health Plan CMO Performance Dashboard"
+  - Serialized .lvdash.json in src/dashboards/ (271K chars)
+  - 12 pages: Executive Summary, Member Risk & Care Gaps, Quality & Stars, Financial Performance, Utilization, VBC Contract Performance, Member Attribution & Care Mgmt, Provider Network, Risk-Adjusted Financials, Medicaid VBC Business Case, Commercial VBC Business Case, Global Filters
+  - 9 datasets sourced from metric views and tables (all via MEASURE())
+  - All KPI widgets delegate to metric view MEASURE() — verified identical to Genie Agent output across all 6 domains
+  - dataset_catalog/dataset_schema/warehouse_id: ${resources.*} refs
+  - Interactive copy: dashboard ID 01f1bb4cabc019b3a02c18e9b8e2daf7
+  - Dev dashboard ID: 01f1bbc0377d184aaab81612a310442a
+  - Branch: mg-genie-cmo-dashboard
 
 ## Data Model
 
@@ -154,7 +176,8 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 
 - Notebook uses USE CATALOG/SCHEMA + bare table names (not fully qualified in every statement)
 - Metric view source fields use ${catalog}.${schema}.table (widget substitution for stored metadata)
-- Job params reference ${resources.schemas.healthcare_finance.*} (never raw ${var.schema})
+- All resource refs use ${resources.*} syntax (schemas, sql_warehouses) — never raw ${var.*} except in schema resource itself
+- warehouse_id variable removed — warehouse lifecycle is bundle-managed
 - Notebook stored as .py (Python default language) with %sql magic for SQL cells
 - Session summaries in fixtures/sessions/ with INDEX.md
 
@@ -169,6 +192,10 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 | Latest Seed Run | 849614388632475 |
 | Genie Space | 01f1b284db9618cc902e5cf68a43153c |
 | Genie Space YAML | 2824221228946159 |
+| SQL Warehouse | 1be43d05d0d903f4 |
+| CMO Dashboard | 01f1bbc0377d184aaab81612a310442a |
+| CFO Dashboard | 01f1bbc037791ae5bb101a4d4ce318d9 |
+| Seed Run (2026-09-29) | 947527817242476 |
 | Notebook (seed_all_data) | 2824221228946135 |
 | databricks.yml | 2824221228946048 |
 | Schema YAML | 2824221228946136 |
