@@ -1,0 +1,9 @@
+resources:
+  dashboards:
+    health_plan_cmo_performance:
+      display_name: "Health Plan CMO Performance Dashboard"
+      file_path: ../src/dashboards/health_plan_cmo_performance.lvdash.json
+      warehouse_id: ${var.warehouse_id}
+      dataset_catalog: ${var.catalog}
+      dataset_schema: ${var.schema}
+      embed_credentials: false
