@@ -5,7 +5,7 @@
 **Name:** Future of Healthcare Finance with Genie (fhcf-demo)  
 **Purpose:** Databricks HLS Quarterly Webinar demo (September 17, 2026) showing Genie Agent over healthcare finance data  
 **Repo:** https://github.com/mkgs-databricks-demos/futureOfHealthcareFinanceWithGenie.git  
-**Branch:** mg-genie-cmo-dashboard  
+**Branch:** mg-genie-consistency-review  
 **Bundle root:** /Users/matthew.giglia@databricks.com/futureOfHealthcareFinanceWithGenie/fhcf-demo/  
 **Design docs:** webinar_demo_docs/docs/design/ (L100-L300 at repo root)
 
@@ -48,6 +48,7 @@ fhcf-demo/
       2026-09-28_prod-data-restoration.md
       2026-09-28_cfo-executive-dashboard.md
       2026-09-29_cmo-dashboard-and-warehouse-resource.md
+      2026-09-29_consistency-review-and-mv-migration.md
 ```
 
 ## Variables
@@ -96,11 +97,13 @@ fhcf-demo/
   - Serialized .lvdash.json in src/dashboards/ (49K chars)
   - 5 pages: Executive Summary, Financial Performance, Quality & Star Ratings, Utilization, VBC & ACO Performance
   - 15 SQL datasets, 24 widgets (4 counters, 6 bar charts, 5 line charts, 3 tables, 5 text headers, 1 grouped bar)
-  - Queries use bare table names — dataset_catalog/dataset_schema resolve per-target
-  - warehouse_id: ${var.warehouse_id}, embed_credentials: false
+  - **All 15 datasets migrated to governed metric views with MEASURE() syntax** (session 2026-09-29). No raw gold_/dim_ queries remain.
+  - hedis_ma sign convention aligned: distance_to_4_star positive = below 4-star (matches MV convention)
+  - Queries use bare MV names — dataset_catalog/dataset_schema resolve per-target
+  - warehouse_id: ${resources.sql_warehouses.demo_warehouse.id}, embed_credentials: false
   - Surfaces planted narrative: Medicaid MLR ~108%, BCS/HbA1c below 4-star, FL/TX/CA avoidable hotspots, AHP shared savings
   - Interactive copy: dashboard ID 01f1bb448f8015d28f7b267049954018
-  - Branch: mg-genie-cfo-dashboard
+  - Branch: mg-genie-consistency-review (originally mg-genie-cfo-dashboard)
 
 - **health_plan_cmo_performance** -- "Health Plan CMO Performance Dashboard"
   - Serialized .lvdash.json in src/dashboards/ (271K chars)
@@ -148,18 +151,19 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 - AHP (ACO-001): Shared Savings $2.1M YTD vs $1.8M target; TCOC PMPM up +3% QoQ; Pharmacy PMPM +8% QoQ from GLP-1
 - Validation queries in notebook cell 23
 
-## Demo Beats (all tested 2026-09-17, 7/7 passing)
+## Demo Beats (retested 2026-09-29, 5/5 key beats passing on dev after instruction fix)
 
-| Beat | Prompt | Status | Metric Views Used |
-| --- | --- | --- | --- |
-| 1a | Morning briefing — flag off-track items | PASS | mv_budget_variance, mv_quality, mv_utilization |
-| 1b | HEDIS measures below 4-star cutpoints | PASS | mv_quality (was gold_quality_measures in prior test; now routes correctly) |
-| 2a | Top 10 highest-risk members | PASS | dim_member |
-| 2b | High-risk members in high avoidable ED states | PASS | dim_member, mv_utilization |
-| 3a | Calendar (MCP connector) | SKIP | External — not testable via API |
-| 3b | AHP value-based care overview | PASS | mv_vbc_performance |
-| 3c | TCOC drill-down — is it pharmacy? | PASS | mv_vbc_performance |
-| 3d | Dr. Chen meeting brief | PASS | mv_vbc_performance, mv_quality |
+| Beat | Prompt | Status | Metric Views Used | Notes |
+| --- | --- | --- | --- | --- |
+| 1a | Morning briefing — flag off-track items | PASS | mv_budget_variance, mv_quality, mv_utilization | Uses `> 0` for quality, `MAX(year_month)` throughout |
+| 1b | HEDIS measures below 4-star cutpoints | PASS | mv_quality | `HAVING distance_to_4_star > 0`, Aug 2026 data |
+| 2a | Top 10 highest-risk members | PASS (2026-09-17) | dim_member | Not retested 2026-09-29 (unaffected by changes) |
+| 2b | High-risk members in high avoidable ED states | PASS (2026-09-17) | dim_member, mv_utilization | Not retested 2026-09-29 |
+| 3a | Calendar (MCP connector) | SKIP | External | Not testable via API |
+| 3b | AHP value-based care overview | PASS | mv_vbc_performance | $2.1M savings, $892 TCOC, 4.2 quality, $198 pharmacy |
+| 3c | TCOC drill-down — is it pharmacy? | PASS (2026-09-17) | mv_vbc_performance | Not retested 2026-09-29 (AHP test covers same data) |
+| 3d | Dr. Chen meeting brief | PASS | mv_vbc_performance, mv_quality | 4 queries, 3 charts, structured narrative, GLP-1 insight |
+| - | Budget variance by LOB | PASS | mv_budget_variance | New test: `MAX(year_month)` = Aug 2026, all 4 LOBs exact match |
 
 ## Genie Agent (DEPLOYED)
 
@@ -168,6 +172,10 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 - **Data Sources:** 14 (6 metric views + 8 tables)
 - **Instructions:** Consolidated from L300-C: domain context (gainsharing only), 12 behavioral rules, MEASURE() syntax examples for all 6 views. Glossary and condition-domain content migrated to metric view metadata.
 - **Sample Questions:** 7 (aligned with demo beats)
+- **Instruction fixes (session 2026-09-29):**
+  - Rule 6 & 10: `distance_to_4_star < 0` → `> 0 (positive = below cutpoint, needs improvement)` — aligns with MV convention
+  - All MEASURE() example queries: hardcoded `'2026-05-01'` → `(SELECT MAX(year_month) FROM ...)` — ensures latest data always used
+  - Tested 5/5 demo beats passing after fix
 - **Key rules:** Always query metric views for KPIs (6 views); mv_budget_variance for budget variance (not manual join); mv_vbc_performance includes ACO name via join (AHP synonyms on aco_name); mv_quality has distance_to_4_star + condition-domain mappings in comment; mv_utilization for per-1K rates (authoritative-source in COMMENT ON VIEW); mv_member_risk for risk tiers
 - **API constraints:** content (array of strings) not instruction; max 1 text_instruction; all collections sorted alphabetically
 - **Instruction tuning:** Rule 9 must be directive ("SYNTHESIZE a structured meeting brief") not passive ("note that...") — Genie agents decline narrative generation unless explicitly directed

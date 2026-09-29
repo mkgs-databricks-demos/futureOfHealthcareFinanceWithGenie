@@ -77,8 +77,57 @@ All 15 datasets migrated from raw table queries to governed metric views:
 - `resources/healthcare_finance_intelligence.genie_space.yml` — Genie instruction fixes
 - `src/dashboards/cfo_executive_dashboard.lvdash.json` — 15 dataset query replacements
 
-## Next Steps
+## Deployment
 
-- Bundle deploy to dev and verify dashboard renders correctly
-- Verify shared_savings bar chart label display with full ACO names
-- Consider applying same MV migration to CMO dashboard (already uses MV as direct sources, but may need query refinement)
+### Method
+
+`databricks bundle deploy` is blocked from notebook execution (CLI binary checks interactive terminal context; pty workaround also fails). Deployed the two changed resources directly via Databricks Python SDK:
+
+1. **CFO Dashboard** — `w.api_client.do("PATCH", "/api/2.0/lakeview/dashboards/{id}", body={"serialized_dashboard": ...})`
+   - Dev dashboard ID: `01f1bbc037791ae5bb101a4d4ce318d9`
+   - Updated at: 2026-09-29T11:52:06.867Z
+2. **Genie Space** — `w.api_client.do("PATCH", "/api/2.0/genie/spaces/{id}", body={"serialized_space": ...})`
+   - Required resolving bundle variable refs (`${resources.schemas.healthcare_finance.*}`) to dev values (`hls_fde_dev.dev_matthew_giglia_healthcare_finance`) before the API call
+   - Dev Genie space ID: `01f1b284db9618cc902e5cf68a43153c`
+
+Dashboard post-deploy validation: 15/15 dataset queries executed successfully against dev schema.
+
+## Genie Agent Testing (5/5 Pass)
+
+Tested all key demo beat prompts against the updated dev Genie agent:
+
+| Test | Prompt | Sign Fix | Dynamic Date | Values Match | Status |
+| --- | --- | --- | --- | --- | --- |
+| Quality sign convention | "Which HEDIS measures are below 4-star for MA?" | `HAVING distance_to_4_star > 0` ✅ | `MAX(year_month)` = Aug 2026 ✅ | BCS 72.8%, HbA1c 58.8%, d2s 0.012 ✅ | PASS |
+| Morning briefing | "What needs attention today?" | `> 0` in quality queries ✅ | Aug 2026 throughout ✅ | Medicaid 1.081, MA 1.008 flagged ✅ | PASS |
+| AHP VBC performance | "Tell me about Accountable Health Partners" | n/a | `MAX(quarter)` = 2026-Q3 ✅ | $2.1M savings, $892 TCOC, 4.2 quality, $198 pharmacy ✅ | PASS |
+| Budget variance | "Budget variance by LOB, latest month" | n/a | `MAX(year_month)` = Aug 2026 ✅ | All 4 LOBs exact match ✅ | PASS |
+| Dr. Chen meeting brief | "Prepare talking points for Dr. Chen meeting" | BCS/HbA1c flagged as 3-star ✅ | Aug 2026 + 2026-Q3 ✅ | 4 queries, 3 charts, gainsharing 60/25/15 ✅ | PASS |
+
+### Key observations
+
+- **Sign convention fully corrected:** Genie now uses `HAVING distance_to_4_star > 0` (not WHERE, which would fail with MEASURE()). The instruction fix propagated correctly.
+- **Dynamic dates working:** All queries use `(SELECT MAX(year_month) FROM ...)` or `(SELECT MAX(quarter) FROM ...)` — no trace of hardcoded `'2026-05-01'`.
+- **Morning briefing note:** Some mv_utilization/mv_member_risk queries initially returned 0 rows due to MEASURE() in WHERE vs HAVING. Genie self-corrected on retry. This is a known Genie behavior with metric view aggregate filtering.
+- **Dr. Chen brief is excellent:** 4 data queries, 3 visualizations (line, combo, bar), structured narrative with numbered talking points per instruction rule 9. GLP-1 cost pressure correctly inferred from pharmacy trend.
+
+## Branch & Git
+
+- **Branch:** `mg-genie-consistency-review` (created from `mg-genie-cmo-dashboard`)
+- **Committed files:** 4 (healthcare_finance_intelligence.genie_space.yml, cfo_executive_dashboard.lvdash.json, INDEX.md, this session log)
+- **Commit message:** `fix: Genie sign convention + CFO dashboard MV migration`
+- **Artifact:** Empty `fhcf-demo/fixtures/cfo_dashboard_mv_queries.md` in working tree (createAsset artifact, should be discarded)
+
+## Decisions
+
+- All dashboard queries now use bare metric view names (no catalog.schema prefix) — the dashboard inherits dataset_catalog/dataset_schema from the lvdash.json config for dev/prod portability.
+- `shared_savings` and `aco_scorecard` now use full `aco_name` from mv_vbc_performance instead of `aco_short_name` from dim_aco_contract. Widgets using these may need bar/column label adjustment.
+- `hedis_ma` ORDER BY is DESC on distance_to_4_star_pct so measures needing the most improvement appear first (positive = below 4-star).
+- SDK-based deploy is a viable alternative when `bundle deploy` is blocked. Requires manual variable resolution for Genie serialized_space.
+
+## Files Modified
+
+- `resources/healthcare_finance_intelligence.genie_space.yml` — Genie instruction fixes (sign convention + dynamic dates)
+- `src/dashboards/cfo_executive_dashboard.lvdash.json` — 15 dataset query replacements (raw tables → metric views)
+- `fixtures/sessions/INDEX.md` — updated with this session entry
+- `fixtures/sessions/2026-09-29_consistency-review-and-mv-migration.md` — this file
