@@ -3,7 +3,7 @@ resources:
     health_plan_cmo_performance:
       display_name: "Health Plan CMO Performance Dashboard"
       file_path: ../src/dashboards/health_plan_cmo_performance.lvdash.json
-      warehouse_id: ${var.warehouse_id}
-      dataset_catalog: ${var.catalog}
-      dataset_schema: ${var.schema}
+      warehouse_id: ${resources.sql_warehouses.demo_warehouse.id}
+      dataset_catalog: ${resources.schemas.healthcare_finance.catalog_name}
+      dataset_schema: ${resources.schemas.healthcare_finance.name}
       embed_credentials: false

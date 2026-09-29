@@ -3,7 +3,7 @@ resources:
     healthcare_finance_intelligence:
       title: "Healthcare Finance Intelligence"
       description: "Genie Agent for healthcare finance analytics — MLR trending, HEDIS quality measures, VBC performance, and avoidable spend. Webinar demo Sep 2026."
-      warehouse_id: ${var.warehouse_id}
+      warehouse_id: ${resources.sql_warehouses.demo_warehouse.id}
       serialized_space: |-
         {
           "version": 2,
