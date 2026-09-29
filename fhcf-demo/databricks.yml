@@ -11,9 +11,6 @@ variables:
     default: hls_fde
   schema:
     default: healthcare_finance
-  warehouse_id:
-    lookup:
-      warehouse: "demo-warehouse"
 
 targets:
   # The 'dev' target, for development purposes. This target is the default.

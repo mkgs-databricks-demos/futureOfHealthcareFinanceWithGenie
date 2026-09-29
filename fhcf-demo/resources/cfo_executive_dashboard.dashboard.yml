@@ -1,0 +1,9 @@
+resources:
+  dashboards:
+    cfo_executive_dashboard:
+      display_name: "CFO Executive Dashboard — Healthcare Finance"
+      file_path: ../src/dashboards/cfo_executive_dashboard.lvdash.json
+      warehouse_id: ${resources.sql_warehouses.demo_warehouse.id}
+      dataset_catalog: ${resources.schemas.healthcare_finance.catalog_name}
+      dataset_schema: ${resources.schemas.healthcare_finance.name}
+      embed_credentials: false

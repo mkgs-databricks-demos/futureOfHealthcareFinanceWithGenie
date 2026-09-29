@@ -1,0 +1,1479 @@
+{
+  "datasets": [
+    {
+      "name": "avoidable_spend_state",
+      "displayName": "Avoidable Spend by State",
+      "queryLines": [
+        "SELECT state, ROUND(MEASURE(avoidable_share_of_spend) * 100, 1) AS avoidable_spend_pct FROM mv_financial WHERE year_month >= '2026-03-01' GROUP BY ALL ORDER BY avoidable_spend_pct DESC"
+      ]
+    },
+    {
+      "name": "avoidable_ed_state",
+      "displayName": "Avoidable ED Rate by State",
+      "queryLines": [
+        "SELECT state, ROUND(MEASURE(avoidable_ed_rate) * 100, 1) AS avoidable_ed_pct FROM mv_utilization WHERE year_month >= '2026-03-01' GROUP BY ALL ORDER BY avoidable_ed_pct DESC"
+      ]
+    },
+    {
+      "name": "mlr_by_lob",
+      "displayName": "MLR by LOB (Latest Month)",
+      "queryLines": [
+        "SELECT lob, ROUND(MEASURE(mlr), 4) AS mlr FROM mv_financial WHERE year_month = (SELECT MAX(year_month) FROM mv_financial) GROUP BY ALL ORDER BY mlr DESC"
+      ]
+    },
+    {
+      "name": "mlr_trend",
+      "displayName": "MLR Trend by LOB",
+      "queryLines": [
+        "SELECT year_month, lob, ROUND(MEASURE(mlr), 4) AS mlr FROM mv_financial GROUP BY ALL ORDER BY year_month, lob"
+      ]
+    },
+    {
+      "name": "paid_pmpm_trend",
+      "displayName": "Paid PMPM Trend by LOB",
+      "queryLines": [
+        "SELECT year_month, lob, ROUND(MEASURE(paid_pmpm), 2) AS paid_pmpm FROM mv_financial GROUP BY ALL ORDER BY year_month, lob"
+      ]
+    },
+    {
+      "name": "exec_counters",
+      "displayName": "Executive Counters (Latest Month)",
+      "queryLines": [
+        "SELECT ROUND(MEASURE(mlr), 4) AS overall_mlr, ROUND(MEASURE(premium_amount), 0) AS total_premium, MEASURE(member_months) AS total_member_months, ROUND(MEASURE(avoidable_share_of_spend) * 100, 1) AS avoidable_spend_pct FROM mv_financial WHERE year_month = (SELECT MAX(year_month) FROM mv_financial) GROUP BY ALL"
+      ]
+    },
+    {
+      "name": "budget_variance",
+      "displayName": "Budget Variance by LOB",
+      "queryLines": [
+        "SELECT lob, ROUND(MEASURE(actual_mlr), 4) AS actual_mlr, ROUND(MEASURE(target_mlr), 4) AS target_mlr, ROUND(MEASURE(mlr_variance), 4) AS mlr_variance, ROUND(MEASURE(actual_premium), 0) AS actual_premium, ROUND(MEASURE(budget_premium), 0) AS budget_premium, ROUND(MEASURE(budget_attainment) * 100, 1) AS budget_attainment_pct FROM mv_budget_variance WHERE year_month = (SELECT MAX(year_month) FROM mv_budget_variance) GROUP BY ALL ORDER BY lob"
+      ]
+    },
+    {
+      "name": "ed_per_1k",
+      "displayName": "ED Visits per 1K by LOB",
+      "queryLines": [
+        "SELECT lob, ROUND(MEASURE(ed_per_1k), 1) AS ed_per_1k FROM mv_utilization WHERE year_month >= '2026-03-01' GROUP BY ALL ORDER BY ed_per_1k DESC"
+      ]
+    },
+    {
+      "name": "hedis_ma",
+      "displayName": "HEDIS Performance \u2014 MA",
+      "queryLines": [
+        "SELECT measure_name, ROUND(MEASURE(current_rate) * 100, 1) AS current_rate_pct, ROUND(MEASURE(star_4_cutpoint) * 100, 1) AS star_4_cutpoint_pct, ROUND(MEASURE(distance_to_4_star) * 100, 1) AS distance_to_4_star_pct, MEASURE(gap_count) AS gap_count, MEASURE(eligible_count) AS eligible_count, condition_domain FROM mv_quality WHERE lob = 'MA' AND year_month = (SELECT MAX(year_month) FROM mv_quality) GROUP BY ALL ORDER BY distance_to_4_star_pct DESC"
+      ]
+    },
+    {
+      "name": "bcs_hba1c_trend",
+      "displayName": "BCS & HbA1c Trend \u2014 MA",
+      "queryLines": [
+        "SELECT year_month, measure_name, ROUND(MEASURE(current_rate) * 100, 1) AS current_rate_pct FROM mv_quality WHERE lob = 'MA' AND measure_id IN ('BCS', 'CDC-HBA1C') GROUP BY ALL ORDER BY year_month, measure_name"
+      ]
+    },
+    {
+      "name": "shared_savings",
+      "displayName": "Shared Savings \u2014 Actual vs Target",
+      "queryLines": [
+        "SELECT aco_name AS short_name, 'Actual' AS series, MEASURE(actual_value) AS value FROM mv_vbc_performance WHERE quarter = '2026-Q3' AND measure_name = 'Shared Savings YTD' GROUP BY ALL UNION ALL SELECT aco_name, 'Target', MEASURE(target_value) FROM mv_vbc_performance WHERE quarter = '2026-Q3' AND measure_name = 'Shared Savings YTD' GROUP BY ALL ORDER BY short_name, series"
+      ]
+    },
+    {
+      "name": "readmission_trend",
+      "displayName": "Readmission Rate Trend",
+      "queryLines": [
+        "SELECT year_month, lob, ROUND(MEASURE(readmission_rate) * 100, 1) AS readmission_rate FROM mv_utilization GROUP BY ALL ORDER BY year_month, lob"
+      ]
+    },
+    {
+      "name": "aco_scorecard",
+      "displayName": "ACO Scorecard (2026-Q3)",
+      "queryLines": [
+        "SELECT aco_name, MEASURE(shared_savings_ytd) AS shared_savings_ytd, MEASURE(tcoc_pmpm) AS tcoc_pmpm, MEASURE(quality_score) AS quality_score, MEASURE(readmission_rate) AS readmission_rate, MEASURE(pharmacy_pmpm) AS pharmacy_pmpm FROM mv_vbc_performance WHERE quarter = '2026-Q3' GROUP BY ALL ORDER BY shared_savings_ytd DESC"
+      ]
+    },
+    {
+      "name": "ip_per_1k",
+      "displayName": "IP Admits per 1K by LOB",
+      "queryLines": [
+        "SELECT lob, ROUND(MEASURE(ip_per_1k), 1) AS ip_per_1k FROM mv_utilization WHERE year_month >= '2026-03-01' GROUP BY ALL ORDER BY ip_per_1k DESC"
+      ]
+    },
+    {
+      "name": "ahp_trends",
+      "displayName": "AHP Quarterly Trends",
+      "queryLines": [
+        "SELECT quarter, measure_name, MEASURE(actual_value) AS actual_value FROM mv_vbc_performance WHERE aco_id = 'ACO-001' AND measure_name IN ('TCOC PMPM', 'Pharmacy PMPM') GROUP BY ALL ORDER BY quarter, measure_name"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "0cc15f22",
+      "displayName": "Executive Summary",
+      "layout": [
+        {
+          "widget": {
+            "name": "header",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Executive Summary\n",
+                "Latest month KPIs and MLR performance by line of business."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_mlr",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "exec_counters",
+                  "fields": [
+                    {
+                      "name": "overall_mlr",
+                      "expression": "`overall_mlr`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Overall MLR",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "overall_mlr",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_premium",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "exec_counters",
+                  "fields": [
+                    {
+                      "name": "total_premium",
+                      "expression": "`total_premium`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Total Premium Revenue",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_premium",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 2,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_mm",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "exec_counters",
+                  "fields": [
+                    {
+                      "name": "total_member_months",
+                      "expression": "`total_member_months`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Total Member Months",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_member_months",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_avoidable",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "exec_counters",
+                  "fields": [
+                    {
+                      "name": "avoidable_spend_pct",
+                      "expression": "`avoidable_spend_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Avoidable Spend %",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avoidable_spend_pct",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 2,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "mlr_bar",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mlr_by_lob",
+                  "fields": [
+                    {
+                      "name": "lob",
+                      "expression": "`lob`"
+                    },
+                    {
+                      "name": "sum(mlr)",
+                      "expression": "SUM(`mlr`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "MLR by Line of Business"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "lob",
+                  "displayName": "lob",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(mlr)",
+                  "displayName": "mlr",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "lob",
+                  "displayName": "lob",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "mlr_trend",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mlr_trend",
+                  "fields": [
+                    {
+                      "name": "lob",
+                      "expression": "`lob`"
+                    },
+                    {
+                      "name": "year_month",
+                      "expression": "`year_month`"
+                    },
+                    {
+                      "name": "sum(mlr)",
+                      "expression": "SUM(`mlr`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "MLR Trend by LOB (15 Months)"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "year_month",
+                  "displayName": "year_month",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(mlr)",
+                  "displayName": "mlr",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "lob",
+                  "displayName": "lob",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 4,
+            "width": 6,
+            "height": 5
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "financial",
+      "displayName": "Financial Performance",
+      "layout": [
+        {
+          "widget": {
+            "name": "header",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Financial Performance\n",
+                "Budget variance, avoidable spend hotspots, and paid PMPM trends."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "budget_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "budget_variance",
+                  "fields": [
+                    {
+                      "name": "lob",
+                      "expression": "`lob`"
+                    },
+                    {
+                      "name": "actual_mlr",
+                      "expression": "`actual_mlr`"
+                    },
+                    {
+                      "name": "target_mlr",
+                      "expression": "`target_mlr`"
+                    },
+                    {
+                      "name": "mlr_variance",
+                      "expression": "`mlr_variance`"
+                    },
+                    {
+                      "name": "actual_premium",
+                      "expression": "`actual_premium`"
+                    },
+                    {
+                      "name": "budget_premium",
+                      "expression": "`budget_premium`"
+                    },
+                    {
+                      "name": "budget_attainment_pct",
+                      "expression": "`budget_attainment_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Budget Variance by LOB (Latest Month)"
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "lob"
+                  },
+                  {
+                    "fieldName": "actual_mlr"
+                  },
+                  {
+                    "fieldName": "target_mlr"
+                  },
+                  {
+                    "fieldName": "mlr_variance"
+                  },
+                  {
+                    "fieldName": "actual_premium"
+                  },
+                  {
+                    "fieldName": "budget_premium"
+                  },
+                  {
+                    "fieldName": "budget_attainment_pct"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 12,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "avoidable_bar",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "avoidable_spend_state",
+                  "fields": [
+                    {
+                      "name": "state",
+                      "expression": "`state`"
+                    },
+                    {
+                      "name": "sum(avoidable_spend_pct)",
+                      "expression": "SUM(`avoidable_spend_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Avoidable Spend % by State"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "state",
+                  "displayName": "state",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(avoidable_spend_pct)",
+                  "displayName": "avoidable_spend_pct",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "state",
+                  "displayName": "state",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "pmpm_line",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "paid_pmpm_trend",
+                  "fields": [
+                    {
+                      "name": "lob",
+                      "expression": "`lob`"
+                    },
+                    {
+                      "name": "year_month",
+                      "expression": "`year_month`"
+                    },
+                    {
+                      "name": "sum(paid_pmpm)",
+                      "expression": "SUM(`paid_pmpm`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Paid PMPM Trend by LOB"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "year_month",
+                  "displayName": "year_month",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(paid_pmpm)",
+                  "displayName": "paid_pmpm",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "lob",
+                  "displayName": "lob",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 6,
+            "width": 6,
+            "height": 5
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "quality",
+      "displayName": "Quality & Star Ratings",
+      "layout": [
+        {
+          "widget": {
+            "name": "header",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Quality & Star Ratings\n",
+                "HEDIS measure performance for Medicare Advantage \u2014 distance to 4-star cutpoints."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "hedis_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "hedis_ma",
+                  "fields": [
+                    {
+                      "name": "measure_name",
+                      "expression": "`measure_name`"
+                    },
+                    {
+                      "name": "current_rate_pct",
+                      "expression": "`current_rate_pct`"
+                    },
+                    {
+                      "name": "star_4_cutpoint_pct",
+                      "expression": "`star_4_cutpoint_pct`"
+                    },
+                    {
+                      "name": "distance_to_4_star_pct",
+                      "expression": "`distance_to_4_star_pct`"
+                    },
+                    {
+                      "name": "gap_count",
+                      "expression": "`gap_count`"
+                    },
+                    {
+                      "name": "eligible_count",
+                      "expression": "`eligible_count`"
+                    },
+                    {
+                      "name": "condition_domain",
+                      "expression": "`condition_domain`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "HEDIS Performance \u2014 MA (Latest Month)"
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "measure_name"
+                  },
+                  {
+                    "fieldName": "current_rate_pct"
+                  },
+                  {
+                    "fieldName": "star_4_cutpoint_pct"
+                  },
+                  {
+                    "fieldName": "distance_to_4_star_pct"
+                  },
+                  {
+                    "fieldName": "gap_count"
+                  },
+                  {
+                    "fieldName": "eligible_count"
+                  },
+                  {
+                    "fieldName": "condition_domain"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 12,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "distance_bar",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "hedis_ma",
+                  "fields": [
+                    {
+                      "name": "measure_name",
+                      "expression": "`measure_name`"
+                    },
+                    {
+                      "name": "sum(distance_to_4_star_pct)",
+                      "expression": "SUM(`distance_to_4_star_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Distance to 4-Star by Measure (MA)"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure_name",
+                  "displayName": "measure_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(distance_to_4_star_pct)",
+                  "displayName": "distance_to_4_star_pct",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "measure_name",
+                  "displayName": "measure_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "bcs_trend",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "bcs_hba1c_trend",
+                  "fields": [
+                    {
+                      "name": "measure_name",
+                      "expression": "`measure_name`"
+                    },
+                    {
+                      "name": "year_month",
+                      "expression": "`year_month`"
+                    },
+                    {
+                      "name": "sum(current_rate_pct)",
+                      "expression": "SUM(`current_rate_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "BCS & HbA1c Trend \u2014 MA"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "year_month",
+                  "displayName": "year_month",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(current_rate_pct)",
+                  "displayName": "current_rate_pct",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "measure_name",
+                  "displayName": "measure_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 6,
+            "width": 6,
+            "height": 5
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "utilization",
+      "displayName": "Utilization",
+      "layout": [
+        {
+          "widget": {
+            "name": "header",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Utilization\n",
+                "Avoidable ED hotspots, ED/IP rates per 1K, and readmission trends."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "avoidable_ed_bar",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "avoidable_ed_state",
+                  "fields": [
+                    {
+                      "name": "state",
+                      "expression": "`state`"
+                    },
+                    {
+                      "name": "sum(avoidable_ed_pct)",
+                      "expression": "SUM(`avoidable_ed_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Avoidable ED Rate by State (Last 6 Mo)"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "state",
+                  "displayName": "state",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(avoidable_ed_pct)",
+                  "displayName": "avoidable_ed_pct",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "state",
+                  "displayName": "state",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "ed_per_1k_bar",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ed_per_1k",
+                  "fields": [
+                    {
+                      "name": "lob",
+                      "expression": "`lob`"
+                    },
+                    {
+                      "name": "sum(ed_per_1k)",
+                      "expression": "SUM(`ed_per_1k`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "ED Visits per 1K by LOB"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "lob",
+                  "displayName": "lob",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(ed_per_1k)",
+                  "displayName": "ed_per_1k",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "lob",
+                  "displayName": "lob",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 1,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "ip_per_1k_bar",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ip_per_1k",
+                  "fields": [
+                    {
+                      "name": "lob",
+                      "expression": "`lob`"
+                    },
+                    {
+                      "name": "sum(ip_per_1k)",
+                      "expression": "SUM(`ip_per_1k`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "IP Admits per 1K by LOB"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "lob",
+                  "displayName": "lob",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(ip_per_1k)",
+                  "displayName": "ip_per_1k",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "lob",
+                  "displayName": "lob",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "readmission_line",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "readmission_trend",
+                  "fields": [
+                    {
+                      "name": "lob",
+                      "expression": "`lob`"
+                    },
+                    {
+                      "name": "year_month",
+                      "expression": "`year_month`"
+                    },
+                    {
+                      "name": "sum(readmission_rate)",
+                      "expression": "SUM(`readmission_rate`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Readmission Rate Trend by LOB"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "year_month",
+                  "displayName": "year_month",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(readmission_rate)",
+                  "displayName": "readmission_rate",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "lob",
+                  "displayName": "lob",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 6,
+            "width": 6,
+            "height": 5
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "vbc",
+      "displayName": "VBC & ACO Performance",
+      "layout": [
+        {
+          "widget": {
+            "name": "header",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## VBC & ACO Performance\n",
+                "ACO scorecard, shared savings vs target, and AHP cost pressure trends."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "aco_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "aco_scorecard",
+                  "fields": [
+                    {
+                      "name": "short_name",
+                      "expression": "`short_name`"
+                    },
+                    {
+                      "name": "aco_name",
+                      "expression": "`aco_name`"
+                    },
+                    {
+                      "name": "shared_savings_ytd",
+                      "expression": "`shared_savings_ytd`"
+                    },
+                    {
+                      "name": "tcoc_pmpm",
+                      "expression": "`tcoc_pmpm`"
+                    },
+                    {
+                      "name": "quality_score",
+                      "expression": "`quality_score`"
+                    },
+                    {
+                      "name": "readmission_rate",
+                      "expression": "`readmission_rate`"
+                    },
+                    {
+                      "name": "pharmacy_pmpm",
+                      "expression": "`pharmacy_pmpm`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "ACO Performance Scorecard (2026-Q3)"
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "short_name"
+                  },
+                  {
+                    "fieldName": "aco_name"
+                  },
+                  {
+                    "fieldName": "shared_savings_ytd"
+                  },
+                  {
+                    "fieldName": "tcoc_pmpm"
+                  },
+                  {
+                    "fieldName": "quality_score"
+                  },
+                  {
+                    "fieldName": "readmission_rate"
+                  },
+                  {
+                    "fieldName": "pharmacy_pmpm"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 12,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "savings_bar",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "shared_savings",
+                  "fields": [
+                    {
+                      "name": "series",
+                      "expression": "`series`"
+                    },
+                    {
+                      "name": "short_name",
+                      "expression": "`short_name`"
+                    },
+                    {
+                      "name": "sum(value)",
+                      "expression": "SUM(`value`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Shared Savings YTD \u2014 Actual vs Target",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "short_name",
+                  "displayName": "short_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(value)",
+                  "displayName": "actual_savings",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "series",
+                  "displayName": "short_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "ahp_line",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ahp_trends",
+                  "fields": [
+                    {
+                      "name": "measure_name",
+                      "expression": "`measure_name`"
+                    },
+                    {
+                      "name": "quarter",
+                      "expression": "`quarter`"
+                    },
+                    {
+                      "name": "sum(actual_value)",
+                      "expression": "SUM(`actual_value`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "AHP (ACO-001) \u2014 TCOC & Pharmacy PMPM Trends"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "quarter",
+                  "displayName": "quarter",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(actual_value)",
+                  "displayName": "actual_value",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "measure_name",
+                  "displayName": "measure_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 5,
+            "width": 6,
+            "height": 5
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}

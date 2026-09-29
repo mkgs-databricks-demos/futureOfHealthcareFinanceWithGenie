@@ -1,7 +1,7 @@
 # Databricks notebook source
 # /// script
 # [tool.databricks.environment]
-# environment_version = "5"
+# environment_version = "6"
 # ///
 # DBTITLE 1,Healthcare Finance Webinar — Data Foundation
 # MAGIC %md
@@ -225,7 +225,7 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 
 # COMMAND ----------
 
-# DBTITLE 1,Seed — dim_budget (48 rows)
+# DBTITLE 1,Seed — dim_budget (60 rows)
 # MAGIC %sql
 # MAGIC INSERT INTO `dim_budget`
 # MAGIC SELECT
@@ -265,16 +265,16 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 # MAGIC   SELECT EXPLODE(ARRAY('Commercial', 'Individual', 'MA', 'Medicaid')) AS lob
 # MAGIC ) lobs
 # MAGIC CROSS JOIN (
-# MAGIC   SELECT EXPLODE(SEQUENCE(DATE'2025-06-01', DATE'2026-05-01', INTERVAL 1 MONTH)) AS year_month
+# MAGIC   SELECT EXPLODE(SEQUENCE(DATE'2025-06-01', DATE'2026-08-01', INTERVAL 1 MONTH)) AS year_month
 # MAGIC ) months;
 
 # COMMAND ----------
 
-# DBTITLE 1,Seed — gold_financial_monthly (480 rows)
+# DBTITLE 1,Seed — gold_financial_monthly (600 rows)
 # MAGIC %sql
 # MAGIC INSERT INTO `gold_financial_monthly`
 # MAGIC WITH months AS (
-# MAGIC   SELECT EXPLODE(SEQUENCE(DATE'2025-06-01', DATE'2026-05-01', INTERVAL 1 MONTH)) AS year_month
+# MAGIC   SELECT EXPLODE(SEQUENCE(DATE'2025-06-01', DATE'2026-08-01', INTERVAL 1 MONTH)) AS year_month
 # MAGIC ),
 # MAGIC states AS (
 # MAGIC   SELECT EXPLODE(ARRAY('NY','FL','TX','CA','PA','OH','IL','GA','NC','MI')) AS state
@@ -436,11 +436,11 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 
 # COMMAND ----------
 
-# DBTITLE 1,Seed — gold_quality_measures (288 rows)
+# DBTITLE 1,Seed — gold_quality_measures (360 rows)
 # MAGIC %sql
 # MAGIC INSERT INTO `gold_quality_measures`
 # MAGIC WITH months AS (
-# MAGIC   SELECT EXPLODE(SEQUENCE(DATE'2025-06-01', DATE'2026-05-01', INTERVAL 1 MONTH)) AS year_month
+# MAGIC   SELECT EXPLODE(SEQUENCE(DATE'2025-06-01', DATE'2026-08-01', INTERVAL 1 MONTH)) AS year_month
 # MAGIC ),
 # MAGIC lobs AS (
 # MAGIC   SELECT EXPLODE(ARRAY('Commercial','MA','Medicaid','Individual')) AS lob
@@ -512,11 +512,11 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 
 # COMMAND ----------
 
-# DBTITLE 1,Seed — gold_utilization_monthly (480 rows)
+# DBTITLE 1,Seed — gold_utilization_monthly (600 rows)
 # MAGIC %sql
 # MAGIC INSERT INTO `gold_utilization_monthly`
 # MAGIC WITH months AS (
-# MAGIC   SELECT EXPLODE(SEQUENCE(DATE'2025-06-01', DATE'2026-05-01', INTERVAL 1 MONTH)) AS year_month
+# MAGIC   SELECT EXPLODE(SEQUENCE(DATE'2025-06-01', DATE'2026-08-01', INTERVAL 1 MONTH)) AS year_month
 # MAGIC ),
 # MAGIC states AS (
 # MAGIC   SELECT EXPLODE(ARRAY('NY','FL','TX','CA','PA','OH','IL','GA','NC','MI')) AS state
@@ -1657,7 +1657,7 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 # MAGIC SELECT 'Beat 1: Medicaid MLR' AS test,
 # MAGIC   ROUND(SUM(paid_amount) / SUM(premium_amount), 4) AS mlr
 # MAGIC FROM `gold_financial_monthly`
-# MAGIC WHERE lob = 'Medicaid' AND year_month = '2026-05-01'
+# MAGIC WHERE lob = 'Medicaid' AND year_month = '2026-08-01'
 # MAGIC
 # MAGIC UNION ALL
 # MAGIC
@@ -1665,7 +1665,7 @@ print(f"Using: {dbutils.widgets.get('catalog')}.{dbutils.widgets.get('schema')}"
 # MAGIC SELECT 'Beat 1: Commercial MLR' AS test,
 # MAGIC   ROUND(SUM(paid_amount) / SUM(premium_amount), 4) AS mlr
 # MAGIC FROM `gold_financial_monthly`
-# MAGIC WHERE lob = 'Commercial' AND year_month = '2026-05-01'
+# MAGIC WHERE lob = 'Commercial' AND year_month = '2026-08-01'
 # MAGIC
 # MAGIC UNION ALL
 # MAGIC

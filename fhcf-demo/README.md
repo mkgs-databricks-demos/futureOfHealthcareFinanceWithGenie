@@ -37,11 +37,17 @@ futureOfHealthcareFinanceWithGenie/
 │   ├── resources/
 │   │   ├── healthcare_finance.schema.yml                   # UC schema resource
 │   │   ├── seed_data.job.yml                               # Seed job definition
-│   │   └── healthcare_finance_intelligence.genie_space.yml # Genie Agent resource (14 sources, 7 questions)
+│   │   ├── healthcare_finance_intelligence.genie_space.yml # Genie Agent resource (14 sources, 7 questions)
+│   │   ├── cfo_executive_dashboard.dashboard.yml           # CFO dashboard resource
+│   │   ├── health_plan_cmo_performance.dashboard.yml       # CMO dashboard resource
+│   │   └── demo_warehouse.sql_warehouse.yml                # SQL warehouse (2X-Small serverless PRO)
 │   ├── src/
-│   │   └── seed_all_data.py           # 26-cell notebook: widgets → DDL → seed data → metric views → validation
+│   │   ├── seed_all_data.py           # 26-cell notebook: widgets → DDL → seed data → metric views → validation
+│   │   └── dashboards/               # Serialized Lakeview dashboard JSON files
+│   │       ├── cfo_executive_dashboard.lvdash.json
+│   │       └── health_plan_cmo_performance.lvdash.json
 │   └── fixtures/
-│       └── sessions/                  # Chronological build log (7 sessions)
+│       └── sessions/                  # Chronological build log (10 sessions)
 │
 ├── webinar_slides/                    # ── Presentation Slide Deck ──
 │   ├── app.py                         # Flask server (serves presenter.html as entry point)
@@ -77,7 +83,7 @@ futureOfHealthcareFinanceWithGenie/
 | Databricks workspace | Any workspace with Unity Catalog enabled |
 | Databricks CLI | v0.230+ (or use the workspace UI deployment panel) |
 | Unity Catalog catalog | A catalog you can create schemas in (default: `hls_fde`) |
-| SQL warehouse | A serverless SQL warehouse named `demo-warehouse` (or override the `warehouse_id` variable) |
+| SQL warehouse | Bundle-managed (2X-Small serverless PRO, auto-provisioned on first deploy) |
 | Permissions | `CREATE SCHEMA` on the target catalog; `USE CATALOG`; `CREATE TABLE` / `CREATE VIEW` |
 | MCP connector (optional) | Google Calendar connector for Beat 3a (calendar integration) |
 
@@ -103,7 +109,8 @@ Edit `databricks.yml` or pass overrides at deploy time:
 | --- | --- | --- |
 | `catalog` | `hls_fde` | Your UC catalog name |
 | `schema` | `healthcare_finance` | Any schema name (dev mode auto-prefixes) |
-| `warehouse_id` | lookup: `demo-warehouse` | Your SQL warehouse name or ID |
+
+The SQL warehouse is managed as a bundle resource (`demo_warehouse`) and auto-provisioned on deploy.
 
 ### Step 3: First deploy (creates schema + job)
 
@@ -204,20 +211,23 @@ Detailed speaker notes and design rationale are in the `batch_*.md` files alongs
 | Resource | Name | Description |
 | --- | --- | --- |
 | UC Schema | `<catalog>.healthcare_finance` | All tables and views land here |
+| SQL Warehouse | `[FHCF] Healthcare Finance Warehouse` | 2X-Small serverless PRO, auto-stop 10 min |
 | Job | `[FHCF] Seed Healthcare Finance Data` | Runs `seed_all_data` notebook to create and populate all objects |
 | Genie Space | Healthcare Finance Intelligence | 14 data sources, 7 sample questions, lean instructions backed by metric view semantic metadata |
+| Dashboard | CFO Executive Dashboard | 5 pages, 15 datasets — MLR, budget variance, HEDIS quality, utilization, VBC/ACO performance |
+| Dashboard | Health Plan CMO Performance Dashboard | 12 pages, 9 datasets — member risk, care gaps, quality/stars, financials, utilization, VBC, provider network, risk-adjusted |
 
 ### 8 Delta Tables
 
 | Table | Rows | Description |
 | --- | --- | --- |
 | `dim_aco_contract` | 5 | ACO/CIN reference data (ACO-001 = AHP, Dr. Sarah Chen) |
-| `dim_budget` | 48 | Monthly budget targets by LOB (4 LOBs x 12 months) |
+| `dim_budget` | 60 | Monthly budget targets by LOB (4 LOBs x 15 months, Jun 2025–Aug 2026) |
 | `dim_member` | 50,000 | Member demographics and risk profiles |
 | `dim_provider_network` | 200 | Provider-level network data by ACO |
-| `gold_financial_monthly` | 480 | Monthly financial aggregates by LOB/state/plan_type |
-| `gold_quality_measures` | 288 | HEDIS quality measures by LOB/month |
-| `gold_utilization_monthly` | 480 | Monthly utilization by LOB/state |
+| `gold_financial_monthly` | 600 | Monthly financial aggregates by LOB/state/plan_type |
+| `gold_quality_measures` | 360 | HEDIS quality measures by LOB/month |
+| `gold_utilization_monthly` | 600 | Monthly utilization by LOB/state |
 | `fact_vbc_performance` | 120 | Quarterly VBC performance by ACO/measure |
 
 ### 6 Metric Views
@@ -274,13 +284,13 @@ The seed data encodes a deterministic narrative. Every value is intentional — 
 
 | Signal | Expected Value | Why It Matters |
 | --- | --- | --- |
-| Medicaid MLR | \~106% | Triggers the "off track" flag in Beat 1a |
+| Medicaid MLR | \~108% | Triggers the "off track" flag in Beat 1a |
 | MA MLR | \~100% | Borderline — interesting discussion point |
 | Commercial MLR | \~87% | Healthy — shows contrast |
 | Individual MLR | \~83% | Healthy — shows contrast |
-| FL, TX, CA avoidable ED rate | 2x other states (14% vs 7%) | Drives the geographic pattern in Beat 2b |
-| BCS (Breast Cancer Screening) | 72% (cutpoint 74%) | Below 4-star — flagged in Beat 1b |
-| HbA1c (Diabetes Control) | 58% (cutpoint 60%) | Below 4-star — flagged in Beat 1b |
+| FL, TX, CA avoidable ED rate | 2x other states (35% vs 17%) | Drives the geographic pattern in Beat 2b |
+| BCS (Breast Cancer Screening) | 72.8% (cutpoint 74%) | Below 4-star — flagged in Beat 1b |
+| HbA1c (Diabetes Control) | 58.8% (cutpoint 60%) | Below 4-star — flagged in Beat 1b |
 | AHP Shared Savings | $2.1M YTD vs $1.8M target | Positive story for Beat 3b |
 | AHP TCOC PMPM | +3% QoQ | Cost pressure narrative for Beat 3c |
 | AHP Pharmacy PMPM | +8% QoQ (GLP-1) | Root cause for Beat 3c |
@@ -394,10 +404,11 @@ Diagrams (Mermaid format) are in `webinar_demo_docs/docs/diagrams/`.
 
 ## Session Logs
 
-The `fixtures/sessions/` directory contains a chronological record of every build session (all from 2026-09-17). These document the decisions, problems, and solutions encountered while building the demo:
+The `fixtures/sessions/` directory contains a chronological record of every build session. These document the decisions, problems, and solutions encountered while building the demo:
 
 | Session | Summary |
 | --- | --- |
+| [Prod Data Restoration](fixtures/sessions/2026-09-28_prod-data-restoration.md) | Diagnosed 5 empty prod tables from interrupted Run All; re-seeded via job with expanded 15-month range |
 | [Initial Bundle Setup](fixtures/sessions/2026-09-17_initial-bundle-setup.md) | Stood up the bundle: 8 tables, 3 metric views, seed job |
 | [DDL & Metric View Improvements](fixtures/sessions/2026-09-17_ddl-metric-view-improvements.md) | Added PK/FK constraints, liquid clustering, 3 new metric views |
 | [Genie Space & Catalog Migration](fixtures/sessions/2026-09-17_genie-space-and-catalog-migration.md) | Built Genie Agent, migrated dev catalog, two-phase deploy |
