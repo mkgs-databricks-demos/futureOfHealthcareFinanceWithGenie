@@ -33,9 +33,38 @@ targets:
       # This runs as matthew.giglia@databricks.com in production. We could also use a service principal here,
       # see https://docs.databricks.com/dev-tools/bundles/permissions.html.
       user_name: matthew.giglia@databricks.com
-
-
-
-
-
+    # Prod-only resources — not deployed to dev.
+    resources:
+      jobs:
+        certify_register:
+          name: "[FHCF] Certify & Register Domain Assets"
+          tasks:
+            - task_key: certify_and_register
+              notebook_task:
+                notebook_path: ./src/certify_and_register.py
+                base_parameters:
+                  catalog: ${resources.schemas.healthcare_finance.catalog_name}
+                  schema: ${resources.schemas.healthcare_finance.name}
+                  certify_assets: "false"
+                  domain_name: "mkgs_hc_finance"
+                  cfo_dashboard_id: ${resources.dashboards.cfo_executive_dashboard.id}
+                  cmo_dashboard_id: ${resources.dashboards.health_plan_cmo_performance.id}
+                  genie_space_id: ${resources.genie_spaces.healthcare_finance_intelligence.id}
+            # Genie Code task — creates UC Pages for the domain.
+            # BLOCKED: genie_task is not yet in the bundle CLI schema (fails --strict).
+            # The task value plumbing is ready — uncomment when CLI supports genie_task.
+            # The certify_and_register notebook creates the automation idempotently
+            # and emits the configuration_id as a task value.
+            #
+            # - task_key: create_domain_pages
+            #   depends_on:
+            #     - task_key: certify_and_register
+            #   genie_task:
+            #     configuration_id: "{{tasks.certify_and_register.values.genie_pages_automation_id}}"
+            #     parameters:
+            #       domain_name: "mkgs_hc_finance"
+            #       catalog: "{{tasks.certify_and_register.values.catalog}}"
+            #       schema: "{{tasks.certify_and_register.values.schema}}"
+          queue:
+            enabled: true
 
