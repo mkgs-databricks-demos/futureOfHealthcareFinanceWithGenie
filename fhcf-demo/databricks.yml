@@ -64,7 +64,9 @@ targets:
             - task_key: register_and_setup
               depends_on:
                 - task_key: certify_prod_assets
-              run_if: ALL_DONE
+                - task_key: should_certify
+                  outcome: "false"
+              run_if: AT_LEAST_ONE_SUCCESS
               notebook_task:
                 notebook_path: ./src/certify_and_register.py
                 base_parameters:
