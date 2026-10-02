@@ -71,9 +71,7 @@ uid = w.current_user.me().id
 
 def _headers():
     """Get authenticated headers for REST calls."""
-    h = {}
-    w.config.authenticate(h)
-    return h
+    return dict(w.config.authenticate())
 
 def _api(method, path, body=None):
     """Helper for REST calls with logging."""
