@@ -38,14 +38,39 @@ targets:
       jobs:
         certify_register:
           name: "[FHCF] Certify & Register Domain Assets"
+          parameters:
+            - name: certify_assets
+              default: "false"
           tasks:
-            - task_key: certify_and_register
+            - task_key: should_certify
+              condition_task:
+                op: EQUAL_TO
+                left: "{{job.parameters.certify_assets}}"
+                right: "true"
+            - task_key: certify_prod_assets
+              depends_on:
+                - task_key: should_certify
+                  outcome: "true"
               notebook_task:
                 notebook_path: ./src/certify_and_register.py
                 base_parameters:
+                  mode: "certify"
                   catalog: ${resources.schemas.healthcare_finance.catalog_name}
                   schema: ${resources.schemas.healthcare_finance.name}
-                  certify_assets: "false"
+                  domain_name: "mkgs_hc_finance"
+                  cfo_dashboard_id: ${resources.dashboards.cfo_executive_dashboard.id}
+                  cmo_dashboard_id: ${resources.dashboards.health_plan_cmo_performance.id}
+                  genie_space_id: ${resources.genie_spaces.healthcare_finance_intelligence.id}
+            - task_key: register_and_setup
+              depends_on:
+                - task_key: certify_prod_assets
+              run_if: ALL_DONE
+              notebook_task:
+                notebook_path: ./src/certify_and_register.py
+                base_parameters:
+                  mode: "register"
+                  catalog: ${resources.schemas.healthcare_finance.catalog_name}
+                  schema: ${resources.schemas.healthcare_finance.name}
                   domain_name: "mkgs_hc_finance"
                   cfo_dashboard_id: ${resources.dashboards.cfo_executive_dashboard.id}
                   cmo_dashboard_id: ${resources.dashboards.health_plan_cmo_performance.id}
@@ -53,18 +78,18 @@ targets:
             # Genie Code task — creates UC Pages for the domain.
             # BLOCKED: genie_task is not yet in the bundle CLI schema (fails --strict).
             # The task value plumbing is ready — uncomment when CLI supports genie_task.
-            # The certify_and_register notebook creates the automation idempotently
+            # The register_and_setup notebook creates the automation idempotently
             # and emits the configuration_id as a task value.
             #
             # - task_key: create_domain_pages
             #   depends_on:
-            #     - task_key: certify_and_register
+            #     - task_key: register_and_setup
             #   genie_task:
-            #     configuration_id: "{{tasks.certify_and_register.values.genie_pages_automation_id}}"
+            #     configuration_id: "{{tasks.register_and_setup.values.genie_pages_automation_id}}"
             #     parameters:
             #       domain_name: "mkgs_hc_finance"
-            #       catalog: "{{tasks.certify_and_register.values.catalog}}"
-            #       schema: "{{tasks.certify_and_register.values.schema}}"
+            #       catalog: "{{tasks.register_and_setup.values.catalog}}"
+            #       schema: "{{tasks.register_and_setup.values.schema}}"
           queue:
             enabled: true
 
