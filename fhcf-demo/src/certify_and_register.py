@@ -84,47 +84,42 @@ print(f"Authenticated as user {uid}")
 if mode not in ("certify", "all"):
     print(f"Skipping certification (mode={mode})")
 else:
-    # Certification uses the governed tag system.certification_status.
-    # As of 2026-10, there is NO public REST API for setting governed tags on
-    # workspace objects (dashboards, Genie Agents). The Lakeview PATCH API
-    # silently ignores a "certification" field. All tag/certification endpoints
-    # return 404 on this workspace. Certification must be done via the UI.
-    #
+    # Certification uses the governed tag system.certification_status via the
+    # Entity Tag Assignments API (POST /api/2.0/entity-tag-assignments).
     # Requires: ASSIGN permission on the system.certification_status governed tag,
     #           plus CAN EDIT on the dashboard.
-    #
-    # UI path: Open dashboard > kebab menu > Info > Tags > Add governed tag >
-    #          system.certification_status = certified > Save
-    # Alt:     Open dashboard > kebab menu > Assign certification > Certified > Save
+    # Supported entity_types: dashboards, geniespaces, notebooks, apps, designer-files
+    # Idempotent: 409 ALREADY_EXISTS is treated as success.
 
-    assets_to_certify = []
-    if cfo_dashboard_id:
-        assets_to_certify.append((
-            "CFO Executive Dashboard",
-            f"{host}/dashboardsv3/{cfo_dashboard_id}/published",
-            cfo_dashboard_id,
-        ))
-    if cmo_dashboard_id:
-        assets_to_certify.append((
-            "CMO Performance Dashboard",
-            f"{host}/dashboardsv3/{cmo_dashboard_id}/published",
-            cmo_dashboard_id,
-        ))
-    if genie_space_id:
-        assets_to_certify.append((
-            "Healthcare Finance Intelligence (Genie Agent)",
-            f"{host}/genie/rooms/{genie_space_id}",
-            genie_space_id,
-        ))
+    assets_to_certify = [
+        ("CFO Executive Dashboard", "dashboards", cfo_dashboard_id),
+        ("CMO Performance Dashboard", "dashboards", cmo_dashboard_id),
+        ("Healthcare Finance Intelligence", "geniespaces", genie_space_id),
+    ]
 
-    print("Certification requires manual action (no public REST API).")
-    print("Open each asset and set: system.certification_status = certified\n")
-    for name, url, asset_id in assets_to_certify:
-        print(f"  {name}")
-        print(f"    {url}")
-        print(f"    kebab menu > Assign certification > Certified > Save\n")
-        results.append({"asset": name, "action": "certify", "status": "manual_required",
-                        "detail": url})
+    for name, entity_type, entity_id in assets_to_certify:
+        if not entity_id:
+            print(f"  SKIP: {name} — no ID provided")
+            continue
+
+        resp = _api("POST", "/api/2.0/entity-tag-assignments", {
+            "entity_type": entity_type,
+            "entity_id": entity_id,
+            "tag_key": "system.certification_status",
+            "tag_value": "certified",
+        })
+
+        if resp.status_code == 200:
+            print(f"  CERTIFIED: {name} ({entity_id})")
+            results.append({"asset": name, "action": "certify", "status": "success"})
+        elif resp.status_code == 409:  # ALREADY_EXISTS
+            print(f"  ALREADY CERTIFIED: {name} ({entity_id})")
+            results.append({"asset": name, "action": "certify", "status": "success",
+                            "detail": "already certified"})
+        else:
+            print(f"  FAILED: {name} — {resp.status_code}: {resp.text[:200]}")
+            results.append({"asset": name, "action": "certify", "status": f"http_{resp.status_code}",
+                            "detail": resp.text[:200]})
 
 # COMMAND ----------
 
