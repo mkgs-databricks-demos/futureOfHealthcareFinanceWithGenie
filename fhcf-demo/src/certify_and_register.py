@@ -84,39 +84,47 @@ print(f"Authenticated as user {uid}")
 if mode not in ("certify", "all"):
     print(f"Skipping certification (mode={mode})")
 else:
+    # Certification uses the governed tag system.certification_status.
+    # As of 2026-10, there is NO public REST API for setting governed tags on
+    # workspace objects (dashboards, Genie Agents). The Lakeview PATCH API
+    # silently ignores a "certification" field. All tag/certification endpoints
+    # return 404 on this workspace. Certification must be done via the UI.
+    #
+    # Requires: ASSIGN permission on the system.certification_status governed tag,
+    #           plus CAN EDIT on the dashboard.
+    #
+    # UI path: Open dashboard > kebab menu > Info > Tags > Add governed tag >
+    #          system.certification_status = certified > Save
+    # Alt:     Open dashboard > kebab menu > Assign certification > Certified > Save
+
     assets_to_certify = []
     if cfo_dashboard_id:
-        assets_to_certify.append(("CFO Executive Dashboard", "dashboard", cfo_dashboard_id))
+        assets_to_certify.append((
+            "CFO Executive Dashboard",
+            f"{host}/dashboardsv3/{cfo_dashboard_id}/published",
+            cfo_dashboard_id,
+        ))
     if cmo_dashboard_id:
-        assets_to_certify.append(("CMO Performance Dashboard", "dashboard", cmo_dashboard_id))
+        assets_to_certify.append((
+            "CMO Performance Dashboard",
+            f"{host}/dashboardsv3/{cmo_dashboard_id}/published",
+            cmo_dashboard_id,
+        ))
     if genie_space_id:
-        assets_to_certify.append(("Healthcare Finance Intelligence", "genie_space", genie_space_id))
+        assets_to_certify.append((
+            "Healthcare Finance Intelligence (Genie Agent)",
+            f"{host}/genie/rooms/{genie_space_id}",
+            genie_space_id,
+        ))
 
-    for name, asset_type, asset_id in assets_to_certify:
-        # Attempt certification via PATCH with certification field
-        if asset_type == "dashboard":
-            resp = _api("PATCH", f"/api/2.0/lakeview/dashboards/{asset_id}",
-                        {"certification": {"status": "CERTIFIED"}})
-        else:
-            resp = _api("PATCH", f"/api/2.0/genie/spaces/{asset_id}",
-                        {"certification": {"status": "CERTIFIED"}})
-
-        if resp.status_code == 200:
-            print(f"  CERTIFIED: {name} ({asset_id})")
-            results.append({"asset": name, "action": "certify", "status": "success"})
-        else:
-            print(f"  API returned {resp.status_code} for {name}: {resp.text[:200]}")
-            results.append({"asset": name, "action": "certify", "status": f"http_{resp.status_code}",
-                            "detail": resp.text[:200]})
-
-    # Report manual fallback for any failures
-    failed = [r for r in results if r["status"] != "success"]
-    if failed:
-        print("\n--- Manual Certification Fallback ---")
-        print("For assets the API could not certify, open each in the UI:")
-        for f in failed:
-            print(f"  {f['asset']}: three-dot menu > Assign certification > Certified")
-        print(f"  Or use Discover > {domain_name} > asset page > Certify")
+    print("Certification requires manual action (no public REST API).")
+    print("Open each asset and set: system.certification_status = certified\n")
+    for name, url, asset_id in assets_to_certify:
+        print(f"  {name}")
+        print(f"    {url}")
+        print(f"    kebab menu > Assign certification > Certified > Save\n")
+        results.append({"asset": name, "action": "certify", "status": "manual_required",
+                        "detail": url})
 
 # COMMAND ----------
 
