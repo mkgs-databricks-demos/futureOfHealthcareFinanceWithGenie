@@ -571,14 +571,6 @@
           "expression": "MEASURE(`Budget_Variance`.`paid_claims_variance`) / MEASURE(`Utilization`.`ed_per_1k`)"
         },
         {
-          "name": "Quality-Adjusted MLR",
-          "expression": "MEASURE(`Financial_Performance`.`mlr`) * (1 + MEASURE(`Quality__Stars`.`distance_to_4_star`))"
-        },
-        {
-          "name": "VBC Attribution Rate",
-          "expression": "MEASURE(`Member_Attribution`.`attributed_member_count`) * 1.0 / NULLIF(MEASURE(`Member_Attribution`.`member_count`), 0)"
-        },
-        {
           "name": "High-Cost Members in VBC",
           "expression": "MEASURE(`Member_Attribution`.`high_cost_count`)"
         },
@@ -597,6 +589,14 @@
         {
           "name": "Acuity Score",
           "expression": "MEASURE(`RiskAdjusted_Financials`.`avg_risk_score`)"
+        },
+        {
+          "name": "VBC Attribution Rate",
+          "expression": "MEASURE(`Member_Attribution`.`attribution_rate`)"
+        },
+        {
+          "name": "Quality-Adjusted MLR",
+          "expression": "MEASURE(`Financial_Performance`.`mlr`) + MEASURE(`Financial_Performance`.`mlr`) * MEASURE(`Quality__Stars`.`distance_to_4_star`)"
         }
       ]
     }
