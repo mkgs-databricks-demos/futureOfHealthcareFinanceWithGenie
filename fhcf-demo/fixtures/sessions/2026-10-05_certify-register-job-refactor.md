@@ -98,12 +98,38 @@ All 3 prod assets now certified (verified in UI with blue checkmark):
 - `fhcf-demo/databricks.yml` — condition_task DAG, dual-dependency pattern
 - `fhcf-demo/src/certify_and_register.py` — mode widget, guards, entity-tag-assignments API
 
+## Final End-to-End Verification (post bundle deploy)
+
+Clean `bundle deploy --target prod` completed (28 files uploaded, 2 resources changed).
+Both job paths re-tested on the freshly deployed bundle:
+
+| Run | certify_assets | should_certify | certify_prod_assets | register_and_setup | Duration |
+| --- | --- | --- | --- | --- | --- |
+| 892517035986413 | true | SUCCESS | SUCCESS | SUCCESS | 49s |
+| 792942375745783 | false | SUCCESS | EXCLUDED | SUCCESS | 28s |
+
+All 3 prod assets verified certified via GET entity-tag-assignments.
+
+## Additional Fix: CMO Dashboard
+
+- `VBC Attribution Rate`: replaced manual `attributed_member_count / member_count` with `MEASURE(attribution_rate)` from the metric view
+- `Quality-Adjusted MLR`: algebraically equivalent rewrite (`a*(1+b)` → `a + a*b`), no behavioral change
+
+## Commits (9)
+
+1. `405c4a1` fix(cfo-dashboard): remove phantom short_name from ACO scorecard widget
+2. `e4ecb2d` feat: add prod-only certify & register domain assets job
+3. `5a19bfb` fix: Config.authenticate() signature changed in latest SDK
+4. `fd32f79` refactor: condition_task for certify_assets job parameter
+5. `44368a1` fix: dual-dependency pattern for condition_task exclusion cascade
+6. `720127a` fix: replace silent certification API with manual instructions
+7. `4164079` fix: use Entity Tag Assignments API for certification
+8. `1644a82` docs: session summary for 2026-10-05 certify-register refactor
+9. `d747502` fix: CMO dashboard use attribution_rate measure directly
+
 ## Outstanding
 
-- Deployed copy still has partial edits for register/Genie Code cells (mode guards may be incomplete)
-- `bundle deploy --target prod` needed to fully sync deployed copy
-- Genie Code automation cell (cell 7) in source notebook may still need indentation fix
-- CMO dashboard has unrelated uncommitted change in git status
+- None — branch is clean and merge-ready.
 
 ## Branch
 

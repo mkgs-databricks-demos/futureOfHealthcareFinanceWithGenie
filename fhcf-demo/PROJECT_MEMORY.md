@@ -5,7 +5,7 @@
 **Name:** Future of Healthcare Finance with Genie (fhcf-demo)  
 **Purpose:** Databricks HLS Quarterly Webinar demo (September 17, 2026) showing Genie Agent over healthcare finance data  
 **Repo:** https://github.com/mkgs-databricks-demos/futureOfHealthcareFinanceWithGenie.git  
-**Branch:** mg-genie-consistency-review  
+**Branch:** mg-genie-fix-aco-scorecard-widget  
 **Bundle root:** /Users/matthew.giglia@databricks.com/futureOfHealthcareFinanceWithGenie/fhcf-demo/  
 **Design docs:** webinar_demo_docs/docs/design/ (L100-L300 at repo root)
 
@@ -28,12 +28,14 @@ fhcf-demo/
   resources/
     healthcare_finance.schema.yml
     seed_data.job.yml
+    certify_register.job.yml            # comment-only redirect (prod job defined in databricks.yml)
     healthcare_finance_intelligence.genie_space.yml
     cfo_executive_dashboard.dashboard.yml
     health_plan_cmo_performance.dashboard.yml
     demo_warehouse.sql_warehouse.yml
   src/
-    seed_all_data.py          # 26-cell notebook (Python default, SQL cells via %sql)
+    seed_all_data.py                    # 26-cell notebook (Python default, SQL cells via %sql)
+    certify_and_register.py             # 8-cell notebook: SDK install, certify, register, Genie Code automation
     dashboards/
       cfo_executive_dashboard.lvdash.json
       health_plan_cmo_performance.lvdash.json
@@ -41,14 +43,8 @@ fhcf-demo/
     sessions/
       INDEX.md
       2026-09-17_initial-bundle-setup.md
-      2026-09-17_ddl-metric-view-improvements.md
-      2026-09-17_genie-space-and-catalog-migration.md
-      2026-09-17_metric-view-metadata-and-instruction-trim.md
-      2026-09-17_genie-space-testing-and-instruction-tuning.md
-      2026-09-28_prod-data-restoration.md
-      2026-09-28_cfo-executive-dashboard.md
-      2026-09-29_cmo-dashboard-and-warehouse-resource.md
-      2026-09-29_consistency-review-and-mv-migration.md
+      ... (8 more sessions through 2026-09-29)
+      2026-10-05_certify-register-job-refactor.md
 ```
 
 ## Variables
@@ -66,13 +62,28 @@ fhcf-demo/
 
 - **healthcare_finance** -- UC schema resource. Referenced by job params via ${resources.schemas.healthcare_finance.*}
 
-### Job
+### Jobs
 
 - **seed_data** -- "[FHCF] Seed Healthcare Finance Data"
   - Single task: runs src/seed_all_data.py
   - Passes catalog and schema as base_parameters from schema resource refs
   - Dev job ID: 749445244992722
   - Prod job ID: 824849230298800
+
+- **certify_register** -- "[FHCF] Certify & Register Domain Assets" (prod-only, defined in targets.prod.resources)
+  - Job parameter: `certify_assets` (default: "false")
+  - 3-task condition_task DAG:
+    1. `should_certify` — condition: `{{job.parameters.certify_assets}} == "true"`
+    2. `certify_prod_assets` — depends on should_certify(outcome=true), mode=certify
+    3. `register_and_setup` — dual-dependency: certify_prod_assets + should_certify(outcome=false), run_if=AT_LEAST_ONE_SUCCESS, mode=register
+  - Dual-dependency pattern required because Databricks cascades EXCLUDED status to dependents regardless of run_if, and condition_task deps must specify an outcome
+  - Notebook: src/certify_and_register.py (mode widget: certify|register|all)
+  - Certification uses Entity Tag Assignments API (POST /api/2.0/entity-tag-assignments)
+  - Registration attempts domain API (returns 404 on this workspace — graceful fallback)
+  - Genie Code automation cell creates a scheduled insight for UC Page generation
+  - Commented-out genie_task ready to uncomment when CLI supports it
+  - Prod job ID: 1074863217308232
+  - Deployed notebook ID: 754043939859691
 
 ### Genie Space
 
@@ -215,5 +226,28 @@ Metric view YAML uses version: 1.1. Source fields use ${catalog}.${schema}.table
 | --- | --- |
 | Genie Space | 01f1b2a18cde1845b9937112d70fe765 |
 | Seed Job | 824849230298800 |
+| Certify & Register Job | 1074863217308232 |
+| CFO Dashboard | 01f1bc33b68c13d2aec3b993e9d29f35 |
+| CMO Dashboard | 01f1bc33b68d1fee9a13ac07c15adbad |
+| SQL Warehouse | f6a92bd9f7eaf430 |
 | Latest Seed Run | 849614388632475 |
 | Demo beats | 7/7 passing (validated 2026-09-17, data re-seeded 2026-09-28) |
+
+## Certification Status (verified 2026-10-05)
+
+All 3 prod assets certified via Entity Tag Assignments API:
+- CFO Executive Dashboard: `system.certification_status = certified`
+- CMO Performance Dashboard: `system.certification_status = certified`
+- Healthcare Finance Intelligence Genie Agent: `system.certification_status = certified`
+
+### Certification API Reference
+
+- **Endpoint:** `POST /api/2.0/entity-tag-assignments`
+- **Payload:** `{"entity_type": "dashboards", "entity_id": "<id>", "tag_key": "system.certification_status", "tag_value": "certified"}`
+- **Supported entity_types:** `dashboards`, `geniespaces`, `notebooks`, `apps`, `designer-files`
+- **Idempotent:** 409 ALREADY_EXISTS = already certified
+- **Requires:** ASSIGN permission on system.certification_status governed tag + CAN EDIT
+- **NOT the Lakeview PATCH API** (silently ignores certification fields)
+- **NOT the UC tags API** (/api/2.1/unity-catalog/tags — for UC securables only)
+- **Read tags:** `GET /api/2.0/entity-tag-assignments/{entity_type}/{entity_id}/tags`
+- **Docs:** https://docs.databricks.com/api/tag-assignments/v1/create-tag-assignment

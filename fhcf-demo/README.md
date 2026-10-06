@@ -37,17 +37,19 @@ futureOfHealthcareFinanceWithGenie/
 │   ├── resources/
 │   │   ├── healthcare_finance.schema.yml                   # UC schema resource
 │   │   ├── seed_data.job.yml                               # Seed job definition
+│   │   ├── certify_register.job.yml                        # Comment-only redirect (prod job in databricks.yml)
 │   │   ├── healthcare_finance_intelligence.genie_space.yml # Genie Agent resource (14 sources, 7 questions)
 │   │   ├── cfo_executive_dashboard.dashboard.yml           # CFO dashboard resource
 │   │   ├── health_plan_cmo_performance.dashboard.yml       # CMO dashboard resource
 │   │   └── demo_warehouse.sql_warehouse.yml                # SQL warehouse (2X-Small serverless PRO)
 │   ├── src/
 │   │   ├── seed_all_data.py           # 26-cell notebook: widgets → DDL → seed data → metric views → validation
+│   │   ├── certify_and_register.py    # 8-cell notebook: certify assets + register to domain + Genie Code automation
 │   │   └── dashboards/               # Serialized Lakeview dashboard JSON files
 │   │       ├── cfo_executive_dashboard.lvdash.json
 │   │       └── health_plan_cmo_performance.lvdash.json
 │   └── fixtures/
-│       └── sessions/                  # Chronological build log (10 sessions)
+│       └── sessions/                  # Chronological build log (11 sessions)
 │
 ├── webinar_slides/                    # ── Presentation Slide Deck ──
 │   ├── app.py                         # Flask server (serves presenter.html as entry point)
@@ -147,8 +149,22 @@ For a clean production deployment:
 ```bash
 databricks bundle deploy --target prod
 databricks bundle run seed_data --target prod
-databricks bundle deploy --target prod
+databricks bundle deploy --target prod      # second deploy registers Genie space
 ```
+
+### Certify and register (prod only)
+
+After deploying to prod, certify assets and register them to the knowledge domain:
+
+```bash
+# Register only (default — skips certification)
+databricks bundle run certify_register --target prod
+
+# Certify + register
+databricks bundle run certify_register --target prod --params certify_assets=true
+```
+
+Certification uses the Entity Tag Assignments API (`POST /api/2.0/entity-tag-assignments`) to set `system.certification_status = certified` on dashboards and the Genie Agent. The job is idempotent — running it again is safe.
 
 ---
 
@@ -213,6 +229,7 @@ Detailed speaker notes and design rationale are in the `batch_*.md` files alongs
 | UC Schema | `<catalog>.healthcare_finance` | All tables and views land here |
 | SQL Warehouse | `[FHCF] Healthcare Finance Warehouse` | 2X-Small serverless PRO, auto-stop 10 min |
 | Job | `[FHCF] Seed Healthcare Finance Data` | Runs `seed_all_data` notebook to create and populate all objects |
+| Job (prod-only) | `[FHCF] Certify & Register Domain Assets` | 3-task condition_task DAG: optionally certify assets, then register to domain + create Genie Code automation |
 | Genie Space | Healthcare Finance Intelligence | 14 data sources, 7 sample questions, lean instructions backed by metric view semantic metadata |
 | Dashboard | CFO Executive Dashboard | 5 pages, 15 datasets — MLR, budget variance, HEDIS quality, utilization, VBC/ACO performance |
 | Dashboard | Health Plan CMO Performance Dashboard | 12 pages, 9 datasets — member risk, care gaps, quality/stars, financials, utilization, VBC, provider network, risk-adjusted |
@@ -338,12 +355,9 @@ variables:
     default: your_catalog
   schema:
     default: your_schema
-  warehouse_id:
-    lookup:
-      warehouse: "your-warehouse-name"
 ```
 
-All table references in the Genie space use `${resources.schemas.*}` interpolation, so they resolve automatically per target.
+The SQL warehouse is a managed bundle resource (`demo_warehouse`) — no variable needed. All table references in the Genie space use `${resources.schemas.*}` interpolation, so they resolve automatically per target.
 
 ### Change the target workspace
 
@@ -416,6 +430,7 @@ The `fixtures/sessions/` directory contains a chronological record of every buil
 | [Metric View Metadata & Instruction Trim](fixtures/sessions/2026-09-17_metric-view-metadata-and-instruction-trim.md) | Migrated glossary into metric view metadata, trimmed instruction 25% |
 | [Prod Deploy & Validation](fixtures/sessions/2026-09-17_prod-deploy-and-validation.md) | First production deployment, all beats confirmed on prod |
 | [UC Pages & Domain Setup](fixtures/sessions/2026-09-17_uc-pages-and-domain-setup.md) | Created 18 UC Pages, registered assets in knowledge domain |
+| [Certify & Register Job Refactor](fixtures/sessions/2026-10-05_certify-register-job-refactor.md) | condition_task DAG, Entity Tag Assignments API for certification, dual-dependency pattern, all 3 prod assets certified |
 
 ---
 
