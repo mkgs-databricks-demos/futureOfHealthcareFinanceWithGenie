@@ -93,7 +93,66 @@ futureOfHealthcareFinanceWithGenie/
 
 ## Quick Start — Deploy the Data Bundle
 
-### Step 1: Clone the repo
+### Option A — Genie Code in the Bundle Editor (recommended)
+
+If you cloned this repo into a Databricks workspace Git folder, you can configure and deploy the entire bundle from the bundle editor using a single Genie Code prompt.
+
+**Open the bundle editor:**
+
+In the workspace sidebar, open the Git folder and find `fhcf-demo` in the tree. Hover over it — three icons appear on the right. Click the **arrow icon** (tooltip: *Open in bundle editor*) to open the bundle editor directly.
+
+> ![Open in bundle editor](../images/open-in-bundle-editor.png)
+> *In the Git folder tree, hover over `fhcf-demo` (note the bundle badge on the folder icon). Three action icons appear — click the arrow icon on the left (tooltip: "Open in bundle editor") to open the bundle editor.*
+
+**Auto-configure and deploy with Genie Code:**
+
+With the bundle editor open, click the **Genie Code** assistant panel and paste:
+
+```
+Configure and deploy this bundle to my workspace. Work through these steps in order:
+
+STEP 1 — Gather inputs (ask before proceeding)
+Ask me which UC catalog to deploy to. It must be a catalog where I have USE CATALOG
+and CREATE SCHEMA permissions — the bundle creates a schema, 8 Delta tables, and
+6 metric views inside it.
+
+STEP 2 — Update databricks.yml (make these changes only)
+1. Set workspace.host in both dev and prod targets to my current workspace URL
+2. Set the catalog variable default to the catalog I chose
+3. Remove the dev target's catalog override (targets.dev.variables.catalog) —
+   schema auto-prefixing in development mode handles isolation
+4. Update prod.root_path to use my workspace username (not matthew.giglia@databricks.com)
+5. Update prod.run_as.user_name to my email
+6. Leave all resource definitions, the schema variable, and the certify_register job unchanged
+
+STEP 3 — Validate
+Run: databricks bundle validate --target dev
+Stop and show me the output if validation fails.
+
+STEP 4 — First deploy (schema + warehouse + seed job)
+Run: databricks bundle deploy --target dev
+
+STEP 5 — Seed the data
+Run: databricks bundle run seed_data --target dev
+This job creates all 8 tables and 6 metric views. Wait for it to complete.
+
+STEP 6 — Second deploy (Genie space + dashboards)
+Run: databricks bundle deploy --target dev
+The Genie Agent API requires tables to exist before the space can be created.
+
+STEP 7 — Validate the narrative
+Open src/seed_all_data and run cell 23. Confirm the following values hold:
+- Medicaid MLR ~108%
+- BCS at 72.8% and HbA1c at 58.8% (both below 4-star cutpoints)
+- AHP shared savings $2.1M YTD
+Report any mismatches.
+```
+
+Genie Code detects your workspace URL and email automatically, asks for the catalog before touching any files, and runs the full deploy sequence end-to-end.
+
+### Option B — Manual CLI
+
+#### Step 1: Clone the repo
 
 ```bash
 git clone https://github.com/mkgs-databricks-demos/futureOfHealthcareFinanceWithGenie.git
@@ -103,7 +162,7 @@ cd futureOfHealthcareFinanceWithGenie/fhcf-demo
 Or, if working directly in the Databricks workspace, the repo is already at:  
 `/Workspace/Users/<you>/futureOfHealthcareFinanceWithGenie/fhcf-demo/`
 
-### Step 2: Configure variables
+#### Step 2: Configure variables
 
 Edit `databricks.yml` or pass overrides at deploy time:
 
@@ -112,33 +171,31 @@ Edit `databricks.yml` or pass overrides at deploy time:
 | `catalog` | `hls_fde` | Your UC catalog name |
 | `schema` | `healthcare_finance` | Any schema name (dev mode auto-prefixes) |
 
-The SQL warehouse is managed as a bundle resource (`demo_warehouse`) and auto-provisioned on deploy.
+Also update `workspace.host` in both targets, and set `prod.root_path` and `prod.run_as.user_name` to your values. The SQL warehouse is managed as a bundle resource (`demo_warehouse`) and auto-provisioned on deploy.
 
-### Step 3: First deploy (creates schema + job)
+#### Step 3: First deploy (creates schema + warehouse + job)
 
 ```bash
 databricks bundle deploy --target dev
 ```
 
-Or use the **deployment rocket** icon in the workspace sidebar and click **Deploy**.
-
-### Step 4: Seed the data
+#### Step 4: Seed the data
 
 ```bash
 databricks bundle run seed_data --target dev
 ```
 
-Or run `[FHCF] Seed Healthcare Finance Data` from the Jobs UI / Deployments panel. This creates all 8 tables and 6 metric views.
+This creates all 8 tables and 6 metric views.
 
-### Step 5: Redeploy (creates Genie space)
+#### Step 5: Redeploy (creates Genie space + dashboards)
 
 ```bash
 databricks bundle deploy --target dev
 ```
 
-The Genie Agent API validates that tables exist before creating the space. This second deploy registers the Genie space now that the data layer is present.
+The Genie Agent API validates that tables exist before creating the space. This second deploy registers the Genie space and dashboards now that the data layer is present.
 
-### Step 6: Validate
+#### Step 6: Validate
 
 Open `src/seed_all_data` and run the final validation cell (cell 23) to confirm all planted narrative values hold. Or open the Genie space and try the sample questions.
 
