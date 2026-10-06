@@ -3,6 +3,8 @@
 **Databricks HLS Quarterly Webinar — September 17, 2026**  
 **Speaker:** Matt Giglia, Healthcare Field CTO, Databricks
 
+[Watch the live webinar recording on demand](https://vimeo.com/1227839575/db9647f267).  The demo starts at approximately the 30 minute mark.  
+
 End-to-end demo showing how a health plan CFO can use a **Genie Agent** as a data-smart AI coworker — grounded in governed metric views, semantic ontology, and synthetic healthcare finance data covering MLR trending, HEDIS quality measures, value-based care performance, and avoidable spend analytics.
 
 ---
